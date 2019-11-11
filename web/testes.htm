@@ -1,0 +1,1009 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+
+  
+  <link href="testes_arquivos/cursos.css" rel="stylesheet" type="text/css">
+</head>
+
+
+<body>
+
+<h1 align="center">Testando aplicações web </h1>
+
+
+<p>É bem mais complicado testar interfaces web do que classes Java.</p>
+
+
+<p>Aplicações WEB não permitem verificar facilmente se o 
+  conteúdo presente é o esperado. Informações importantes 
+  que precisam ser avaliadas encontram-se misturadas com tags HTML.</p>
+
+
+<p>O <em>layout </em>das aplicações web mudam com frequência.</p>
+
+
+<p>É preciso construir testes que não precisem ser reescritos toda 
+  vez que o <em>layout </em>das páginas mudem.</p>
+
+
+<p>Alguns problemas que dificultam a criação de testes automáticos 
+  para aplicações web: </p>
+
+
+<ul>
+
+
+  <li> 
+    
+    
+    <p>Resubmissão de um formulário (por exemplo, o usuário 
+      submete um pedido de compra, enquanto o servidor ainda está processando 
+      a primeira submissão)</p>
+
+
+  </li>
+
+
+  <li> 
+    
+    
+    <p> Implicações do uso do botão "Voltar" (muitas 
+      vezes, objetos perdem seus valores quando mudam de escopo)</p>
+
+
+  </li>
+
+
+  <li> 
+    
+    
+    <p> Segurança, ataques do tipo DoS (Denial of Service)</p>
+
+
+  </li>
+
+
+  <li> 
+    
+    
+    <p>Implicações do browser (valores existentes na memória 
+      cache do browser sendo usados sem o conhecimento do usuário)</p>
+
+
+  </li>
+
+
+</ul>
+
+
+<p> Tanto páginas JSP quanto Servlets são complicadas de testar, 
+  pois é necessário um container rodando para poder avaliar suas 
+  funcionalidades. </p>
+
+
+<p>Além disso, páginas JSP são particularmente complicadas 
+  de testar, pois elas não existem até que o deployment seja feito 
+  dentro do container web. </p>
+
+
+<p>Aplicações WEB são difíceis de testar pois dependem 
+  da comunicação com o container.</p>
+
+
+<p>Para testar aplicações WEB precisamos fazer:</p>
+
+
+<ul>
+
+
+  <li>testes de unidade (white-box): testar pedaços de código;</li>
+
+
+  <li>testes funcionais (black-box): testar as funcionalidades do sistema do ponto 
+    de vista do usuário;</li>
+
+
+  <li>testes de integração: testar a integração com 
+    o container.</li>
+
+
+</ul>
+
+
+<p>Veremos aqui três tecnologias:</p>
+
+
+<ul>
+
+
+  <li>ServletUnit</li>
+
+
+  <li>HTTPUnit</li>
+
+
+  <li>Cactus</li>
+
+
+</ul>
+
+
+<p>&nbsp;</p>
+
+
+<h2>ServletUnit</h2>
+
+
+<blockquote>
+  
+  
+  <p>Nós podemos testar as camadas das classes Java presentes de uma aplicação 
+    WEB fora do container utilizando a API JUnit, entretanto faz-se necessário 
+    criar <em>mock objects </em>para emular o container. </p>
+
+
+  
+  
+  <p>O projeto ServletUnit provê um mecanismo que permite invocar servlets 
+    e outras classes dependentes da API Servlet fora do container. </p>
+
+
+  
+  
+  <p>Permite invocar diretamente métodos e fazer asserções 
+    nas suas respostas. Dessa forma, podemos avaliar o valor dos atributos e parâmetros 
+    associados com cada requisição.</p>
+
+
+  
+  
+  <p>ServletUnit é parte do framework HttpUnit e pode ser utilizado para 
+    testar servlets fora do servlet container. Embora HttpUnit possa ser utilizado 
+    para testar servlets e JSPs, ele é mais utilizado para fazer testes 
+    de caixa-preta (ex.: testes funcionais) do ponto de vista do browser.&nbsp;</p>
+  <p>ServletUnit 
+    também permite testar métodos individuais.&nbsp;</p>
+  <p>ServletUnit simula 
+    servlet container que prover todas as funcionalidades de servlet container 
+    real. Os seguintes passos são necessários para testar um servlet: 
+  </p>
+
+
+  
+  
+  <ol>
+
+
+    <li> 
+      
+      
+      <p>Criar um instância da classe ServletRunner. Essa é a classe 
+        que simula o container e permite o acesso a objetos do servlet que estejam 
+        rodando.</p>
+
+
+    </li>
+
+
+    <li> 
+      
+      
+      <p>Registrar o(s) servlet(s) que serão testados no contexto simulado 
+        pelo ServletRunner.</p>
+
+
+    </li>
+
+
+    <li> 
+      
+      
+      <p>Criar um ServletUnitClient. Esse cliente permitirá acessar diferentes 
+        partes dos servlets registrados.</p>
+
+
+    </li>
+
+
+    <li> 
+      
+      
+      <p>Criar uma WebRequest que é usado para chamar o servlet.</p>
+
+
+    </li>
+
+
+    <li> 
+      
+      
+      <p>Recuperar o InvocationContext. O InvocationContext consiste em um objeto 
+        que permite acessar os objetos request e response.</p>
+
+
+    </li>
+
+
+    <li> 
+      
+      
+      <p>Uma vez possuindo o InvocationContext, é possível acessar 
+        o servlet e executar seus métodos. Isso permite testar partes do 
+        servlets, e não apenas seu resultado como um todo. </p>
+
+
+    </li>
+
+
+  
+  
+  </ol>
+
+
+  
+  
+  <p>Seja o seguinte servlet a ser testado: </p>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>public class SimpleServlet extends HttpServlet { <br>    public void doGet(HttpServletRequest request, HttpServletResponse response)<br>           throws ServletException, IOException {<br>       String user = getUser(request, response);<br>       response.getWriter().print("User that call this servlet is " + user);<br>    }<br><br>    public void doPost(HttpServletRequest request, HttpServletResponse response)<br>            throws ServletException, IOException {<br>        doGet(request, response);<br>    }<br><br>    public String getUser(HttpServletRequest request, HttpServletResponse response) {<br>        return((String)request.getAttribute("UserName"));<br>    }<br>}<br></pre>
+
+
+  </blockquote>
+
+
+  
+  
+  <p>Seja o teste para o servlet apresentado:</p>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>public void testServletGetUser(){<br>    ServletRunner sr = new ServletRunner();<br>    sr.registerServlet("SimpleServlet", SimpleServlet.class.getName());<br>    ServletUnitClient sc = sr.newClient();<br>    WebRequest request = new PostMethodWebRequest("http://localhost/SimpleServlet");<br>    try {<br>        InvocationContext ic = sc.newInvocation(request);<br>        SimpleServlet simpleServlet = (SimpleServlet) ic.getServlet();<br>        HttpServletRequest simpleServletRequest = ic.getRequest();<br>        simpleServletRequest.setAttribute("UserName", "TimmyC");<br>        String userName = simpleServlet.getUser(ic.getRequest(),ic.getResponse());<br>        assertEquals("TimmyC", userName);<br>    }<br>    catch (Exception e){<br>        fail("Error testing getUser exception is " + e);<br>        e.printStackTrace();<br>    }<br>}<br></pre>
+
+
+  </blockquote>
+
+
+</blockquote>
+
+
+<p>&nbsp;</p>
+
+
+<h3>Exemplo mais completo</h3>
+
+
+<ul>
+
+
+  <li>Seja uma aplicação web responsável por apresentar os 
+    jogos de um determinado campeonato</li>
+
+
+  <li>Nesse exemplo estamos verificando se o servlet está carregando corretamente 
+    os times do campeonato.</li>
+
+
+  <li>Teste responsável por avaliar se o resultado da página é 
+    o esperado: 
+    
+    
+    <blockquote> 
+      
+      
+      <pre>public void testGetTimes() {<br>   ServletRunner sr = new ServletRunner();<br>   sr.registerServlet("TabelaCampeonatoServlet", TabelaCampeonatoServlet.class.getName());<br>   ServletUnitClient sc = sr.newClient();<br>   WebRequest request = new PostMethodWebRequest("http://localhost/TabelaCampeonatoServlet");   <br>   <br>   try {<br>      InvocationContext ic = sc.newInvocation(request);<br>      TabelaCampeonatoServlet tabelaServlet = (TabelaCampeonatoServlet)ic.getServlet();<br>      Collection times = tabelaServlet.getTimes(ic.getRequest());<br>      assertTrue( times.contains("Flamengo") );<br>      assertTrue( times.contains("Vasco") );<br>      assertEquals( times.size() , 2 );<br>   }<br>   catch (Exception e) {<br>      fail("Error testing TabelaCampeonatoServlet Exception is " + e);<br>      e.printStackTrace();<br>   }<br>}</pre>
+
+
+    </blockquote>
+
+
+  </li>
+
+
+  <li>Servlet capaz de passar no teste acima descrito: 
+    
+    
+    <blockquote> 
+      
+      
+      <pre>public Collection getTimes(HttpServletRequest request) {<br>   Collection times = (Collection)request.getSession().getAttribute("times");<br>	 if ( times == null ) {<br>	    times = new LinkedList();<br>	   	times.add("Flamengo");<br>	   	times.add("Vasco");<br>	   	request.getSession().setAttribute("times" , times);<br>	 }<br>	 return(times);<br>}</pre>
+
+
+    </blockquote>
+
+
+  </li>
+
+
+  <li>Observe que não estamos preocupados em como a informação 
+    será exibida, mas apenas no seu conteúdo.</li>
+
+
+  <li>Vamos fazer mais algumas melhorias: inserindo novos valores na requisição 
+    que devem ser tratados dentro do servlet. Seja o novo teste: 
+    
+    
+    <ul>
+
+
+      <li>Observe que dois novos times estão sendo inseridos como parâmetros 
+        na requisição. Note que estamos verificando se eles realmente 
+        foram tratados pelo servlet, uma vez que verificamos se a nova coleção 
+        de times recuperada do servlet foi alterada.</li>
+
+
+    
+    
+    </ul>
+
+
+  </li>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>public void testGetTimes() {<br>    ServletRunner sr = new ServletRunner();<br>    sr.registerServlet("TabelaCampeonatoServlet", TabelaCampeonatoServlet.class.getName());<br>    ServletUnitClient sc = sr.newClient();<br>    WebRequest request = new PostMethodWebRequest("http://localhost/TabelaCampeonatoServlet");    <br>    request.setParameter("time1" , "São Paulo");<br>    request.setParameter("time2" , "Treze");<br>    try {<br>        InvocationContext ic = sc.newInvocation(request);<br>        TabelaCampeonatoServlet tabelaServlet = (TabelaCampeonatoServlet)ic.getServlet();<br>        Collection times = tabelaServlet.getTimes(ic.getRequest());<br>        assertTrue( times.contains("Flamengo") );<br>        assertTrue( times.contains("Vasco") );<br>        assertTrue( times.contains("São Paulo") );<br>        assertTrue( times.contains("Treze") );<br>        assertEquals( times.size() , 4 );<br>    }<br>    catch (Exception e) {<br>        fail("Error testing TabelaCampeonatoServlet Exception is " + e);<br>        e.printStackTrace();<br>    }<br>}</pre>
+
+
+  </blockquote>
+
+
+  <li>Servlet alterado para passar no novo teste:</li>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>public Collection getTimes(HttpServletRequest request) {<br>	 Collection times = (Collection)request.getSession().getAttribute("times");<br>	 if ( times == null ) {<br>	   	times = new LinkedList();<br>	   	times.add("Flamengo");<br>	   	times.add("Vasco");<br>	   	request.getSession().setAttribute("times" , times);<br>	 }<br>	   <br>	 for (int cont = 1; request.getParameter("time" + cont) != null ; cont++) {<br>	   	times.add( request.getParameter("time" + cont) );<br>	 }<br>	   	<br>	 return(times);<br>}</pre>
+
+
+  </blockquote>
+
+
+</ul>
+
+
+<h2>HTTPUnit</h2>
+
+
+<ul>
+
+
+  <li>Desenvolver testes para páginas JSP é um pouco diferente do 
+    que desenvolver para Servlets.</li>
+
+
+  <li>Páginas JSPs são utilizadas para mostrar os dados processados 
+    pelos Servlets (utilizando o padrão MVC) em um formato visualmente 
+    bem estruturado. Dessa forma as páginas possuem, ao mesmo tempo, código 
+    HTML misturado com código JAVA.</li>
+
+
+  <li>Não pretendemos testar se o resultado final da página está 
+    bonito ou não, mas apenas se o dados visualizados estão ou não 
+    corretos.</li>
+
+
+  <li>Além disso, o teste deve continuar rodando mesmo que o layout das 
+    páginas mudem com frequência (desde que os dados a serem visualizados 
+    continuem os mesmos).</li>
+
+
+</ul>
+
+
+<ul>
+
+
+  <li>O HttpUnit é um framework Java para testar aplicações 
+    WEB via protocolo HTTP. Em conjunto com o JUnit, o HttpUnit se torna uma poderosa 
+    ferramenta para criar casos de teste para possibilitar testes de aceitação 
+    em uma aplicação WEB.</li>
+
+
+  <li> Enquanto o JUnit possibilita o teste de unidade em classes Java, o HttpUnit 
+    estende o JUnit para testar aplicações WEB, funcionando como 
+    um browser capaz de efetuar requisições e tratar respostas de 
+    um servidor WEB.</li>
+
+
+  <li> O HttpUnit permite que programas construam e enviem requisições, 
+    e depois recebam e processem respostas. Possibilita a criação 
+    de parâmetros de formulários, de cookies (informações 
+    sobre o cliente), segue links (referências para outras páginas), 
+    interpreta HTML (tabelas, links, etc.) e realiza outras tarefas normalmente 
+    feitas por browsers.</li>
+
+
+  <li>O centro do HttpUnit é a classe WebConversation, que assume o papel 
+    do browser acessando um site. Ela é responsável por manter o 
+    contexto da sessão, através dos cookies retornados pelo servidor 
+    HTTP. </li>
+
+
+  <li>Exemplo:<br>
+
+
+  </li>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>WebConversation wc = new WebConversation();<br>WebRequest req = new GetMethodWebRequest("http://www.portalwebmobile.com.br/index.asp");<br>WebResponse resposta = wc.getResponse(req)</pre>
+
+
+  </blockquote>
+
+
+  <li> A resposta pode ser tratada como texto puro (através do método 
+    getText()), como uma árvore DOM (através do método getDOM()), 
+    ou usando outros métodos descrito abaixo. </li>
+
+
+  <li>O código acima pode ser reduzido ao seguinte código, mantendo 
+    o mesmo efeito: 
+    
+    
+    <blockquote> 
+      
+      
+      <pre>WebConversation wc = new WebConversation();<br>WebResponse resposta = wc.getResponse("http://www.portalwebmobile.com.br/index.asp");</pre>
+
+
+    </blockquote>
+
+
+  </li>
+
+
+  <li> A maneira mais simples e comum de navegar em páginas web é 
+    através de links. O HttpUnit permite ao usuário encontrar links 
+    pelo texto que eles possuem, e usar estes links para efetuar novas requisições. 
+    Por exemplo, se uma página contém um link para outra página, 
+    a página do link pode ser obtida da seguinte maneira (veja também 
+    como podemos avaliar se o número de links em uma determinada página 
+    é o esperado): </li>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>WebConversation wc = new WebConversation();<br>try { <br>    WebResponse resposta = wc.getResponse("http://127.0.0.1:8080");<br>    WebLink link = resposta.getLinkWith("JSP Examples"); // encontra o link para página Home    <br>    link.click(); // invoca o link<br>    WebResponse home = wc.getCurrentPage(); // recupera o conteúdo da reposta após a invocação do link<br>    assertEquals( home.getLinks().length , 133);<br>} catch (Exception e) {<br>    fail("Error is " + e);<br>}</pre>
+
+
+  </blockquote>
+
+
+  <li> A grande maioria das aplicações WEB fazem usos de tabelas 
+    (table) para controlar a formatação das páginas. O HttpUnit 
+    trata as tabelas de uma página como elementos discretos. O método 
+    retornará getTables() um array contendo uma representação 
+    das tabelas da página, seguindo a ordem em que aparecem na página. 
+    Através do elemento que representa uma tabela, pode ser feita a análise 
+    de suas células, do conteúdo (texto ou árvore DOM), dentre 
+    outros elementos como, outras tabelas, formulários, links, etc.</li>
+
+
+</ul>
+
+
+<ul>
+
+
+  <li>O código seguinte confirmará que a primeira tabela da página 
+    possui 1 linhas e 3 colunas, e que existe somente um único link na 
+    última célula da primeira linha: </li>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>public void test() {<br>	WebConversation wc = new WebConversation();<br>	try { <br>		WebResponse resp = wc.getResponse("http://127.0.0.1:8080");<br>		WebTable table = resp.getTables()[0];<br>		assertEquals("rows", 1, table.getRowCount());<br>		assertEquals("columns", 3, table.getColumnCount());<br>		assertEquals("links", 1, table.getTableCell(0, 2).getLinks().length);<br>	} catch (Exception e) {<br>		fail("Error is " + e);<br>	}</pre>
+
+
+  </blockquote>
+
+
+  <li>Em muitos casos, o teste deve verificar o texto da tabela. Por exemplo, 
+    imagine que a segunda tabela da página se pareça com essa: </li>
+
+
+</ul>
+
+
+<table align="center" border="1" cellpadding="5" cellspacing="0" width="28%">
+
+
+  <tbody>
+
+    <tr>
+
+ 
+    <td>Nome</td>
+
+
+    <td>Cor</td>
+
+
+  </tr>
+
+
+  <tr>
+
+ 
+    <td>morango</td>
+
+
+    <td>vermelho</td>
+
+
+  </tr>
+
+
+  <tr>
+
+ 
+    <td>pêssego</td>
+
+
+    <td>amarelo</td>
+
+
+  </tr>
+
+
+  
+  </tbody>
+</table>
+
+
+<ul>
+
+
+  <li>Veja como poderíamos testar: </li>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>String[][] cores = resp.getTables()[1].asText();<br>assertEquals( "Nome", cores[0][0] );<br>assertEquals( "Cor", cores[0][1] );<br>assertEquals( "morango", cores[1][0] );<br>assertEquals( "vermelho", cores[1][1] );<br>assertEquals( "pêssego", cores[2][0] );<br>assertEquals( "amarelo", colors[2][1] );</pre>
+
+
+  </blockquote>
+
+
+  <li>O método asText() é usado para converter uma tabela inteira 
+    em um array de String ignorando todas as tags de formatação. 
+  </li>
+
+
+</ul>
+
+
+<p>&nbsp;</p>
+
+
+<ul>
+
+
+  <li>Um site dinâmico possui muitos formulários (forms), e cada 
+    formulário possui vários campos de controle: caixas de texto, 
+    menus, botões de rádio, entre outros. </li>
+
+
+  <li>Há algumas coisas básicas que um testador precisa fazer com 
+    um formulário. A mais óbvia, inicialmente, é verificar 
+    os campos de controle e seus valores padrão; se estiverem corretos, 
+    o testador fará algumas mudanças e submeterá o formulário 
+    para analisar como o sistema responde. O HttpUnit pode realizar ambas tarefas 
+    acima.</li>
+
+
+  <li>Seja o seguinte formulário:</li>
+
+
+</ul>
+
+
+<h3 align="center"><img style="width: 411px; height: 311px;" alt="" src="testes_arquivos/form.gif"></h3>
+
+
+<ul>
+
+
+  <li>Os valores padrão podem ser verificados da seguinte maneira: 
+    
+    
+    <blockquote> 
+      
+      
+      <pre>WebForm form = resp.getForms()[0]; // seleciona o primeiro formulário da página<br>assertEquals("La Cerentolla", form.getParameterValue("Nome"));<br>assertEquals("Chinêa", form.getParameterValue("Comida"));<br>assertEquals("Manayunk", form.getParameterValue("Localizacao"));<br>assertEquals("on", form.getParameterValue("Cartao")); </pre>
+
+
+    </blockquote>
+
+
+  </li>
+
+
+  <li>A simulação da submissão do formulário pode 
+    ser feita simplesmente obtendo o objeto “form” e chamando o método 
+    “submit” desse objeto, modificando os parâmetros do formulário 
+    antes se necessário. Por exemplo, selecionar o tipo de restaurante 
+    e indicar que o mesmo não aceita cartão de crédito: 
+    
+    
+    <blockquote> 
+      
+      
+      <pre>form.setParameter("Comida", "Italiano"); // seleciona um dos  restaurantes permitidos<br>form.removeParameter("Cartao"); // desmarca a caixa de seleção<br>form.submit(); // submete o formulário</pre>
+
+
+    </blockquote>
+
+
+  </li>
+
+
+</ul>
+
+
+<h2>Cactus&nbsp;</h2>
+
+
+<ul>
+
+
+  <li>Cactus estende o framework JUnit</li>
+
+
+  <li>TestCases são construídos sobre uma subclasse de junit.framework.TestCase</li>
+
+
+  <li>Cactus utiliza os test cases tanto no cliente como no servidor: duas cópias: 
+    
+    
+    <ul>
+
+
+      <li>Uma cópia é instanciada pelo servlet container;</li>
+
+
+      <li>Outra, pelo JUnit.</li>
+
+
+    
+    
+    </ul>
+
+
+  </li>
+
+
+  <li>Não utiliza stubs, usa o próprio container como servidor e 
+    usa o JUnit como cliente.</li>
+
+
+  <li>A comunicação com o servlet container é feita através 
+    de um proxy (XXXRedirector) 
+    
+    
+    <ul>
+
+
+      <li>JUnit envia requisições HTTP para o proxy</li>
+
+
+      <li>O proxy devolve resultados via HTTP e o JUnit os mostra</li>
+
+
+    
+    
+    </ul>
+
+
+  </li>
+
+
+  <li>Existem três tipos de proxies: 
+    
+    
+    <ul>
+
+
+      <li> ServletRedirector: para testar servlets</li>
+
+
+      <li> JSPRedirector: para testar JSP custom tags</li>
+
+
+      <li> FilterRedirector: para testar filtros de servlets</li>
+
+
+    
+    
+    </ul>
+
+
+  </li>
+
+
+  <li>Arquitetura</li>
+
+
+</ul>
+
+
+<p align="center"><img style="width: 445px; height: 261px;" alt="Arquitetura" src="testes_arquivos/cactus.gif"></p>
+
+
+<ul>
+
+
+  <li>Diagrama UML</li>
+
+
+</ul>
+
+
+<p align="center"><img src="testes_arquivos/cactus-uml.GIF" align="middle" height="745" width="783"></p>
+
+
+<ul>
+
+
+  <li> Para cada método XXX() a ser testado, pode haver: 
+    
+    
+    <ul>
+
+
+      <li> Um beginXXX(), para inicializar a requisição do cliente<br>
+
+
+        encapsulada em um objeto WebRequest a ser enviado ao servidor</li>
+
+
+      <li> Um testXXX(), para testar o funcionamento do método<br>
+
+
+        no servidor (deve haver ao menos um)</li>
+
+
+      <li> Um endXXX(), para verificar a resposta do servidor<br>
+
+
+        devolvida em um objeto WebResponse retornada pelo servidor </li>
+
+
+    
+    
+    </ul>
+
+
+  </li>
+
+
+  <li>Além desses três métodos, cada TestCase pode conter 
+    
+    
+    <ul>
+
+
+      <li>setUp(), opcional, para inicializar objetos no servidor</li>
+
+
+      <li> tearDown(), opcional, para liberar recursos no servidor </li>
+
+
+    
+    
+    </ul>
+
+
+  </li>
+
+
+  <li>Os métodos do lado do servidor têm acesso aos mesmos<br>
+
+
+    objetos implícitos disponíveis em um servlet ou página 
+    JSP: 
+    
+    
+    <ul>
+
+
+      <li>Para testes em servlets (ServletRedirector): objetos request, response, 
+        session e config;</li>
+
+
+      <li>Para testes em JSPs (JSPRedirector): pageContext e out.</li>
+
+
+    
+    
+    </ul>
+
+
+  </li>
+
+
+  <li>Seja o seguinte servlet: </li>
+
+
+  
+  
+  <blockquote> 
+    
+    
+    <pre>public class SimpleServlet extends HttpServlet {<br>   public void doGet(HttpServletRequest theRequest, HttpServletResponse theResponse)<br>      throws IOException {<br>      PrintWriter pw = theResponse.getWriter();<br>      theResponse.setContentType("text/html");<br>      pw.print("&lt;html&gt;&lt;title&gt;Teste cactus!&lt;/title&gt;" +<br>      		"&lt;center&gt;&lt;h3&gt;Oi Turma!&lt;/h3&gt;&lt;/center&gt;" +<br>      		"&lt;body&gt;&lt;table align=\"center\"&gt;&lt;tr&gt;&lt;td&gt;Nome&lt;/td&gt;&lt;td&gt;" + registerUser(theRequest, theResponse) + "&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;");<br>   }<br><br>   public String registerUser(HttpServletRequest theRequest, HttpServletResponse theResponse){<br>      String name = theRequest.getParameter("USER_NAME");<br>      theRequest.getSession().setAttribute("NAME", name);<br>      Cookie cookie = new Cookie("ID", name);<br>      theResponse.addCookie(cookie);<br>      return name;<br>   }<br>}</pre>
+
+
+  </blockquote>
+
+
+  <li>Teste</li>
+
+</ul>
+
+<pre style="margin-left: 120px;">public class TestSimpleServlet extends ServletTestCase {<br>	public void beginRegisterUser(WebRequest theRequest) {<br>		theRequest.addParameter("USER_NAME", "Vincent");<br>	}<br><br>	public void testRegisterUser() throws ServletException {<br>		SimpleServlet servlet = new SimpleServlet();<br>		try {<br>			servlet.doGet(request, response);<br>		} catch (IOException e) {<br>			fail("Exception not expected!");<br>		}<br>		String name = servlet.registerUser(request, response);<br>		assertEquals("Vincent", name);<br>		assertEquals("Vincent", (String) session.getAttribute("NAME"));<br>	}<br><br>   	public void endRegisterUser(WebResponse theResponse) {<br>		Cookie cookie = theResponse.getCookie("ID");<br>		assertEquals("Vincent", cookie.getValue());<br>		assertEquals("&lt;html&gt;&lt;body&gt;&lt;h1&gt;Your name is Vincent&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;", theResponse.getText());<br>	}<br><br>} </pre>
+
+<ul>
+
+  <li>Teste utilizando o httpunit para avaliar o html resultante</li>
+
+  
+  <ul>
+
+    <li>Temos mais controle e nao ficamos muito amarrados as tags html!</li>
+
+  
+  </ul>
+
+</ul>
+
+<pre style="margin-left: 120px;">public void endRegisterUser(com.meterware.httpunit.WebResponse theResponse) throws SAXException {<br>	assertEquals("Vincent", theResponse.getNewCookieValue("ID"));<br>	WebTable table = theResponse.getTables()[0];<br>	assertEquals("rows", 1, table.getRowCount());<br>	assertEquals("columns", 2, table.getColumnCount());<br>	assertEquals("value", "Vincent" , table.getTableCell(0, 1).getText());<br>	assertEquals("title", "Teste cactus!" , theResponse.getTitle());<br>}</pre>
+
+<ul>
+
+  <li>Configurando o teste</li>
+
+</ul>
+
+<div style="text-align: center;"><img style="width: 478px; height: 392px;" alt="" src="testes_arquivos/config.jpg"></div>
+
+<ul>
+
+  
+  <ul>
+
+    <li>Configurando o lado do cliente</li>
+
+    
+    <ul>
+
+      <li>Editar o arquivo cactus.properties (esse arquivo deve localizar-se no classpath ou ser passado como parametro para a JVM (ex.: <code>-Dcactus.config=c:/cactus.txt</code>))</li>
+
+      
+      <ul>
+
+        <li>Variaveis obrigatorias</li>
+
+        
+        <ul>
+
+          <li><code>cactus.contextURL</code>: contexto no qual a aplicacao se encontra (ex.: 
+            
+              <code>cactus.contextURL = http://localhost:8080/test</code>)</li>
+
+        
+        </ul>
+
+        <li>Variaveis opcionais</li>
+
+        
+        <ul>
+
+          <li><code>cactus.servletRedirectorName</code>: default&nbsp;<code>ServletRedirector</code>
+          </li>
+
+          <li><code>cactus.jspRedirectorName</code>: default <span style="font-family: monospace;">Jsp</span><code>Redirector</code></li>
+
+          <li><code>cactus.filterRedirectorName</code>: default <code>FilterRedirector</code></li>
+
+        
+        </ul>
+
+      
+      </ul>
+
+    
+    </ul>
+
+    <li>Configurando o lado do servidor</li>
+
+    
+    <ul>
+
+      <li>Editar o arquivo web.xml</li>
+
+    
+    </ul>
+
+    
+    <ul>
+
+      
+      <ul>
+
+        <li>Inserir mapeamento para os redirectors (veja <a href="http://www.dsc.ufcg.edu.br/%7Ejacques/cursos/daca/html/testes/web.xml">exemplo</a>)</li>
+
+      
+      </ul>
+
+    
+    </ul>
+
+  
+  </ul>
+
+
+</ul>
+
+<h2>Download</h2>
+
+<a href="http://www.dsc.ufcg.edu.br/%7Ejacques/cursos/daca/html/testes/exemplo.tar.bz2">Download</a> do exemplo completo (utilizando ServletUnit, HttpUnit e Cactus)
+<h2>Bibliografica</h2>
+
+
+<p>Livro Test Driven Development: A J2EE Example; Russell Gold, Thomas Hammell 
+  and Tom Snyder ISBN:1590593278 Apress © 2005 </p>
+
+
+<p>Livro J2EE Design and Development</p>
+
+
+<p>Site http://httpunit.sourceforge.net</p>
+
+
+<p>Site http://jakarta.apache.org/cactus</p>
+
+
+<p>Material de Helder Rocha - Testes de integração em J2EE com Jakarta 
+  Cactus </p>
+
+
+<p>Material de Julio Cesar Fernander Correa - Conhecendo o Framework HttpUnit; 
+  Como usar o HttpUnit com o JUnit para testar sua aplicação WEB.<br>
+
+
+</p>
+
+
+
+
+</body></html>

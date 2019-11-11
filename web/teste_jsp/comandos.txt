@@ -1,0 +1,22 @@
+
+
+https://www.facebook.com/profile.php?id=100010865556880
+
+
+https://www.facebook.com/media/set/?set=p.662404130448671
+
+
+
+http://graph.facebook.com/[NOME DO USUÁRIO]
+https://www.facebook.com/zuck
+
+
+https://www.facebook.com/search/[ID de USUÁRIO]/photos
+
+
+https://www.facebook.com/search/[ID de USUÁRIO]/photos-liked
+
+
+///////////////////////////////////////////////////////////////////////
+https://www.facebook.com/photo.php?pid=12345678&op=1&view=all&subj
+https://www.facebook.com/photo.php?pid=13245678&op=1&view=user&subj

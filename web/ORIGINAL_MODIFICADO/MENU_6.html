@@ -1,0 +1,1188 @@
+<html>
+    
+    <head>
+        
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+        
+        <script type="text/javascript" src='https://sites.google.com/site/jmarysystemsjquery/jquery.js'></script>
+        <script type="text/javascript" src='https://sites.google.com/site/jmarysystemsjquery/jmary_menu_jquery.js'></script>
+        <script type="text/javascript" src='https://sites.google.com/site/jmarysystemsjquery/mostrarTd_Js.js'></script>
+
+        <link rel="stylesheet" href="https://sites.google.com/site/saojoaomadeirasmenudrop/jmarymenudrop.css"/>
+        <link rel="stylesheet" href="https://sites.google.com/site/jmarysystemscss/jmary_menu.css"/>
+        <link rel="stylesheet" href="https://sites.google.com/site/gbarbosacss/jmary_topo.css"/>
+        <link rel="stylesheet" href="https://sites.google.com/site/jmarysystemscss/estrutura.css"/>   
+        
+        <link rel="shortcut icon" href="https://sites.google.com/site/jmarysystemsimagens/jmol.png">
+        
+        <script type="text/javascript" src='https://sites.google.com/site/portuguesfonologiafonema/fonteMaisMenos.js'></script>
+        <script type="text/javascript" src='https://sites.google.com/site/portuguesfonologiafonema/imprimir_div.js'></script>
+        <script type="text/javascript" src='https://sites.google.com/site/perguntaserespostasjmary/abrirFrames.js'></script>
+        
+        <style>
+            
+            h1{ font:bold 150% verdana,arial,helvetica; }  
+            
+            p{ line-height:1.1em; }
+            
+            h2{ font:bold 120% verdana,arial,helvetica; color:#8080FF; }
+            
+            PRE {
+                font-family: 'courier new',courier,serif;
+                font-size: 80%;
+                font-weight: bold;
+                background: #EEEEFF;
+            }
+            
+            .espaco_a_esquerda_20_px{                 
+                padding-left:  0px;
+                padding-right: 0px;
+                padding-top:   0px;
+                padding-bottom:0px;                
+                margin-left:   20px;
+                margin-right:  0px;
+                margin-top:    0px;
+                margin-bottom: 0px;
+            }
+            
+            .espaco_a_esquerda_40_px{                 
+                padding-left:  0px;
+                padding-right: 0px;
+                padding-top:   0px;
+                padding-bottom:0px;                
+                margin-left:   40px;
+                margin-right:  0px;
+                margin-top:    0px;
+                margin-bottom: 0px;
+            }
+            
+            .mostrar { display: block; }
+            .linha { background-color:#F0F0F0; }
+            .linha:hover { background-color:#fff; }
+            .sombra { box-shadow: 0px 0px 10px #222; }
+            
+            .bodypadrao   {width: 100%; height: 100%; font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding: 0px; margin: 0px 0px 0px 0px; color: black; line-height: 1.5; }
+            .divpartesuperior{ background-color: #3A3A3A; overflow: visible; width: 300px; height: 50px; padding: 0; margin: 0; z-index: 2000; line-height: 50px;}       
+            .ulpartesuperior{list-style:none; padding: 0px; margin: 0px; height: 100%;  }       
+            .lipartesuperior{height: 50px; float: left; position: relative; }
+            .li_imagem_menu{
+                background-image: url("img/menu_bt_1.png");
+                background-repeat: no-repeat;
+                height: 30px; width: 30px; margin-top: 10px; cursor: pointer;  margin-left: 10px; }
+            .li_imagem_menu:hover{
+                background-image: url("img/menu_bt_2.png");
+                background-repeat: no-repeat;
+                height: 30px; width: 30px; margin-top: 10px; cursor: pointer;  margin-left: 10px; }
+            
+            .ulcontrolefull{background-color: #F0F0F0; list-style:none; line-height: 25px; padding-left: 0px; padding-right: 5px; padding-bottom: 10px; padding-top: 0px; margin-left: 0px; margin-right: 0px; margin-bottom: 0px; margin-top: 10px; }
+            .ulsimples{list-style:none; padding: 0px; margin: 0px;} 
+            .materiaprimeirobloco{list-style:none; padding: 0px; margin: 0px;} 
+            .materiasegundobloco{list-style:none; padding-left: 30px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px;} 
+            .materiasegundobloco2{list-style:none; padding-left: 60px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px;}
+            .materiasegundobloco3{list-style:none; padding-left: 90px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px;}
+            .categoriaprimeirobloco_1{padding-left: 35px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px;}
+            .categoriaprimeirobloco_1:hover{padding-left: 35px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px; border-right-style: solid; border-right-color: #C10033;}
+            .categoriaprimeirobloco_2{padding-left: 60px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px;}
+            .categoriaprimeirobloco_2:hover{padding-left: 60px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px; border-right-style: solid; border-right-color: #C10033;}   
+            .categoriaprimeirobloco_3{padding-left: 90px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px;}
+            .categoriaprimeirobloco_3:hover{padding-left: 90px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px; border-right-style: solid; border-right-color: #C10033;} 
+            .categoriaprimeirobloco_4{padding-left: 123px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px;}
+            .categoriaprimeirobloco_4:hover{padding-left: 123px; padding-right: 0; padding-bottom: 0; padding-top: 0px; margin: 0px; border-right-style: solid; border-right-color: #C10033;} 
+            
+            .alinha{ padding-left: 1px; color:#0000FF; text-decoration:none; }
+            
+            
+h4 { page-break-before:always; }
+            
+@page { size: 21cm 29.7cm; margin-left: 0.5cm; margin-right: 0.5cm; margin-top: 0.5cm; margin-bottom: 0.5cm; }
+@page:first { size: 21cm 29.7cm; margin-left: 0.5cm; margin-right: 0.5cm; margin-top: 1.5cm; margin-bottom: 0.5cm; }
+
+html, body { height: 100%; }
+
+body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding: 0px; margin: 0px 20px 0px 20px;
+       color: black; line-height: 1.5;
+}
+
+.menu       { text-decoration:none; color:#FFFFFF; font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+.menu:hover {color:#FFFFFF; text-decoration:underline; }
+
+.menul       { text-decoration:none; color:#0000FF; font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+.menul:hover {color:#0000FF; text-decoration:underline; }
+
+.botm2:hover {color: black; font-size: 14px; text-align: center; font-weight:bold; background: #CCFF00; cursor: pointer; }
+            
+.txttitulo { color: #1C1C1C; font-size: 20px; text-align: center; } 
+
+/* background */
+.backp     { background-color:#E4E4E4; }
+.backtitulo{ background: #CCFF00;      }
+.backred   { background-color:#C10033; }
+.backcinza { background-color:#F0F0F0; }
+.backbco   { background-color:#FFFFFF; }
+
+.boxtitulosombra { box-shadow: 0 0 10px #222; }
+
+/* COR DO TEXTO */
+fazul    { color: #0000FF; }
+fpreto   { color:#000000;  }
+fbranca  { color: white;   }
+froxo    { color: #520693; }
+fverde   { color: #339900; }
+.flaranja{ color: #EF7900 ;}
+.fpreto  { color:#000000;  }
+            
+.festilobold{ font-weight:bold; }
+            
+/* DECORAÇÂO DO TEXTO */
+.decotxtnao  { text-decoration:none;      }
+.decotxtlinha{ text-decoration:underline; }
+            
+/* ALIMENTAÇÃO DO TEXTO HORIZONTAL*/
+.alimtxtcenterh {text-align:center;  }
+.alimtxtlefth   {text-align:left;    }
+.alimtxtrighth  {text-align:right;   }
+.alimtxtjustifyh{text-align:justify ;}
+
+/* ALIMENTAÇÃO DO TEXTO VERTICAL*/
+.alimtxtcenterv { vertical-align: central; }
+.alimtxttopov   { vertical-align: top; }
+
+            
+/* CURSORES DO MOUSE */
+.mousepointer{ cursor:pointer; }
+      
+/* MOUSE HOVER */
+.mouseencimatxtverde:hover    { color: #00CC00;            }
+
+.mouseencimaftm16px:hover     { font-size:16px;            }
+
+.mouseencimadecotxtnao:hover  { text-decoration:none;      }
+.mouseencimadecotxtsim:hover  { text-decoration:underline; }
+
+/* LINK */
+.linktipo1:link             { color: #0000FF;            }
+.linktipo1:visited          { color: #0000FF;            }
+.linktipo1:active           { color: #0000FF;            }
+.linktipo1:hover            { color: #00CC00;            }
+
+            
+/* TAMANHOS DE FONTES */
+.ftm10px{ font-size:10px; }
+.ftm11px{ font-size:11px; }
+.ftm12px{ font-size:12px; }
+.ftm13px{ font-size:13px; }
+.ftm14px{ font-size:14px; }
+.ftm15px{ font-size:15px; }
+.ftm16px{ font-size:16px; }
+.ftm17px{ font-size:17px; }
+.ftm18px{ font-size:18px; }
+.ftm19px{ font-size:19px; }
+.ftm20px{ font-size:20px; }
+.ftm140porc{ font-size:140%; }
+            
+/* PADDING TOP*/
+.pf0 { padding: 0px      }
+.pt0 { padding-top:0px   }
+.pt2 { padding-top:2px   }
+.pt3 { padding-top:3px   }
+.pt5 { padding-top:5px   }
+            
+/* PADDING DIREITA */
+.pr0  { padding-right:0px   }
+.pr20 { padding-right:20px   }
+            
+/* PADDING ESQUERDA */
+.pl0  { padding-left:0px  }
+.pl10 { padding-left:10px }
+.pl20 { padding-left:20px }
+            
+/* PADDING BOTTOM */
+.pb0 {padding-bottom:0px }
+            
+/* MARGIN BOTTOM */
+.mf0  { margin: 0px  }
+.mb0  { margin-bottom:0px  }
+.mb10 { margin-bottom:10px } 
+.mb20 { margin-bottom:20px } 
+            
+/* MARGIN ESQUERDA */
+.mlpercent1  { margin-left:1% }
+.ml2   { margin-left:2px }
+.ml0   { margin-left:0px }
+.ml13  { margin-left:13px }
+.ml15  { margin-left:15px }
+.ml20  { margin-left:20px }
+.ml30  { margin-left:30px }
+.ml40  { margin-left:40px }
+.ml60  { margin-left:60px }
+.ml150 { margin-left: 150px; }
+.ml180 { margin-left: 180px; }
+.ml190 { margin-left: 190px; }
+            
+/* MARGIN DIREITA */
+.mr0 { margin-right:0px }
+.mr2 { margin-right:2px }
+.mr3 { margin-right:3px }
+.mr20 { margin-right:20px }
+            
+/* MARGIN TOP */
+.mt0  { margin-top:0px  }
+.mt3  { margin-top:3px  }
+.mt4  { margin-top:4px  }
+.mt5  { margin-top:5px  }
+.mt2  { margin-top:2px  }
+.mt10 { margin-top:10px }
+.mt11 { margin-top:11px }
+.mt15 { margin-top:15px }
+.mt20 { margin-top:20px }
+
+/* FLOAT */
+.floatl { float: left;  }
+.floatr { float: right; }
+
+/* POSITION */
+.positionr{ position:relative; }
+.positiona{ position:absolute; }
+
+/* Tamanho Vertical */
+.h16px  { height: 16px;  }
+.h27px  { height: 27px;  }
+.h28px  { height: 28px;  }
+.h44px  { height: 44px;  }
+.h62px  { height:62px;   }
+.h131px { height: 131px; }
+.h134px { height: 134px; }
+
+/* Tamanho Horizonal */
+.wpercent99  { width:99%;   }
+.wpercent100 { width:100%;  }
+.w27px       { width:27px;  }
+.w146px      { width:146px; }
+
+/* border-bottom-style */
+.bbsr{ border-bottom-style: ridge; }
+
+/* border-bottom-color */
+.bbcb { border-bottom-color: #FFFFFF; }
+
+/* display */
+.dispin { display:inline; }
+
+/* list-style */
+.listsn { list-style:none; }
+
+/* border-bottom-style */
+.bbsr{ border-bottom-style: ridge; }
+/* border-bottom-color */
+.bbcb { border-bottom-color: #FFFFFF; }
+/* display */
+.dispin { display:inline; }
+/* list-style */
+.listsn { list-style:none; }            
+        </style>
+    </head>
+    
+    <body 
+        style="width: 100%; height: 100%; padding: 0; margin: 0;
+               font-family: Arial, Helvetica, sans-serif; font-size: 14px;   
+               color: black; line-height: 1.5;" 
+        onload='letra(&apos;corpo&apos;);'
+    >    
+        
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-0
+-1
+-2
+- #### TOPO INÍCIO #### --> 
+<!-- 
+-0
+-1     <!-- class = custom-logo 
+-2    
+-->          
+<div id="topo_geral_prop_t" style="padding: 0px; margin: 0px; border-bottom: 1px solid;">
+<!-- ***************++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0"> 
+<!-- ####  ####  -->
+<!-- ***************++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<tr><td>
+        
+    <div id="topo_geral_prop" class="topo_geral" style="border-bottom: 1px solid; ">
+        
+     <div class="topo" >
+         
+        <div class="custom-logo" > <img src="https://sites.google.com/site/jmarysystemsimagens/jmlogo.png" alt="" style="height: 100%"></div>
+       
+        <div class="custom-informacoes">
+            <table border="0" cellpadding="0" cellspacing="0"> 
+                <tr class="fone">
+                    <td colspan="3" align="center" valign="center" >
+                        <img align="center" src="https://sites.google.com/site/jmarysystemsimagens/fone.png" alt="">
+                        85 3099.0887
+                    </td>
+                </tr>
+                <tr class="">
+                    <td>
+                    <div style="padding-bottom: 0px; padding-left: 0px; padding-top: 0px; padding-right: 20px; margin: 0px;">
+                        <img style="cursor: pointer;" src="https://sites.google.com/site/jmarysystemsimagens/f.png" title="facebook">
+                        <img style="cursor: pointer;" src="https://sites.google.com/site/jmarysystemsimagens/t.png" title="twitter">
+                        <img style="cursor: pointer;" src="https://sites.google.com/site/jmarysystemsimagens/i.png" title="instagram">
+                    </div>
+                    </td>    
+                </tr> 
+            </table>
+            
+        </div>
+     </div>
+    </div>    
+    
+</td></tr>
+<!-- FIM tabelatopo++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->             
+</table>
+<!-- FIM tabelatopo++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->  
+</div>
+
+
+<!-- 
+-0
+-1
+-2
+- #### TOPO FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->  
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->            
+<!-- 
+-0
+-1
+-2
+- #### MENU INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
+-->    
+<div style="background-color: #3A3A3A; 
+            width:            100%; 
+            height:           50px; 
+            padding:          0; 
+            margin:           0;              
+            z-index:          2000;
+            " >
+    
+<ul style="list-style:none; padding: 0px; margin: 0px; height: 100%; ">
+    
+<!-- 
+-0
+-1
+-2
+- #### COLUNA 1 INÍCIO #### --> 
+<!-- 
+-0    onclick="mostrarocultar('indice');"
+-1
+-2 ///////////////////////////////////menu//////////////////////////////////////////////////       
+--> 
+    <li style="float: left; position: relative; width: 30px; overflow: visible; padding-left: 10px; padding-right: 10px; cursor: pointer; z-index: 2000;"  
+        >
+        
+        <img 
+            id="menuimg" 
+            style="height: 30px; width: 30px; padding-top: 10px;"
+            src="https://sites.google.com/site/jmarysystemsimagens/mobile_menu_btn.png" 
+            onmouseover="this.src='https://sites.google.com/site/saojoaomadeirasimagens/mobile_menu_btn2.png'" 
+            onmouseout="this.src='https://sites.google.com/site/jmarysystemsimagens/mobile_menu_btn.png'">                  
+
+<!-- ///////////////////////////////////////////////////////// INDICE ///////////////////////////////////////////////////////////// -->      
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->     
+        <div id="indice" style="padding: 0; margin: 0; display: none;          
+                font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;
+                float: left;">  
+<!-- ///////////////////////////////////////////////////////// INDICE ///////////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->  
+            
+<!-- INÍCIO DA MATÉRIA /////////////////////////////////////////////////////////////////////////// -->             
+            <div style="padding: 0; margin: 0;">  
+                <ul style="list-style: none; padding: 0px; margin: 0px;float: left;">
+                
+                    <li style="background-color:#F0F0F0; border-bottom: 1px solid #000000;" onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" >        
+                        <table><tr>
+<!-- MATÉRIA ////////--><td><img id="img1" class="img_menosbco" src="" title="Mostrar/Ocultar"                              
+                                style="vertical-align: middle; height:27px; width:27px; padding: 0; margin: 0;"
+                                onclick=    "mostrarocultar('indice_materia_1');
+                                indiceclickalterarimagem      ( this, this.src);" 
+                                onmouseover="indiceonmouseoveralterarimagem( this, this.src);" 
+                                onmouseout= "indiceonmouseoveralterarimagem( this, this.src);"> 
+                        </td>
+                        <td>
+<!-- MATÉRIA ////////////--><a style="cursor: pointer; color: #000000; font-family: Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 5px; padding-right:5px; line-height:  45px; text-decoration: none;"
+                                 
+                                onMouseover="this.style.color='#0000FF'; " onMouseout="this.style.color='#000000';" > 
+                                Matemática&nbsp;&#9662;&nbsp; </a> 
+                        </td></tr></table>                                                                        
+                    </li>
+                    
+<!-- INÍCIO CATEGORIA ///////////////////////////////////////////////////////////////////////////////////////////////////////-->                    
+                    <li id="indice_materia_1" style="overflow: visible; float: left; background-color:#F0F0F0;" >
+                  
+                        <div style="padding: 0; margin: 0;">                              
+                            <ul style="list-style:none; padding: 0px; margin: 0px;">
+                
+                                <li style="padding-left: 30px; background-color:#F0F0F0; border-bottom: 1px solid #000000;" onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" > 
+                                    <table><tr>
+<!-- CATEGORIA //////////////////////--><td><img id="img2" class="img_menosbco" src="" title="Mostrar/Ocultar"                              
+                                            style="vertical-align: middle; height:27px; width:27px; padding-left: 5px;"
+                                            onclick=    "mostrarocultar('indice_materia_1_categoria_1');
+                                            indiceclickalterarimagem      ( this, this.src);" 
+                                            onmouseover="indiceonmouseoveralterarimagem( this, this.src);" 
+                                            onmouseout= "indiceonmouseoveralterarimagem( this, this.src);"> 
+                                        </td>
+                                       <td>
+<!-- CATEGORIA //////////////////////////--><a style="cursor: pointer; color: #000000; font-family:  Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 5px; padding-right:10px; line-height:  45px; text-decoration: none;"
+                                            onMouseover="this.style.color='#0000FF'; " onMouseout="this.style.color='#000000';" > 
+                                            Tabuada&nbsp;&#9662;&nbsp; </a>
+                                        </td></tr></table>                                                                                  
+                                </li>
+                                
+<!-- CATEGORIA //////////////--><li id="indice_materia_1_categoria_1" style="float: left; overflow: visible" >
+                                    
+<!-- INÍCIO SUBCATEGORIA  ///////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+                                    <div style="padding: 0; margin: 0;">                                  
+                                        <ul style="list-style:none; padding: 0px; margin: 0px;">
+                                            
+                                            <li style="padding-left: 60px; background-color:#F0F0F0; border-bottom: 1px solid #000000;" 
+                                                onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" > 
+                                              
+                                                <table><tr>
+<!-- SUBCATEGORIA ///////////////////////////////--><td><img id="img3" class="img_maisbco" src="" title="Mostrar/Ocultar"                              
+                                                        style="vertical-align: middle; height:27px; width:27px; padding-left: 5px;"
+                                                        onclick=    "mostrarocultar('indice_materia_1_categoria_1_sucategoria_1');
+                                                        indiceclickalterarimagem      ( this, this.src);" 
+                                                        onmouseover="indiceonmouseoveralterarimagem( this, this.src);" 
+                                                        onmouseout= "indiceonmouseoveralterarimagem( this, this.src);"> 
+                                                    </td>
+                                                    <td>
+<!-- SUBCATEGORIA ///////////////////////////////////--><a style="cursor: pointer; color: #000000; font-family:  Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 5px; padding-right:10px; line-height:  45px; text-decoration: none;"
+                                                            onMouseover="this.style.color='#0000FF'; " onMouseout="this.style.color='#000000';" > 
+                                                            Adição&nbsp;&#9662;&nbsp; </a> 
+                                                    </td></tr></table>                                               
+                                            </li>
+                                            
+<!-- SUBCATEGORIA ///////////////////////--><li id="indice_materia_1_categoria_1_sucategoria_1" style="display: none; background-color:#F0F0F0;" 
+                                                onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" >
+                                                   
+                                                <ul style="list-style:none; padding: 0px; margin: 0px;"> 
+                                                        
+                                                    <li style="padding-left: 90px; background-color:#F0F0F0; border-bottom: 1px solid #000000;" 
+                                                        onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" > 
+                                              
+                                                        <a style="cursor: pointer; color: #000000; font-family:  Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 5px; padding-right:10px; line-height:  45px; text-decoration: none;"
+                                                            onclick="mostrarocultar('indice');" onMouseover="this.style.color='#0000FF'; " onMouseout="this.style.color='#000000';" > 
+                                                            Introdução&nbsp;</a>                                                
+                                                    </li>
+                                                </ul>      
+                                            </li>                                            
+                                        </ul>                                    
+                                    </div>
+<!-- FIM SUBCATEGORIA  ////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+                                </li>
+                            </ul>  
+                        </div>                        
+                    </li> 
+<!-- FIM CATEGORIA ///////////////////////////////////////////////////////////////////////////////////////////////////////-->                     
+                </ul>  
+            </div>  
+<!-- FIM DA MATÉRIA //////////////////////////////////////////////////////////////////////////// -->  
+        </div>
+<!-- ///////////////////////////////////////////////////////// INDICE ///////////////////////////////////////////////////////////// -->      
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->  
+
+
+<!-- 
+-0
+-1
+-2
+- #### COLUNA 1.1 AJUDA INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
+-->
+    <li 
+        style="
+            height: 100%; float:    left;    position: relative; 
+            width:  75px; overflow: visible; z-index: 2000;"
+        
+        onMouseover="
+            this.style.backgroundColor='#23871C'; 
+            this.style.color='#3A3A3A';  
+            document.getElementById('coluna11tb').style.display = 'block'; "
+            
+        onMouseout="
+            this.style.backgroundColor='#3A3A3A';                               
+            document.getElementById('coluna11tb').style.display = 'none';  "
+    >
+        
+        <a 
+            target="_parent" 
+            href="https://jmarysystems.blogspot.com.br/" 
+            style="
+                color:           #fff; font-family:  Arial, Helvetica, sans-serif; 
+                font-size:       19px; padding-left: 10px; 
+                padding-right:   10px; line-height:  50px; 
+                text-decoration: none;"
+           
+            onMouseover=" this.style.color='black'; "
+            onMouseout="  this.style.color='#fff'; "       
+        > 
+            Home </a>              
+    </li>  
+<!-- 
+-0
+-1
+-2
+- #### COLUNA 1.1 AJUDA FIM #### --> 
+<!-- 
+-0
+-1
+-2    
+--> 
+
+
+
+<!-- 
+-0
+-1
+-2
+- #### COLUNA 4 INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
+-->
+    <li 
+        style="height: 100%;  float:    left;    position: relative; 
+               width:  65px;  overflow: visible; z-index: 2000;"
+        
+        onMouseover="
+            this.style.backgroundColor='#23871C'; 
+            this.style.color='#3A3A3A';  
+            document.getElementById('coluna4tb').style.display = 'block'; "
+            
+        onMouseout="
+            this.style.backgroundColor='#3A3A3A';                               
+            document.getElementById('coluna4tb').style.display = 'none';  "
+    >
+        
+        <a 
+            href="#" 
+            style="color:         #fff; font-family:  Arial, Helvetica, sans-serif; 
+                   font-size:     19px; padding-left: 10px; 
+                   padding-right: 10px; line-height:  50px; 
+                   text-decoration: none;"
+           
+           onMouseover=" 
+               this.style.color='black'; "
+           onMouseout="  
+               this.style.color='#fff'; "       
+        >
+            ++ &#9662; </a>
+        
+        <table 
+            id         ="coluna4tb" width      ="210px" border ="0" 
+            cellpadding="0"         cellspacing="0"     bgcolor="#3A3A3A" 
+            style="display: none;">
+            <tr> 
+                <td 
+                    align="center" width="250px" height="50px" 
+                    style="border-top: 1px solid #fff;"
+                    
+                    onMouseover="
+                        this.style.backgroundColor='#3498db'; 
+                        this.style.color='#3A3A3A';  
+                        this.style.cursor='pointer';  "
+                    onMouseout="
+                        this.style.backgroundColor='#3A3A3A';  
+                        this.style.color='#fff';     
+                        this.style.cursor='default';  "
+                    
+                    onClick="
+                        document.getElementById('centro').src='https://docs.google.com/document/d/1-f10GCy6sTElTubN5lp6pOpJ_1-IMBG8RqBUgfqR2e4/edit?usp=sharing';    
+                        document.getElementById('coluna2tb')    .style.display = 'none';       "
+                > 
+                    <a 
+                        target="centro" href="https://docs.google.com/document/d/1-f10GCy6sTElTubN5lp6pOpJ_1-IMBG8RqBUgfqR2e4/edit?usp=sharing"
+                        style="
+                            text-decoration: none; color: #fff; font-family: Arial, Helvetica, sans-serif; 
+                            font-size: 14px;"
+                       
+                        onclick=" 
+                            document.getElementById('coluna4tb').style.display = 'none'; "
+                    >
+                            MATEMÁTICA</a> 
+                </td> 
+            </tr>                                    
+        </table>                
+    </li>  
+<!-- 
+-0
+-1
+-2
+- #### COLUNA 4 FIM #### --> 
+<!-- 
+-0
+-1
+-2    
+-->
+
+
+
+
+
+<!-- 
+-0
+-1
+-2
+- #### ÚLTIMA COLUNA INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
+-->
+    <li style="float: right; height: 100%; ">
+        <div id="menuseta"> </div>   
+    </li>
+<!-- 
+-0
+-1
+-2
+- #### ÚLTIMA COLUNA FIM #### --> 
+<!-- 
+-0
+-1
+-2    
+-->            
+</ul>                                  
+</div> 
+<!--             
+-0
+-1
+-2
+- #### MENU FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-0
+-1
+-2
+- #### INDICE INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
+--> 
+<table align="center" cellpadding="0" cellspacing="0" style="padding: 0; margin: 0;"  >
+<tr style="padding: 0; margin: 0;">
+<td style="vertical-align: top; padding: 0; margin: 0;">
+        
+<!-- ///////////////////////////////////////////////////////// INDICE ///////////////////////////////////////////////////////////// -->      
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->     
+        <div id="indice" style="padding: 0; margin: 0;           
+                font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;
+                float: left;">  
+<!-- ///////////////////////////////////////////////////////// INDICE ///////////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->  
+            
+<!-- INÍCIO DA MATÉRIA /////////////////////////////////////////////////////////////////////////// -->             
+            <div style="padding: 0; margin: 0;">  
+                <ul style="list-style: none; padding: 0px; margin: 0px;float: left;">
+                
+                    <li style="background-color:#F0F0F0; border-bottom: 1px solid #000000;" onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" >        
+                        <table><tr>
+<!-- MATÉRIA ////////--><td><img id="img1" class="img_menosbco" src="" title="Mostrar/Ocultar"                              
+                                style="vertical-align: middle; height:27px; width:27px; padding: 0; margin: 0;"
+                                onclick=    "mostrarocultar('indice_materia_1');
+                                indiceclickalterarimagem      ( this, this.src);" 
+                                onmouseover="indiceonmouseoveralterarimagem( this, this.src);" 
+                                onmouseout= "indiceonmouseoveralterarimagem( this, this.src);"> 
+                        </td>
+                        <td>
+<!-- MATÉRIA ////////////--><a style="cursor: pointer; color: #000000; font-family: Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 5px; padding-right:5px; line-height:  45px; text-decoration: none;"
+                                 
+                                onMouseover="this.style.color='#0000FF'; " onMouseout="this.style.color='#000000';" > 
+                                Matemática&nbsp;&#9662;&nbsp; </a> 
+                        </td></tr></table>                                                                        
+                    </li>
+                    
+<!-- INÍCIO CATEGORIA ///////////////////////////////////////////////////////////////////////////////////////////////////////-->                    
+                    <li id="indice_materia_1" style="overflow: visible; float: left; background-color:#F0F0F0;" >
+                  
+                        <div style="padding: 0; margin: 0;">                              
+                            <ul style="list-style:none; padding: 0px; margin: 0px;">
+                
+                                <li style="padding-left: 30px; background-color:#F0F0F0; border-bottom: 1px solid #000000;" onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" > 
+                                    <table><tr>
+<!-- CATEGORIA //////////////////////--><td><img id="img2" class="img_menosbco" src="" title="Mostrar/Ocultar"                              
+                                            style="vertical-align: middle; height:27px; width:27px; padding-left: 5px;"
+                                            onclick=    "mostrarocultar('indice_materia_1_categoria_1');
+                                            indiceclickalterarimagem      ( this, this.src);" 
+                                            onmouseover="indiceonmouseoveralterarimagem( this, this.src);" 
+                                            onmouseout= "indiceonmouseoveralterarimagem( this, this.src);"> 
+                                        </td>
+                                       <td>
+<!-- CATEGORIA //////////////////////////--><a style="cursor: pointer; color: #000000; font-family:  Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 5px; padding-right:10px; line-height:  45px; text-decoration: none;"
+                                            onMouseover="this.style.color='#0000FF'; " onMouseout="this.style.color='#000000';" > 
+                                            Tabuada&nbsp;&#9662;&nbsp; </a>
+                                        </td></tr></table>                                                                                  
+                                </li>
+                                
+<!-- CATEGORIA //////////////--><li id="indice_materia_1_categoria_1" style="float: left; overflow: visible" >
+                                    
+<!-- INÍCIO SUBCATEGORIA  ///////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+                                    <div style="padding: 0; margin: 0;">                                  
+                                        <ul style="list-style:none; padding: 0px; margin: 0px;">
+                                            
+                                            <li style="padding-left: 60px; background-color:#F0F0F0; border-bottom: 1px solid #000000;" 
+                                                onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" > 
+                                              
+                                                <table><tr>
+<!-- SUBCATEGORIA ///////////////////////////////--><td><img id="img3" class="img_maisbco" src="" title="Mostrar/Ocultar"                              
+                                                        style="vertical-align: middle; height:27px; width:27px; padding-left: 5px;"
+                                                        onclick=    "mostrarocultar('indice_materia_1_categoria_1_sucategoria_1');
+                                                        indiceclickalterarimagem      ( this, this.src);" 
+                                                        onmouseover="indiceonmouseoveralterarimagem( this, this.src);" 
+                                                        onmouseout= "indiceonmouseoveralterarimagem( this, this.src);"> 
+                                                    </td>
+                                                    <td>
+<!-- SUBCATEGORIA ///////////////////////////////////--><a style="cursor: pointer; color: #000000; font-family:  Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 5px; padding-right:10px; line-height:  45px; text-decoration: none;"
+                                                            onMouseover="this.style.color='#0000FF'; " onMouseout="this.style.color='#000000';" > 
+                                                            Adição&nbsp;&#9662;&nbsp; </a> 
+                                                    </td></tr></table>                                               
+                                            </li>
+                                            
+<!-- SUBCATEGORIA ///////////////////////--><li id="indice_materia_1_categoria_1_sucategoria_1" style="display: none; background-color:#F0F0F0;" 
+                                                onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" >
+                                                   
+                                                <ul style="list-style:none; padding: 0px; margin: 0px;"> 
+                                                        
+                                                    <li style="padding-left: 90px; background-color:#F0F0F0; border-bottom: 1px solid #000000;" 
+                                                        onMouseover="this.style.backgroundColor='#FFFFFF';" onMouseout="this.style.backgroundColor='#F0F0F0';" > 
+                                              
+                                                        <a style="cursor: pointer; color: #000000; font-family:  Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 5px; padding-right:10px; line-height:  45px; text-decoration: none;"
+                                                            onclick="mostrarocultar('indice');" onMouseover="this.style.color='#0000FF'; " onMouseout="this.style.color='#000000';" > 
+                                                            Introdução&nbsp;</a>                                                
+                                                    </li>
+                                                </ul>      
+                                            </li>                                            
+                                        </ul>                                    
+                                    </div>
+<!-- FIM SUBCATEGORIA  ////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+                                </li>
+                            </ul>  
+                        </div>                        
+                    </li> 
+<!-- FIM CATEGORIA ///////////////////////////////////////////////////////////////////////////////////////////////////////-->                     
+                </ul>  
+            </div>  
+<!-- FIM DA MATÉRIA //////////////////////////////////////////////////////////////////////////// -->  
+        </div>
+<!-- ///////////////////////////////////////////////////////// INDICE ///////////////////////////////////////////////////////////// -->      
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+</td>        
+        
+<td  style="vertical-align: top; font:normal 140% verdana,arial,helvetica; padding: 0; margin: 0;">
+    
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### IMPRIMIR INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+        <table align="center" width="100%" border="0" cellpadding="0" cellspacing="5">      
+<!-- Inicio: Esquerda - Direita - Imprimir - Java --><tbody><tr><td>                           
+        
+        <div style="margin: 0px; padding: 0px">
+            
+            <!--width=19px height=20px-->
+            <img id="imgindice" width="19px" height="20px" class="mt10 mousepointer floatl positionr " title="Ocultar Menu" src="https://lh4.googleusercontent.com/XGFbwR2WT1Nm2cO60UiUGEnJ_GjrTAwc8-eWpjlJXcY=w196-h207-p-no" onmouseover="this.src='https://lh5.googleusercontent.com/TzMvRE-mNdRGJ_NDE-WnbVnnsR6GevE0KhgCfaBiru4=w213-h212-p-no'" onmouseout="this.src='https://lh4.googleusercontent.com/XGFbwR2WT1Nm2cO60UiUGEnJ_GjrTAwc8-eWpjlJXcY=w196-h207-p-no'" onclick="mostrarocultar('indice');">
+            
+            <img id="img2indice" width="19px" height="20px" class="mt10 ml15 mousepointer floatl positionr" title="Mostrar Menu" src="https://lh3.googleusercontent.com/PXXML-0eLocvk8mw25fkByyPyfJOHDeHN-3NkoNy95w=w196-h207-p-no" onmouseover="this.src='https://lh4.googleusercontent.com/E5xhtxX4M-sYVKQH1ptATol3BCKYx0uffRoRtCEJdus=s212-p-no'" onmouseout="this.src='https://lh3.googleusercontent.com/PXXML-0eLocvk8mw25fkByyPyfJOHDeHN-3NkoNy95w=w196-h207-p-no'" onclick="mostrarocultar('indice');">
+            
+            <img width="19px" height="20px" class="mt10 ml20 mousepointer floatl positionr" title="Imprimir conteúdo abaixo" src="https://lh3.googleusercontent.com/sb8h-J_hVDW873lHh_LRygO4J7-f2A9xyet48lJF01g=w241-h207-p-no" onmouseover="this.src='https://lh3.googleusercontent.com/oxreARu-J8-MguZxeBM7mw81VKt_ny8gQNrz8-Ir3-k=w350-h218-p-no'" onmouseout="this.src='https://lh3.googleusercontent.com/sb8h-J_hVDW873lHh_LRygO4J7-f2A9xyet48lJF01g=w241-h207-p-no'" onclick="printDiv('corpo');">
+            
+            <table border="0" cellpadding="2" cellspacing="0" class="floatr positionr mr3">
+                <tbody>
+                    <tr>
+                        <td bgcolor="#C10033"><fbranca class="">BAIXAR: Máquina Virtual Java</fbranca></td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F1EEED">
+                            <table cellpadding="2" cellspacing="2" border="0">
+                                <tbody><tr>
+                                        <td>As aulas em java funcionam com a<br> 
+                                            máquina virtual Java, se você não tem <br>
+                                            <div style="margin-top: 5px; margin-bottom: 5px;">
+                                            <a href="http://www.java.com/" target="new" class="linktipo1 ">
+                                                Clique aqui para baixar</a>.
+                                            </div>    
+                                        </td>
+                                        <td><a href="http://www.java.com/" target="new"> </a>
+                                            <a href="">
+                                            <img class="mousepointer floatr positionr" height="64px" src="https://lh4.googleusercontent.com/2NJOBdUYPA57Mc1VIaWfiFAW0ujXNmFbWnXfE3hGw7c=w219-h218-p-no" title="Baixar aplicativo desta matéria" width="64px"> </a>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                        </td>
+                    </tr>
+            </tbody></table>
+  
+        </div>                          
+<!-- Fim: Esquerda - Direita - Imprimir - Java --></td></tr>      
+    </tbody></table>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### IMPRIMIR FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### TAMANHO DA FONTE INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <table align="right" border="0" cellpadding="2" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="#" onclick="javascript:tamanhofonte('mais',  'corpo' );"> <img src="https://lh6.googleusercontent.com/FBTVJKikZ3gaqpT9TJghFgfL0TdlD-KdIiOyn5DZGQ=s219-p-no" title="Aumentar Fonte" width="23" height="23"></a>&nbsp;
+                    </td>
+                    <td>
+                        <a href="#" onclick="javascript:tamanhofonte('padrao', 'corpo');"> <img src="https://lh3.googleusercontent.com/g2x70GRd-jotjtVRJJhmbmmkvl6Jn-WAmcvDDHjuDg=s219-p-no" title="Fonte Padrão" width="23" height="23"></a>&nbsp;
+                    </td>
+                    <td>
+                        <a href="#" onclick="javascript:tamanhofonte('menos',  'corpo');"> <img src="https://lh3.googleusercontent.com/5adleKp4hCSz84cfgnHa1taJrq3yu1dOoa-YCke59A=s219-p-no" title="Diminuir Fonte" width="23" height="23"></a>
+                    </td>
+                    <td>
+                        <div style="width:40px; margin: 0px 20px 0px 0px; color: #FFFFFF"> </div>
+                    </td>
+                </tr>                   
+            </tbody>
+        </table>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### TAMANHO DA FONTE FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+
+
+<!--  -->
+<div id="corpo">
+<!--  -->  
+            
+            <h1 align="center">Matemática - Aritmética - Adição</h1>
+            
+            <!--  -->
+            <div class="espaco_a_esquerda_20_px">
+            <!--  -->    
+                <p>O vocábulo latino additĭo chegou à nossa língua como adição. Trata-se do ato e do resultado de somar, complementar ou 
+                    agregar algo.</p>
+                
+                <p>O conceito de adição está implícito na própria noção de número, pois o número é composto de uns.
+                   A ação de juntar quantidades participa da construção de número</p>
+            
+                <p>Adição pode usar-se como sinónimo de soma: a operação aritmética que consiste em acrescentar quantidades até 
+                    obter um resultado.</p>
+            
+                <p>Uma <em>soma </em>(do latim summa) é a junção de coisas.</p>
+            
+                <ul>
+                    <li> 
+                        <p>O termo faz referência à ação e ao efeito de somar ou juntar/acrescentar.</p>
+                    </li>
+                    <li> 
+                        <p> Para a matemática, a soma é uma operação que permite adicionar uma quantidade a outra(s) homogénea(s).</p>
+                    </li>
+                </ul>
+            
+                <p>&nbsp;</p>
+
+
+                <h2>ServletUnit</h2>
+                    <!--  -->
+                    <div class="espaco_a_esquerda_20_px">
+                    <!--  --> 
+                        
+                        <p>ServletUnit 
+                            também permite testar métodos individuais.&nbsp;</p>
+                        <p>ServletUnit simula 
+                            servlet container que prover todas as funcionalidades de servlet container 
+                            real. Os seguintes passos são necessários para testar um servlet: 
+                        </p>
+                        
+                        <ol class="espaco_a_esquerda_40_px">
+                            
+                            <li class="espaco_zero_px_todos"> 
+                                
+                                <p>Criar um instância da classe ServletRunner. Essa é a classe 
+                                    que simula o container e permite o acesso a objetos do servlet que estejam 
+                                    rodando.</p>
+                            </li> 
+                            
+                            <li> 
+                                <p>Registrar o(s) servlet(s) que serão testados no contexto simulado 
+                                    pelo ServletRunner.</p>
+                            </li>
+                        </ol>
+                    <!--  -->
+                    </div>
+                    <!--  -->   
+                    
+                    <!--  -->
+                    <pre class="espaco_a_esquerda_20_px">
+                        public class SimpleServlet extends HttpServlet { <br>    public void doGet(HttpServletRequest request, HttpServletResponse response)<br>           throws ServletException, IOException {<br>       String user = getUser(request, response);<br>       response.getWriter().print("User that call this servlet is " + user);<br>    }<br><br>    public void doPost(HttpServletRequest request, HttpServletResponse response)<br>            throws ServletException, IOException {<br>        doGet(request, response);<br>    }<br><br>    public String getUser(HttpServletRequest request, HttpServletResponse response) {<br>        return((String)request.getAttribute("UserName"));<br>    }<br>}<br>
+                    </pre>
+                    <!--  -->                      
+            <!--  -->
+            </div>
+            <!--  -->  
+            
+<!--  -->
+</div>
+<!--  -->
+
+</td>      
+</tr></table>   
+<!-- 
+-0
+-1
+-2
+- #### INDICE INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+
+                
+<script type="text/javascript">
+    function mostrarocultar(id) {
+    
+        if( document.getElementById(id).style.display === 'none' ){
+            document.getElementById(id).style.display = 'block';
+        }else{
+            document.getElementById(id).style.display = 'none';
+        }
+    };
+    function indiceclickmostrarocultar_tr( id ){
+        
+        if ( $('#'+id).hasClass("dispnone") === true ){
+            
+            $('#'+id).removeClass("dispnone");
+            $( '#'+id ).css('display','block'); 
+        }
+        else{
+            
+            $('#'+id).addClass("dispnone");
+            $( '#'+id ).css('display','none'); 
+        }                           
+    } 
+    function indiceonmouseoveralterarimagem( obg, src){ var src2 = ($(obg).attr('src') );
+              //SE FOR NO BLOG UTILIZE SRC
+        switch( src2 ) {
+             //SINAL DE + BRANCO
+        case "img/maisbco.png": 
+            //SINAL DE + PRETO
+            obg.src="img/maispto.png"; 
+            break;
+             //SINAL DE + PRETO
+        case "img/maispto.png": 
+                    //SINAL DE + BRANCO
+            obg.src="img/maisbco.png"; 
+            break;
+             //SINAL DE - PRETO
+        case "img/menospto.png": 
+                    //SINAL DE - BRANCO
+            obg.src="img/menosbco.png"; 
+            break;  
+             //SINAL DE - BRANCO
+        case "img/menosbco.png": 
+                    //SINAL DE - PRETO
+            obg.src="img/menospto.png"; 
+            break;      
+        }
+    }                                             
+    function indiceclickalterarimagem( obg, src){ var src2 = ($(obg).attr('src') );   
+               //SE FOR NO BLOG UTILIZE SRC
+        switch( src2 ) {
+        
+             //SINAL DE + PRETO
+        case "img/maispto.png":
+                    //SINAL DE - PRETO
+            obg.src="img/menospto.png"; 
+            break;
+             //SINAL DE - PRETO
+        case "img/menospto.png": 
+                    //SINAL DE + PRETO
+            obg.src="img/maispto.png"; 
+            break;
+        }
+    }
+</script>   
+<!-- 
+-0
+-1
+-2
+- #### JQUERY INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
+-->  
+ <script type="text/javascript">
+jQuery(document).ready(function(){
+    
+    $(".li_imagem_menu, .alinha").on("click",function(e){
+        
+        mostrarOcultarProp('dispnone');
+    });   
+
+    $(".topo2 .icemegamenu .icemegamenu > ul > li").on("click",function(e){
+        $(".topo2 .icemegamenu .icemegamenu > ul > li").removeClass('active');
+        $(e.currentTarget).addClass('active');
+    });
+    
+    $("#menuimg").on("click",function(e){
+        
+        mostrarOcultarProp('dispnone');
+    });
+    
+    $(".menul").on("click",function(e){
+        
+        mostrarOcultarProp('dispnone');
+    });
+    
+    function mostrarOcultarProp(classe){
+        
+        $("#listadomenu").toggleClass(classe);
+        $("#menuxx").toggleClass(classe);
+        
+        
+        $("#topo_geral_prop").toggleClass(classe);
+    }
+    
+    $('#centro').load(function(){
+               
+    });
+    
+    $('a').click(function(){
+        $('html, body').animate({scrollTop: 0},'slow');
+    });
+    
+    $('.img_list').attr('src','https://lh6.googleusercontent.com/kVInumJ9ZHKfkUIPf_FchiHlx3LCWqdjZDysXdjOpKc=s207-p-no');
+    $('.img_maisbco').attr('src','https://lh6.googleusercontent.com/-dQh94gLAuBp5txaFOBnzGF3AWpJc783cdKd0Pu5k8M=s207-p-no');
+    $('.img_maisbco').hover(
+            function(e) { mostrarOcultaropcao( this, this.src); 
+         }, function(e) { mostrarOcultaropcao( this, this.src); 
+    });
+    $('.img_menosbco').attr('src','https://lh6.googleusercontent.com/kVInumJ9ZHKfkUIPf_FchiHlx3LCWqdjZDysXdjOpKc=s207-p-no');
+    $('.img_menosbco').hover(
+            function(e) { mostrarOcultaropcao( this, this.src); 
+         }, function(e) { mostrarOcultaropcao( this, this.src); 
+    });
+    $('.img_list').hover(
+            function(e) { mostrarOcultaropcao( this, this.src); 
+         }, function(e) { mostrarOcultaropcao( this, this.src); 
+    });
+    $(".img_list").on("click",function(e){
+        imgclickopcao( this, this.src); 
+    });
+    $(".img_maisbco").on("click",function(e){
+        imgclickopcao( this, this.src); 
+    });
+    $(".img_menosbco").on("click",function(e){
+        imgclickopcao( this, this.src); 
+    });
+    function mostrarOcultaropcao( obg, src){
+        switch( src ) {
+        
+        case "https://lh6.googleusercontent.com/-dQh94gLAuBp5txaFOBnzGF3AWpJc783cdKd0Pu5k8M=s207-p-no": 
+            obg.src="https://lh3.googleusercontent.com/ontFcFJjvZVC7mQMdF84BEi1DkCubmknTWXUHapnKa0=s207-p-no"; 
+            break;
+        case "https://lh3.googleusercontent.com/ontFcFJjvZVC7mQMdF84BEi1DkCubmknTWXUHapnKa0=s207-p-no": 
+            obg.src="https://lh6.googleusercontent.com/-dQh94gLAuBp5txaFOBnzGF3AWpJc783cdKd0Pu5k8M=s207-p-no"; 
+            break;
+        case "https://lh4.googleusercontent.com/6mP8vSsBlnKjD_Qm8QrVL7vcKswOIXlqWw7DxRbHbmM=s207-p-no": 
+            obg.src="https://lh6.googleusercontent.com/kVInumJ9ZHKfkUIPf_FchiHlx3LCWqdjZDysXdjOpKc=s207-p-no"; 
+            break;  
+        case "https://lh6.googleusercontent.com/kVInumJ9ZHKfkUIPf_FchiHlx3LCWqdjZDysXdjOpKc=s207-p-no": 
+            obg.src="https://lh4.googleusercontent.com/6mP8vSsBlnKjD_Qm8QrVL7vcKswOIXlqWw7DxRbHbmM=s207-p-no"; 
+            break;      
+        }
+    }
+    function imgclickopcao( obg, src){                            
+        switch( src ) {
+        
+        case "https://lh3.googleusercontent.com/ontFcFJjvZVC7mQMdF84BEi1DkCubmknTWXUHapnKa0=s207-p-no": 
+            obg.src="https://lh4.googleusercontent.com/6mP8vSsBlnKjD_Qm8QrVL7vcKswOIXlqWw7DxRbHbmM=s207-p-no"; 
+            break;
+        case "https://lh4.googleusercontent.com/6mP8vSsBlnKjD_Qm8QrVL7vcKswOIXlqWw7DxRbHbmM=s207-p-no": 
+            obg.src="https://lh3.googleusercontent.com/ontFcFJjvZVC7mQMdF84BEi1DkCubmknTWXUHapnKa0=s207-p-no"; 
+            break;
+        }
+    }
+    
+
+});
+    
+jQuery(window).resize(function() {
+
+    var browser_width2 = jQuery(window).width();
+
+});
+</script>
+<!-- 
+-0
+-1
+-2
+- #### JQUERY FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++   
+-->
+
+    </body>
+</html>
