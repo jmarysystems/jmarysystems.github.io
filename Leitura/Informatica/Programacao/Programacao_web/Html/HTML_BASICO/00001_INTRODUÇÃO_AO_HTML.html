@@ -8,11 +8,39 @@
         <!-- <meta http-equiv="refresh" content=1;url="https://jmarysystems.blogspot.com.br/"> -->
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+        
+        <style>
+@media (min-width : 980px) {
+    /*topo*/
+        .crtl_imagem{ position: absolute; width: 100%; height: 91.5%; }
+    /*topo*/
+}
+@media (min-width : 980px) and (max-width : 1024px) {
+    /*topo*/
+        .crtl_imagem{ position: absolute; width: 100%; height: 91.5%; }
+    /*topo*/    
+}
+@media (max-width : 980px) {
+    /*topo*/
+        .crtl_imagem{ position: absolute; width: 100%; height: 91.5%; }
+    /*topo*/
+}
+@media (max-width : 570px) { 
+    /*topo*/
+        .crtl_imagem{ position: inherit; width: 100%; height: auto; }
+    /*topo*/
+}
+@media (max-width : 418px) {
+    /*topo*/
+        .crtl_imagem{ position: inherit; width: 100%; height: auto; }
+    /*topo*/
+}
+        </style>
 
     </head>
     
     <body 
-        style="width: 100%; height: 100%; padding: 0; margin: 0;
+        style="width: 100%; height: 100%; padding: 0; margin: 0; background-color: #F5F5F5;
                font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;" 
         onload='letra(&apos;corpo&apos;);'
     >    
@@ -88,10 +116,9 @@
     
     <tr>
         <td width="100%" height="100%" style="margin: 0px; padding: 0px;"> 
-            <div style="margin: 0px; padding: 0px; width: 100%; height: 100%; background-color: #355A3A;">
-                <img id="centroexe" class="img_exercicios" 
+            <div style="margin: 0px; padding: 0px; width: 100%; height: 100%;">
+                <img id="centroexe" class="crtl_imagem" 
                     src="00001_INTRODUÇÃO_AO_HTML/Slide1.PNG" 
-                    style="position: absolute; width: 100%; height: 91.5%;"
                 > 
             </div>
         </td> 
