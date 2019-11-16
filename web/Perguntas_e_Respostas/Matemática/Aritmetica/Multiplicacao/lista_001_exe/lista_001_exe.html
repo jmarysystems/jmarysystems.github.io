@@ -13,19 +13,19 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
         <style>
 @media (min-width : 980px) {
     /*topo*/
-        .crtl_de_certo_ou_errado_cima{ width: 100px; height: 30px; }
+        .crtl_de_certo_ou_errado_cima{ width: 100px; height: 16px; }
         .img_exercicios {width: 55%; }
     /*topo*/
 }
 @media (min-width : 980px) and (max-width : 1024px) {
     /*topo*/
-        .crtl_de_certo_ou_errado_cima{ width: 100px; height: 30px; }
+        .crtl_de_certo_ou_errado_cima{ width: 100px; height: 16px; }
         .img_exercicios { width: 70%;  }
     /*topo*/    
 }
 @media (max-width : 980px) {
     /*topo*/
-        .crtl_de_certo_ou_errado_cima{ width: 100px; height: 30px; }
+        .crtl_de_certo_ou_errado_cima{ width: 100px; height: 16px; }
         .img_exercicios { width: 80%; }
     /*topo*/
 }
@@ -64,9 +64,6 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
                 switch( exeatual ) {
                     case 1: if( x === 'p' ){ proximo( exe1 ); } else{ resposta( exe1 ); }  break;
                     case 2: if( x === 'p' ){ proximo( exe2 ); } else{ resposta( exe2 ); }  break;
-                    case 3: if( x === 'p' ){ proximo( exe3 ); } else{ resposta( exe3 ); }  break;
-                    case 4: if( x === 'p' ){ proximo( exe4 ); } else{ resposta( exe4 ); }  break;
-                    case 5: if( x === 'p' ){ proximo( exe5 ); } else{ resposta( exe5 ); }  break;
                         
                     default:     
                         //document.getElementById('tdtitulo').innerHTML = "FIM dos " + assuntodoexercicio;
@@ -102,7 +99,7 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
         <script type="text/javascript">  
                 
-            var assuntodoexercicio = "Exercícios de Subtração";
+            var assuntodoexercicio = "Exercícios de Html";
                         
             var exeatual = 0; var qtdacertos = 0; var qtdaerros = 0;
             
@@ -112,19 +109,8 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
                 
             var exe2 = new Array("lista_001_exe/Slide4.PNG",
                 "lista_001_exe/Slide5.PNG",
-                "D" );
-                
-            var exe3 = new Array("lista_001_exe/Slide6.PNG",
-                "lista_001_exe/Slide7.PNG",
-                "A" );
-                
-            var exe4 = new Array("lista_001_exe/Slide8.PNG",
-                "lista_001_exe/Slide9.PNG",
                 "B" );
-                
-            var exe5 = new Array("lista_001_exe/Slide10.PNG",
-                "lista_001_exe/Slide11.PNG",
-                "D" );
+
  
         //--></script>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -238,7 +224,7 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
     <tr>
         <td id="nomedesteexercicio" align="center" style="font: bold normal 30px verdana,arial,helvetica; margin: 0px; padding: 0px"> 
             
-            Exercícios de Subtração
+            Exercícios de Html
              
         </td>
     </tr>
@@ -332,7 +318,7 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 
-    <table align="right" border="0" cellpadding="0" cellspacing="0" style="margin: 0px; padding: 0px">
+    <table align="right" border="0" cellpadding="0" cellspacing="0" style="margin: 0px; padding: 0px; box-shadow: 0 0 10px #222;">
         
         <tr>
             <td>
@@ -344,10 +330,10 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
                         <td class="crtl_de_certo_ou_errado_cima" bgcolor="#C10033" style="color:#FFFFFF; font-size: 100%;" align="center">ERROS</td>
                     </tr>
                     <tr>
-                        <td bgcolor="#F1EEED" align="center">
+                        <td bgcolor="#F1EEED" align="center" style="height: 20px;" >
                             <table cellpadding="2" cellspacing="2" border="0" align="center">
                                 <tbody><tr>
-                                        <td class="crtl_de_certo_ou_errado_cima" id="tderros" align="center" style="font-size: 30px;">
+                                        <td id="tderros" align="center" style="font: bold normal 100% verdana,arial,helvetica;">
                                             0
                                         </td>
                                     </tr>
@@ -367,10 +353,10 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
                         <td class="crtl_de_certo_ou_errado_cima" bgcolor="#008000" style="color:#FFFFFF; font-size: 100%;" align="center">ACERTOS</td>
                     </tr>
                     <tr>
-                        <td bgcolor="#F1EEED" align="center">
+                        <td bgcolor="#F1EEED" align="center" style="height: 20px;">
                             <table cellpadding="2" cellspacing="2" border="0" align="center">
                                 <tbody><tr>
-                                        <td class="crtl_de_certo_ou_errado_cima" id="tdacertos" align="center" style="font-size: 30px;">
+                                        <td id="tdacertos" align="center" style="font: bold normal 100% verdana,arial,helvetica;">
                                             0
                                         </td>
                                     </tr>
@@ -399,7 +385,7 @@ hhttps://sites.google.com/site/exematematicaaritmeticaadicao/system/app/pages/ad
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->  
 
-<table width="100%" cellpadding="2" cellspacing="2" border="0">
+<table width="100%" cellpadding="2" cellspacing="2" border="0" style="margin: 0px; padding: 0px;">
     <tr>
         <td> 
             <img id="centroexe" class="img_exercicios" 
