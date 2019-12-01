@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-    
+        
     $("#menuseta").addClass("menusetabackground_1");
     
     $("#menuseta").on("click",function(e){

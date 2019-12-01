@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Exemplo de requisição HTTP GET com javascript puro</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+    <input type="text" id="url" style="width:300px;" value="https://sheets.googleapis.com/v4/spreadsheets/1By3w9XL3XDO_Dzi5VomurGnqoMS-_zW552C4-B2SJKo/values/A:F?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs">
+    <button onclick="fazerRequisicao();">Fazer requisição</button>
+    <hr />
+    <div id="resposta"></div>
+
+    <script>
+        function fazerRequisicao(){
+
+            var url = document.getElementById('url').value;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", url, false);
+
+            xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+
+            document.getElementById("resposta").innerHTML = xhttp.responseText;
+        }
+    </script>
+</body>
+</html>
