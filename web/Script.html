@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Exemplo de requisição HTTP GET com javascript puro</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+    <input type="text" id="url" style="width:300px;" value="https://sheets.googleapis.com/v4/spreadsheets/1By3w9XL3XDO_Dzi5VomurGnqoMS-_zW552C4-B2SJKo/values/A:F?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs">
+    
+    <button onclick="loop();">Fazer requisição</button>
+    
+    <hr />
+    
+    <div id="resposta"></div>
+
+    <script>
+                
+        var contador = -1;
+        var millisecondsToWait = 1000;
+        setTimeout(function() {
+ 
+            // Whatever you want to do after the wait
+            loop2();
+
+        }, millisecondsToWait);
+        
+        function loop2(){
+            
+            contador++;
+            
+            fazerRequisicao();
+            
+            loop();
+        }
+        
+        function loop(){
+            
+            setTimeout( () => { 
+                
+                loop2();
+                
+            }, 5000); 
+        }
+        
+        function fazerRequisicao(){
+
+            //var url = document.getElementById('url').value;
+            var url = "https://sheets.googleapis.com/v4/spreadsheets/1By3w9XL3XDO_Dzi5VomurGnqoMS-_zW552C4-B2SJKo/values/A:F?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs"
+           
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", url, false);
+
+            xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+
+            document.getElementById("resposta").innerHTML = contador + "\n" + xhttp.responseText;
+        }
+        
+    </script>
+    
+    <script>
+                
+        
+        
+    </script>
+</body>
+</html>

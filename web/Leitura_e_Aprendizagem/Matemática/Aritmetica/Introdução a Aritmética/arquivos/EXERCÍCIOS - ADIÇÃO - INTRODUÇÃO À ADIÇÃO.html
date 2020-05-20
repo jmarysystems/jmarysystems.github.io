@@ -1,0 +1,383 @@
+<!-- #### EXERCÍCIOS - ADIÇÃO - INTRODUÇÃO À ADIÇÃO #### ++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### EXERCÍCIOS - JMARYSYSTEMS #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+<html style="height: 100%;">
+    <head>
+        <title>JMARYSYSTEMS EXERCÍCIOS</title>        
+        <meta charset="UTF-8">
+        <meta name="description" content="Português, Matemática, Física, Química, Biologia, Geografia, História, Inglês, Espanhol, Francês, Italiano, Chinês, Informática, Office, Excel, Hardware, Software, Programação, HTML,CSS,XML,JavaScript, C, C++, C#, Java, Livros">
+        <meta name="keywords" content="Português, Matemática, Física, Química, Biologia, Geografia, História, Inglês, Espanhol, Francês, Italiano, Chinês, Informática, Office, Excel, Hardware, Software, Programação, HTML,CSS,XML,JavaScript, C, C++, C#, Java, Livros">
+        <meta name="author" content="Cleilson Henrique de Araujo">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="https://sites.google.com/site/jmarysystemsimagens/jmol.png">
+                
+        <style>
+/* INÍCIO - Estilo particular desta página */            
+html, body {
+    margin: 0;
+    padding: 0;
+}
+html, body, .corpo, .corpo iframe {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+.corpo iframe {
+    border: none; /* remove as bordas do iframes*/
+}     
+/* FIM - Estilo particular desta página */
+      
+/* INÍCIO - Estilo em diversas resoluções */
+@media screen and (max-width: 4000px) {
+    body {
+        background-color: #FFFFFF;       
+    }
+}            
+@media screen and (max-width: 1100px) {
+    body {
+        background-color: #FFFFFF;        
+    }
+}
+
+@media screen and (max-width: 800px) {
+    body {
+        background-color: #FFFFFF; 
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        background-color: #FFFFFF; 
+    }
+}
+/* FIM - Estilo em diversas resoluções */
+    </style>
+    
+    </head>
+    <body style="width: 100%; height: 100%; padding: 0; margin: 0;">
+        
+        
+<!-- #### PRÓXIMO EXERCÍCIO #### ++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### PRÓXIMO EXERCÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->    
+        <script type="text/javascript">  
+            function proximoexecombase( x ) {    
+                
+                if( x === 'p' ){ exeatual++; }
+                
+                switch( exeatual ) {
+                    case 1: if( x === 'p' ){ proximo( exe1 ); } else{ resposta( exe1 ); }  break;
+                        
+                    default:     
+                        document.getElementById('tdtitulo').innerHTML = "FIM dos " + assuntodoexercicio;
+                        document.getElementById( 'bt1' ).className += "dispnone";
+                        document.getElementById('centro').src ="http://jmtrueconteudo.blogspot.com.br/2016/11/blog-post_2.html";
+                }
+            }
+        //--></script>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### PRÓXIMO FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->       
+        
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### PERGUNTAS E RESPOSTAS INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+        <script type="text/javascript">  
+            var assuntodoexercicio = "Exercícios";
+            var exeatual = 0; var qtdacertos = 0; var qtdaerros = 0;
+            
+            var exe1 = new Array("https://jmtrueconteudo.blogspot.com/2018/06/jmarysystems-exercicios-inicio-estilo.html",
+                "https://jmtrueconteudo.blogspot.com/2018/06/jmarysystems-exercicios-inicio-estilo_28.html",
+                "A" );               
+                
+        //--></script>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### PERGUNTAS E RESPOSTAS FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### AÇÃO INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+<input type="hidden" id="abcdresposta" value="Z">
+
+<script type="text/javascript"><!--
+    function iniciar( exeR ) {    
+        exeatual++;
+        document.getElementById('centro').src =exeR[0];
+        
+        document.getElementById('trtitulo').style.display = 'none';
+        
+        mostrarocultar('bt0');
+        mostrarocultar('bt2');
+    }
+    function proximo( exeR ) {    
+        //exeatual++;
+        document.getElementById('centro').src =exeR[0];
+                        
+        document.getElementById('tdtitulo').innerHTML = assuntodoexercicio; 
+        
+        mostrarocultar('bt1');
+        mostrarocultar('bt2');
+    }
+    
+    function resposta( exeR ) {   
+        var x = document.getElementById("abcdresposta").value;
+        if( x === exeR[2] ){
+            
+            document.getElementById('centro').src =exeR[1];   
+            qtdacertos++;
+            document.getElementById('tdacertos').innerHTML = qtdacertos; 
+            
+            document.getElementById('tdtitulo').innerHTML = "Parabéns Resposta Correta - Opção: " + exeR[2];
+        }
+        else{
+            
+            document.getElementById('centro').src =exeR[1];   
+            qtdaerros++;            
+            document.getElementById('tderros').innerHTML = qtdaerros; 
+            
+            document.getElementById('tdtitulo').innerHTML = "Resposta Incorreta - a correta seria à opção: " + exeR[2];
+        }
+        
+        document.getElementById( 'selectdaresposta' ).className += "dispnone";
+        
+        document.getElementById( 'bt1' ).removeAttribute( "class", "dispnone" );
+        document.getElementById( 'bt2' ).className += "dispnone";
+    }
+    function abcdResposta(abcdR) {
+        document.getElementById("abcdresposta").value = abcdR;
+        mostrarocultar('bt1');
+        mostrarocultar('bt2');
+    }
+    function mostrarocultar(id) {
+    
+        if( document.getElementById(id).style.display === 'none' ){
+            document.getElementById(id).style.display = 'block';
+        }else{            
+            document.getElementById(id).style.display = 'none';
+        }
+    };
+//--></script>        
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### AÇÃO FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### IMPRIMIR INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+        <table align="center" width="100%" border="0" cellpadding="0" cellspacing="5">      
+<!-- Inicio: Esquerda - Direita - Imprimir - Java --><tbody>
+    <tr id="trtitulo">
+        <td align="center" style="font: bold normal 30px verdana,arial,helvetica;"> Exercícios de Adição </td>
+    </tr>
+    
+    <tr><td>                           
+        
+        <div style="margin: 0px; padding: 0px">
+            
+            <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+            
+-0
+-1
+-2
+- #### DESIGNER INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->     
+        <table class="backcinza" align="left" border="0" cellpadding="0" cellspacing="5" 
+               style="position:relative; float: left; cursor:pointer; margin: 0px; padding: 0px"> <tbody>  
+            <tr>         
+                <td id="bt0" style="margin-bottom: 5px;"> 
+                    <button type="button" 
+                            style="width: 80px; height: 40px; font: bold normal 15px verdana,arial,helvetica; padding: 0PX;" 
+                            onclick="iniciar( exe1 );">
+                        Iniciar</button> 
+                </td> 
+                
+                <td id="bt1" style="display: none;"> 
+                    
+                    <table cellpadding="2" cellspacing="2" border="0" align="center"> <tbody><tr>
+                        <td>
+                            <button type="button" 
+                                        style="width: 80px; height: 40px; font: bold normal 14px verdana,arial,helvetica; padding: 0PX;" 
+                                        onclick="proximoexecombase( 'p' )">
+                                    Próximo</button> 
+                        </td>
+                        
+                        <td height="30px" id="tdtitulo" align="center" style="font-size: 30px; padding-left: 0px;">
+                            ⇐ ∴ CLICK AQUI PARA INICIAR ∴
+                        </td>
+                    </tr></tbody></table>
+                </td> 
+                
+                <td id="bt2" style="display: none;"> 
+                    <button type="button" 
+                            style="width: 35px; height: 70px; cursor:pointer; font: bold normal 20px verdana,arial,helvetica; padding: 0PX;" 
+                            onclick="abcdResposta( 'A' ); proximoexecombase( 'r' )">
+                        A</button> 
+                    <button type="button" 
+                            style="width: 35px; height: 70px; cursor:pointer; font: bold normal 20px verdana,arial,helvetica; padding: 0PX;" 
+                            onclick="abcdResposta( 'B' ); proximoexecombase( 'r' )">
+                        B</button>
+                    <button type="button" 
+                            style="width: 35px; height: 70px; cursor:pointer; font: bold normal 20px verdana,arial,helvetica; padding: 0PX;" 
+                            onclick="abcdResposta( 'C' ); proximoexecombase( 'r' )">
+                        C</button> 
+                    <button type="button" 
+                            style="width: 35px; height: 70px; cursor:pointer; font: bold normal 20px verdana,arial,helvetica; padding: 0PX;" 
+                            onclick="abcdResposta( 'D' ); proximoexecombase( 'r' )">
+                        D</button> 
+                </td>     
+            </tr>
+        </tbody></table>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### DESIGNER FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+                                  
+            <table border="0" cellpadding="2" cellspacing="0" 
+                   style="float: right; position:relative; border: 1px solid black; margin: 0px; padding: 0px" class="mr3">
+                <tbody>
+                    <tr>
+                        <td width="100px" height="30px" bgcolor="#C10033" style="color:#FFFFFF;" align="center">ERROS</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F1EEED" align="center">
+                            <table cellpadding="2" cellspacing="2" border="0" align="center">
+                                <tbody><tr>
+                                        <td height="30px" id="tderros" align="center" style="font-size: 30px;">
+                                            0
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                        </td>
+                    </tr>
+            </tbody></table>
+            
+            <table border="0" cellpadding="2" cellspacing="0" 
+                   style="float: right; position:relative; border: 1px solid black; margin: 0px; padding: 0px" class="mr3">
+                <tbody>
+                    <tr>
+                        <td width="100px" height="30px" bgcolor="#008000" style="color:#FFFFFF;" align="center">ACERTOS</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#F1EEED" align="center">
+                            <table cellpadding="2" cellspacing="2" border="0" align="center">
+                                <tbody><tr>
+                                        <td height="30px" id="tdacertos" align="center" style="font-size: 30px;">
+                                            0
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                        </td>
+                    </tr>
+            </tbody></table>
+  
+        </div>                          
+<!-- Fim: Esquerda - Direita - Imprimir - Java --></td></tr>      
+    </tbody></table>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### IMPRIMIR FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->  
+
+
+               
+
+    <div id="corpo" style="width: 100%;"> 
+        <iframe id="centro" name="centro" style="overflow: hidden;" 
+                src="https://jmtrueconteudo.blogspot.com/2018/06/jmarysystems-exercicios-inicio-estilo_52.html" scrolling="auto" width="100%" frameborder="0" ></iframe>
+<script type="text/javascript">
+function resizeIframe() {
+    var height = document.documentElement.clientHeight;
+    //height -= document.getElementById('centro').offsetTop;
+    
+    // not sure how to get this dynamically
+    //height -= 20; /* whatever you set your body bottom margin/padding to be */
+    
+    document.getElementById('centro').style.height = height +"px"; //  - height +"px" - para ficar do tamanho da página
+    document.getElementById('divleft').style.height = height +"px";
+};
+document.getElementById('centro').onload = resizeIframe;
+window.onresize = resizeIframe;
+</script>
+    </div>
+        
+          
+    </body>
+</html>

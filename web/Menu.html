@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            .menu{ overflow: hidden; background-color: #3A3A3A; width: 100%; height: 50px; padding: 0; margin: 0;}
+            .submenu{ border-top: 1px solid #fff; overflow: hidden; background-color: #3A3A3A; width: 100%; height: 50px; padding: 0; margin: 0;}
+            .amenu{ color: #fff; font-family:  Arial, Helvetica, sans-serif; font-size: 19px; padding-left: 10px;  padding-right:   10px; line-height:  50px; text-decoration: none;}
+            .ulmenu{ list-style:none; padding: 0px; margin: 0px; height: 100%; }
+            .limenu{ height: 100%; float: left; cursor: pointer;}    
+            .lisubmenu{ width: 100%; height: 100%; float: left; cursor: pointer;}   
+        </style>
+        
+    </head>
+    <body style="width: 100%; height: 100%; font-family: Arial, Helvetica, sans-serif; font-size: 14px; padding: 0px; margin: 0px 0px 0px 0px; color: black; line-height: 1.5;"> 
+        
+        <!-- antigo
+        <div id="menu" style="
+             background-color: #3A3A3A; 
+             width:            100%;     height: 50px; 
+             padding:          0;        margin: 0;" 
+        >            
+            <ul style="list-style:none; padding: 0px; margin: 0px; height: 100%; ">
+                
+                <li style="height: 100%; float:    left;    position: relative; 
+                    overflow: visible; "
+                    
+                    onMouseover="this.style.backgroundColor='#23871C'; this.style.color='#3A3A3A';"                
+                    onMouseout="this.style.backgroundColor='#3A3A3A';"
+                    
+                    onclick="
+                        if( document.getElementById('submenu1').style.display === 'none' ){
+                            document.getElementById('submenu1').style.display = 'block';
+                        }else{
+                            document.getElementById('submenu1').style.display = 'none';
+                        }"
+                >
+        
+                    <a                       
+                        style="
+                            color:           #fff; font-family:  Arial, Helvetica, sans-serif; 
+                            font-size:       19px; padding-left: 10px; 
+                            padding-right:   10px; line-height:  50px; 
+                            text-decoration: none;"
+           
+                        onMouseover=" this.style.color='black'; "
+                        onMouseout="  this.style.color='#fff'; "  
+                        
+                    > 
+                        ++ &#9662; 
+                    </a>
+                    
+                </li>
+                
+                <li style="height: 100%; float:    left;    position: relative; 
+                    overflow: visible; "
+                    
+                    onMouseover="this.style.backgroundColor='#23871C'; this.style.color='#3A3A3A';"                
+                    onMouseout="this.style.backgroundColor='#3A3A3A';"
+                    
+                    onclick="
+                        if( document.getElementById('submenu1').style.display === 'none' ){
+                            document.getElementById('submenu1').style.display = 'block';
+                        }else{
+                            document.getElementById('submenu1').style.display = 'none';
+                        }"
+                >
+        
+                    <a                       
+                        style="
+                            color:           #fff; font-family:  Arial, Helvetica, sans-serif; 
+                            font-size:       19px; padding-left: 10px; 
+                            padding-right:   10px; line-height:  50px; 
+                            text-decoration: none;"
+           
+                        onMouseover=" this.style.color='black'; "
+                        onMouseout="  this.style.color='#fff'; "  
+                        
+                    > 
+                        Ajuda &#9662; 
+                    </a>
+                    
+                </li>                                        
+                
+                
+            </ul>                
+        </div>
+        -->
+        
+        <div id="menu" class="menu" >    
+            
+            <ul class="ulmenu">
+                
+                <li class="limenu" onclick="mostrarocultar('submenu1');" onMouseover="this.style.backgroundColor='#23871C';" onMouseout="this.style.backgroundColor='#3A3A3A';" >
+        
+                    <a class="amenu" onMouseover="this.style.color='black'; " onMouseout="this.style.color='#fff';"> ++ &#9662; </a>
+                    
+                </li>
+                
+                <li class="limenu" onclick="mostrarocultar('submenu1');" onMouseover="this.style.backgroundColor='#23871C';" onMouseout="this.style.backgroundColor='#3A3A3A';" >
+        
+                    <a class="amenu" onMouseover="this.style.color='black'; " onMouseout="this.style.color='#fff';"> Ajuda &#9662; </a>
+                    
+                </li>                                       
+                
+                
+            </ul>                
+        </div>
+        
+        <div id="submenu1" class="submenu" style="display: none;">    
+            
+            <ul class="ulmenu">
+                
+                <li class="lisubmenu" onclick="mostrarocultar('submenu1');" onMouseover="this.style.backgroundColor='#23871C';" onMouseout="this.style.backgroundColor='#3A3A3A';" >
+        
+                    <a class="amenu" onMouseover="this.style.color='black'; " onMouseout="this.style.color='#fff';"> Análise e Desenvolvimento de Sistemas &#9662; </a>
+                    
+                </li>                                                      
+                
+            </ul>                
+        </div>
+                       
+        
+<script type="text/javascript">
+function mostrarocultar(id) {
+    
+    if( document.getElementById(id).style.display === 'none' ){
+        document.getElementById(id).style.display = 'block';
+    }else{
+        document.getElementById(id).style.display = 'none';
+    }
+};
+
+function alterarcorfundo(id) {
+    
+    if( document.getElementById(id).style.backgroundColor === '#23871C' ){
+        document.getElementById(id).style.backgroundColor='#3A3A3A';
+        document.getElementById(id).style.color='#fff';
+    }else{
+        document.getElementById(id).style.backgroundColor='#23871C';
+        document.getElementById(id).style.color='#black';
+    }
+    alert(document.getElementById(id).style.backgroundColor);
+};
+
+function alterarcortexto(id) {
+    
+    if( document.getElementById(id).style.color === '#fff' ){
+        document.getElementById(id).style.color='#black';
+    }else{
+        document.getElementById(id).style.color='#black';
+    }
+};
+</script>        
+        
+    </body>
+</html>
