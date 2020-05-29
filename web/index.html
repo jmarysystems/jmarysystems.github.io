@@ -1689,11 +1689,9 @@ fverde   { color: #339900; }
 
 <script type="text/javascript">
 function resizeIframe() {
-    var height2 = document.documentElement.clientHeight;
-    var height3 = height2*6; 
-    var height = height2 + height3; 
+    var heightinicial = document.documentElement.clientHeight;
     
-    document.getElementById('centro').style.height = height +"px"; //  - height +"px" - para ficar do tamanho da página
+    document.getElementById('centro').style.height = heightinicial +"px"; //  - height +"px" - para ficar do tamanho da página
 
     $('html, body').animate({scrollTop: 0},'slow');
 };
