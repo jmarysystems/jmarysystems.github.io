@@ -20,33 +20,260 @@
                font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;" >    
 
     <script>
-        function fazerRequisicao(){
-            
-            setTimeout(function(){ 
-                /* Some tasks */ 
-                document.getElementById("resposta").innerHTML = "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
-            }, 0);
-            
-            setTimeout(function(){ 
-                /* Some tasks */ 
-                //var url = document.getElementById('url').value;
-                var url = "https://sheets.googleapis.com/v4/spreadsheets/10n3TYa4DlEbwduXiXU94yY5tHeStfoFeeod6EO-ST_o/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
-
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("GET", url, false);
-
-                xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
-
-                document.getElementById("resposta").innerHTML = xhttp.responseText;
-            }, 500);
-            
-            
-
+        function verificaString(usuario_digitado, senha_digitada, conteudo_div){  
+            if (usuario_digitado === "" || usuario_digitado === null){
+                alert("Para efetuar login:\n01 informe o nome de usuário\n02 informe a senha");
+            }
+            else if (senha_digitada === "" || senha_digitada === null){
                 
+                alert("Para efetuar login:\n01 informe o nome de usuário\n02 informe a senha");
+            }
+            else{
+                
+                fazerRequisicao(usuario_digitado, senha_digitada, conteudo_div);
+            }
         }
+        
+        function fazerRequisicao(usuario_digitado, senha_digitada, conteudo_div){
+            
+            try{
+                setTimeout(function(){ 
+                    /* Some tasks */ 
+                     document.getElementById("resposta").innerHTML = "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
+                }, 0);
+            
+                setTimeout(function(){ 
+                    var key_login = "1UHCZa_LGpJ1pnY4HI0DhuuaBpjtmpp_Hpih-q1BiFVk";
+                    var key_comunicacao = "10n3TYa4DlEbwduXiXU94yY5tHeStfoFeeod6EO-ST_o";
+                    /* Some tasks */ 
+                    //var url = document.getElementById('url').value;
+                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ key_login +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", url, false);
+
+                    xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+
+                    //document.getElementById("resposta").innerHTML = xhttp.responseText;
+                    var mensagem = xhttp.responseText;
+                    fazerLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div );
+                }, 500);
+            
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "fazerRequisicao -- " + Exception;
+            }     
+        }
+        
+        function fazerLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div ){            
+            try{           
+                var linha_recebida = mensagem.split("@");            
+                for( var i = 0; i < linha_recebida.length; i++ ) {
+                    if( linha_recebida[i].includes("-") ){
+                        var usuario;
+                        var senha;
+                        var argumentos = linha_recebida[i].split("j");
+                        for( var j = 0; j < argumentos.length; j++ ) {
+                            if(j === 0){ 
+                                usuario = argumentos[j];
+                            }
+                            else if(j === 1){
+                                senha = argumentos[j];
+                            }
+                        }
+                        /*
+                        document.getElementById("resposta").innerHTML = 
+                            "<ul id=\"ul_resposta\" style=\"list-style:none; padding: 0px; margin: 0px;\"> </ul>";   
+                        var usuario_txt = "<li>" + importar_Para_Alfabeto_JM(usuario) + "</li>";
+                        var senha_txt = "<li>" + importar_Para_Alfabeto_JM(senha) + "</li>";                
+                        document.getElementById("ul_resposta").innerHTML = usuario_txt + senha_txt;
+                        */
+                       var usuario_digitado_str = usuario_digitado.trim().toUpperCase();
+                       var senha_digitada_str = senha_digitada.trim().toUpperCase();
+                       
+                       var usuario_da_linha = importar_Para_Alfabeto_JM(usuario).trim().toUpperCase();
+                       var senha_da_linha = importar_Para_Alfabeto_JM(senha).trim().toUpperCase();
+                       
+                       var user_ok = usuario_da_linha.localeCompare(usuario_digitado_str);
+                       var pass_ok = senha_da_linha.localeCompare(senha_digitada_str);
+                       
+                       if( user_ok === 0 ){ 
+                            /*
+                            document.getElementById("resposta").innerHTML = 
+                                "<ul id=\"ul_resposta\" style=\"list-style:none; padding: 0px; margin: 0px;\"> </ul>";
+                            document.getElementById("ul_resposta").innerHTML = "Sim " + senha_da_linha + " ** " + senha_digitada_str ;
+                            */
+                           
+                            if( pass_ok === 0 ){ 
+                                //document.getElementById("resposta").innerHTML = "<div>Login OK</div>";
+                                document.getElementById("resposta").style.display = 'none'; 
+                                document.getElementById("div_meus_contatos").style.display = 'block'; 
+                            }
+                            else{
+                                
+                                alert("Usuário: " + usuario_digitado + " OK\nSenha incorreta");
+                                document.getElementById("resposta").innerHTML = conteudo_div;
+                            }
+                       }
+                       else{
+                            alert("Usuário: " + usuario_digitado + "\nNão cadastrado" );
+                            document.getElementById("resposta").innerHTML = conteudo_div;
+                       }
+                    }
+                }           
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "fazerLogin -- " + Exception;
+            }     
+        }
+        
+        function isEquivalent(a, b) {
+    // Acredito que essa seja uma das qualidades do código.
+    // É realizada a verificação do que o objeto possui internamente, e isso
+    // é passado diretamente para a variável.
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    // Então, é feita a verificação se os dois objetos possuem o mesmo
+    // número de propriedades. Muito bom! E tira muito trabalho caso não
+    // tenham.
+    if (aProps.length != bProps.length) {
+        return false;
+    }
+
+    // Caso tenham o mesmo número, é realizada uma iteração por todas as
+    // propriedades do objeto. Porém, como ressaltei antes, não busca por
+    // objetos dentro de objetos, podendo retornar uma inconsistência.
+    for (var i = 0; i < aProps.length; i++) {
+        var propName = aProps[i];
+
+        if (a[propName] !== b[propName]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+        
+        function Bate_Papo_Web_0005_Separando_por_Linha_as_Mensagens(mensagem){
+            
+            try{
+                                                
+                var sb = "";
+            
+                var str = mensagem.split("@");
+            
+                for( var i = 0; i < str.length; i++ ) {
+
+                    if( str[i].includes("-") ){
+                    
+                        //sb.push( str[i] );
+                        //sb.push( "\n" );
+                        sb += str[i];
+                        sb += "\n";
+                        verificando_linha( str[i] );
+                    }
+                }
+                
+                var txt = sb.replace("\n","<br>");
+            
+                //document.getElementById("resposta").innerHTML = txt;
+                //verificano_linha( sb.toString() );
+                
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "Bate_Papo_Web_0005_Separando_por_Linha_as_Mensagens -- " + Exception;
+            }
+        }
+        
+        function verificando_linha(linha_recebida){
+            
+            try{
+                //document.getElementById("resposta").innerHTML = linha_recebida;
+
+                document.getElementById("resposta").innerHTML = 
+                        "<ul id=\"ul_resposta\" style=\"list-style:none; padding: 0px; margin: 0px;\"> </ul>";                
+
+                var usuario;
+                var senha;
+                var argumentos = linha_recebida.split("j");
+                for( var i = 0; i < argumentos.length; i++ ) {
+                    
+                    if(i === 0){
+                        usuario = argumentos[i];
+                    }
+                    else if(i === 1){
+                        senha = argumentos[i];
+                    }
+                    
+                    //var dados_anteriores = document.getElementById("ul_resposta").innerHTML;
+                    
+                    //var temp = "<li>" + argumentos[i] + "</li>";
+                    
+                    //document.getElementById("ul_resposta").innerHTML = dados_anteriores + temp;
+                }
+                
+                transformando_para_txt( usuario, senha );
+                                
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerText = "verificando_linha -- " + Exception;
+            }
+        }
+        
+        function transformando_para_txt( usuario, senha ){
+            
+            try{
+                
+                //var temp = "<li>" + usuario + "</li>";
+                //var temp2 = "<li>" + senha + "</li>";                
+                //document.getElementById("ul_resposta").innerHTML = temp + temp2;
+                
+                var usuario_txt = "<li>" + importar_Para_Alfabeto_JM(usuario) + "</li>";
+                var senha_txt = "<li>" + importar_Para_Alfabeto_JM(senha) + "</li>";
+                
+                document.getElementById("ul_resposta").innerHTML = usuario_txt + senha_txt;
+                                
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerText = "transformando_para_txt -- " + Exception;
+            }
+        }
+        
+        function importar_Para_Alfabeto_JM(txt){
+            
+            //var sb = [];
+            var sb = "";
+                                                                
+            try{
+                
+                var argumento = txt.split("-");
+                                        
+                for( var i = 0; i < argumento.length; i++ ) {
+                    
+                    var letra_unicode = String.fromCharCode( argumento[i] );             
+                    //sb.push( letra_unicode );
+                    sb += letra_unicode;
+                    
+                    //var dados_anteriores = document.getElementById("ul_resposta").innerHTML;
+                    //var temp = "<li>" + argumento[i] + " - " + letra_unicode + "</li>";                    
+                    //document.getElementById("ul_resposta").innerHTML = dados_anteriores + temp;
+                                    
+                }
+                
+                return sb;
+                                                
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerText = "importar_Para_Alfabeto_JM -- " + Exception;
+            }
+                        
+        }
+        
     </script>
         
 <div id="resposta" style="padding: 0; margin: 0;">
+        
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
@@ -113,8 +340,12 @@
         <td align="center" style="background-color: #D3D3D3;"> 
             
             <img src="../arquivos/imagens/003_login/logo2.png" 
-                 style="cursor: pointer; "
-                 onclick="fazerRequisicao();" alt="" width="140" height="50">
+                style="cursor: pointer; "
+                onclick="verificaString(
+                    document.getElementById ('form_login_login').value,
+                    document.getElementById ('form_login_senha').value,
+                    document.getElementById ('resposta').innerHTML
+                );" alt="" width="140" height="50">
             
             <input style="float:right; margin-top: 5px; cursor: pointer;" 
                    type="button" onclick="js_login_001_buscar_lista();" value="Novo">
@@ -136,6 +367,72 @@
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->  
 
 </div>
+    
+    
+    
+    
+    
+    
+    
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### MEUS CONTATOS INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->     
+<div id="div_meus_contatos" style="display: none; padding: 0; margin: 0;">
+    <h1 align="center" style="font:bold 150% verdana,arial,helvetica;"> MEUS CONTATOS </h1>
+    
+    <ul id="ul_meus_contatos" style="list-style:none; line-height: 1.5; padding: 0px; margin: 0px;" >
+        
+        <!-- CONTEÚDO INÍCIO --------------------------------------------------------------------------------->                      
+        <li style="float: left; background-color:#3A3A3A;" 
+            onMouseover="
+            this.style.backgroundColor='#23871C';"  
+            
+            onMouseout="
+            this.style.backgroundColor='#3A3A3A'"
+        > 
+            
+                <table cellpadding="2" cellspacing="2" border="0">
+                    <tr> 
+                        <td align="center"> 
+                            <img src="../arquivos/imagens/003_login/cleilson.jpg" 
+                                style="cursor: pointer; "
+                                onclick="verificaString();" 
+                                title="Cleilson Henrique" width="100" height="100">
+                        </td>    
+                    </tr>
+                    <tr> 
+                        <td align="center" 
+                            style=" color: #ffffff"
+                        > 
+                            Cleilson
+                        </td>    
+                    </tr>                    
+                </table>
+        </li>
+<!-- CONTEÚDO FIM ---------------------------------------------------------------------------------> 
+        
+    </ul>
+</div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### MEUS CONTATOS FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+
+
+
 
     </body>
 </html>
