@@ -17,10 +17,103 @@
     
     <body 
         style="background-color: #D3D3D3; width: 100%; height: 100%; padding: 0; margin: 0;
-               font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;" >    
+               font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;" > 
+     
+        
+        
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### MENU INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->   
+<div id="topo_menu_xx" style="background-color: #3A3A3A; 
+            width:            100%; 
+            height:           50px; 
+            padding:          0; 
+            margin:           0;    
+            z-index:200;
+            position: relative;
+            " >
+    
+<ul style="list-style:none; padding: 0px; margin: 0px; height: 100%; z-index:199;">
+   
+    
+    
+<!-- 
+-0
+-1
+-2
+ --> 
+<!--- #### COLUNA 1 INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
+-->
+    <li 
+        style="
+            height: 100%; float:    left;    position: relative; 
+            width:  220px; overflow: visible;"
+        
+        onMouseover="
+            this.style.backgroundColor='#23871C'; 
+            this.style.color='#3A3A3A';  
+            document.getElementById('coluna11tb').style.display = 'block'; "
+            
+        onMouseout="
+            this.style.backgroundColor='#3A3A3A';                               
+            document.getElementById('coluna11tb').style.display = 'none';  "
+    >
+        
+        <a 
+            href="login.html" 
+            style="
+                
+                color:           #fff; font-family:  Arial, Helvetica, sans-serif; 
+                font-size:       19px; padding-left: 10px; 
+                padding-right:   10px; line-height:  50px; 
+                text-decoration: none;"
+           
+            onMouseover=" this.style.color='black'; "
+            onMouseout="  this.style.color='#fff'; "       
+        > 
+            -)-> CARA PÁLIDA <-(- </a>              
+    </li>  
+<!-- 
+-0
+-1
+-2
+- #### COLUNA 1 FIM #### --> 
+<!-- 
+-0
+-1
+-2    
+-->
+
+
+</ul>
+</div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### MENU FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+
+
+
 
     <script>
-        function verificaString(usuario_digitado, senha_digitada, conteudo_div){  
+        function inicioTabelaLogin(usuario_digitado, senha_digitada, conteudo_div){  
             if (usuario_digitado === "" || usuario_digitado === null){
                 alert("Para efetuar login:\n01 informe o nome de usuário\n02 informe a senha");
             }
@@ -30,11 +123,11 @@
             }
             else{
                 
-                fazerRequisicao(usuario_digitado, senha_digitada, conteudo_div);
+                baixarTabelaLogin(usuario_digitado, senha_digitada, conteudo_div);
             }
         }
         
-        function fazerRequisicao(usuario_digitado, senha_digitada, conteudo_div){
+        function baixarTabelaLogin(usuario_digitado, senha_digitada, conteudo_div){
             
             try{
                 setTimeout(function(){ 
@@ -43,11 +136,11 @@
                 }, 0);
             
                 setTimeout(function(){ 
-                    var key_login = "1UHCZa_LGpJ1pnY4HI0DhuuaBpjtmpp_Hpih-q1BiFVk";
-                    var key_comunicacao = "10n3TYa4DlEbwduXiXU94yY5tHeStfoFeeod6EO-ST_o";
+                    var id_planilha = "1UHCZa_LGpJ1pnY4HI0DhuuaBpjtmpp_Hpih-q1BiFVk";
+                    var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
                     /* Some tasks */ 
                     //var url = document.getElementById('url').value;
-                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ key_login +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
 
                     var xhttp = new XMLHttpRequest();
                     xhttp.open("GET", url, false);
@@ -56,7 +149,7 @@
 
                     //document.getElementById("resposta").innerHTML = xhttp.responseText;
                     var mensagem = xhttp.responseText;
-                    fazerLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div );
+                    consultaTabelaLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div );
                 }, 500);
             
             }catch(Exception){
@@ -65,20 +158,38 @@
             }     
         }
         
-        function fazerLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div ){            
+        function consultaTabelaLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div ){            
             try{           
+                var usuario_nao_cadastrado = false;
+                
                 var linha_recebida = mensagem.split("@");            
                 for( var i = 0; i < linha_recebida.length; i++ ) {
                     if( linha_recebida[i].includes("-") ){
+                        var id;
+                        var comando;
                         var usuario;
                         var senha;
+                        var nome_digitado;
+                        var imagem_endereco_web_digitado;
                         var argumentos = linha_recebida[i].split("j");
                         for( var j = 0; j < argumentos.length; j++ ) {
                             if(j === 0){ 
-                                usuario = argumentos[j];
+                                id = argumentos[j];
                             }
                             else if(j === 1){
+                                comando = argumentos[j];
+                            }
+                            else if(j === 2){
+                                usuario = argumentos[j];
+                            }
+                            else if(j === 3){
                                 senha = argumentos[j];
+                            }
+                            else if(j === 4){
+                                nome_digitado = argumentos[j];
+                            }
+                            else if(j === 5){
+                                imagem_endereco_web_digitado = argumentos[j];
                             }
                         }
                         /*
@@ -107,54 +218,150 @@
                             if( pass_ok === 0 ){ 
                                 //document.getElementById("resposta").innerHTML = "<div>Login OK</div>";
                                 document.getElementById("resposta").style.display = 'none'; 
-                                document.getElementById("div_meus_contatos").style.display = 'block'; 
+                                document.getElementById("div_meus_contatos").style.display = 'block';                                                                
                             }
                             else{
                                 
                                 alert("Usuário: " + usuario_digitado + " OK\nSenha incorreta");
                                 document.getElementById("resposta").innerHTML = conteudo_div;
                             }
+                            
+                            // Fim do loop
+                            usuario_nao_cadastrado = false;
+                            break;
                        }
                        else{
-                            alert("Usuário: " + usuario_digitado + "\nNão cadastrado" );
-                            document.getElementById("resposta").innerHTML = conteudo_div;
+                            usuario_nao_cadastrado = true;
+                            //alert("Usuário: " + usuario_digitado + "\nNão cadastrado" );
+                            //document.getElementById("resposta").innerHTML = conteudo_div;
                        }
                     }
-                }           
+                }   
+                
+                if( usuario_nao_cadastrado === true ){
+                    
+                    alert("Usuário: " + usuario_digitado + "\nNão cadastrado" );
+                    document.getElementById("resposta").innerHTML = conteudo_div;
+                }
             }catch(Exception){
                 
                 document.getElementById("resposta").innerHTML = "fazerLogin -- " + Exception;
             }     
         }
         
-        function isEquivalent(a, b) {
-    // Acredito que essa seja uma das qualidades do código.
-    // É realizada a verificação do que o objeto possui internamente, e isso
-    // é passado diretamente para a variável.
-    var aProps = Object.getOwnPropertyNames(a);
-    var bProps = Object.getOwnPropertyNames(b);
-
-    // Então, é feita a verificação se os dois objetos possuem o mesmo
-    // número de propriedades. Muito bom! E tira muito trabalho caso não
-    // tenham.
-    if (aProps.length != bProps.length) {
-        return false;
-    }
-
-    // Caso tenham o mesmo número, é realizada uma iteração por todas as
-    // propriedades do objeto. Porém, como ressaltei antes, não busca por
-    // objetos dentro de objetos, podendo retornar uma inconsistência.
-    for (var i = 0; i < aProps.length; i++) {
-        var propName = aProps[i];
-
-        if (a[propName] !== b[propName]) {
-            return false;
+        function inicioCadastrarTabelaLogin(
+                usuario_digitado, 
+                    senha_digitada, 
+                        nome_digitado,
+                            imagem_endereco_web_digitado,
+                                conteudo_div){  
+            if (usuario_digitado === "" || usuario_digitado === null){
+                alert("Para efetuar login:\n01 informe o email do usuário\n02 informe a senha\n03 informe o nome do usuário");
+            }
+            else if (senha_digitada === "" || senha_digitada === null){
+                
+                alert("Para efetuar login:\n01 informe o email do usuário\n02 informe a senha\n03 informe o nome do usuário");
+            }
+            else if (nome_digitado === "" || nome_digitado === null){
+                
+                alert("Para efetuar login:\n01 informe o email do usuário\n02 informe a senha\n03 informe o nome do usuário");
+            }
+            else{
+                                                
+                cadastrarTabelaLogin(usuario_digitado, senha_digitada, nome_digitado, imagem_endereco_web_digitado, conteudo_div);
+            }
         }
-    }
-
-    return true;
-}
         
+        function cadastrarTabelaLogin(
+                usuario_digitado, 
+                    senha_digitada, 
+                        nome_digitado,
+                            imagem_endereco_web_digitado,
+                                conteudo_div){  
+            
+            try{
+                                                        
+                setTimeout(function(){ 
+                    /* Some tasks */ 
+                    document.getElementById("resposta").innerHTML = "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
+                    document.getElementById("resposta").style.display = 'block'; 
+                    document.getElementById("div_meus_contatos").style.display = 'none'; 
+                    document.getElementById("div_novo_usuario").style.display = 'none';
+                }, 0);
+            
+                setTimeout(function(){ 
+                    var now = new Date();
+                    var id = now.getDate() + "/" + now.getMonth() + "/" + now.getFullYear() + "-" + 
+                             now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + "." + now.getMilliseconds();
+                     
+                    var comando = "cadastrar";
+                    
+                    var id_formulario_id = "1FAIpQLSfLwoOJdFO-60HmWz7t3rF21hbCA7s7JpyqdMcM7_3RxT0Ieg";
+                
+                    var id_txt = "833181104";
+                    
+                    //////////////////////////////////////////
+                    var jm_id = exportar_Para_Alfabeto_JM_Sem_Arroba(id);
+                    var jm_comando = exportar_Para_Alfabeto_JM_Sem_Arroba(comando);
+                    var jm_usuario_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(usuario_digitado);
+                    var jm_senha_digitada = exportar_Para_Alfabeto_JM_Sem_Arroba(senha_digitada);
+                    var jm_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(nome_digitado);
+                    var jm_imagem_endereco_web_digitado = "null";
+                    if (senha_digitada === "" || senha_digitada === null){
+                        jm_imagem_endereco_web_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(imagem_endereco_web_digitado);
+                    }
+                    var id_txt2 = "@" + jm_id + "j" + jm_comando + "j" + jm_usuario_digitado  + "j" + 
+                            jm_senha_digitada  + "j" +  jm_nome_digitado  + "j" +  
+                            jm_imagem_endereco_web_digitado + "@";
+                    //////////////////////////////////////////
+                
+                    var GET_URL = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse?"
+                    + "entry." + id_txt + "=" + id_txt2;
+                    
+                    try{
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.open("GET", GET_URL, false);
+
+                        xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+                        //document.getElementById("resposta").innerHTML = "jm_id " + jm_id + " - " + "id " + id;            
+                        //document.getElementById("resposta").style.display = 'block'; 
+                        //document.getElementById("div_meus_contatos").style.display = 'none'; 
+                        //document.getElementById("div_novo_usuario").style.display = 'none';
+                    }catch(Exception){
+                
+                        //alert("jm_id " + jm_id + " - " + "id " + id);
+                        //document.getElementById("resposta").innerHTML = "xhttp - cadastrarTabelaLogin -- " + Exception;
+                    }
+
+                    alert("Usuário: " + usuario_digitado + " OK\nCadastrado com sucesso!");
+                    document.getElementById("resposta").innerHTML = conteudo_div;
+                    document.getElementById("resposta").style.display = 'block'; 
+                    document.getElementById("div_meus_contatos").style.display = 'none'; 
+                    document.getElementById("div_novo_usuario").style.display = 'none';
+                     
+                }, 500);
+            
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "cadastrarTabelaLogin -- " + Exception;
+            }     
+        }
+        
+        function novo_usuario(){
+            
+            try{
+                
+                document.getElementById("resposta").style.display = 'none'; 
+                document.getElementById("div_meus_contatos").style.display = 'none'; 
+                document.getElementById("div_novo_usuario").style.display = 'block'; 
+            
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "novo_usuario -- " + Exception;
+            }     
+        }
+        
+    
         function Bate_Papo_Web_0005_Separando_por_Linha_as_Mensagens(mensagem){
             
             try{
@@ -240,8 +447,7 @@
             }
         }
         
-        function importar_Para_Alfabeto_JM(txt){
-            
+        function importar_Para_Alfabeto_JM(txt){            
             //var sb = [];
             var sb = "";
                                                                 
@@ -266,24 +472,50 @@
             }catch(Exception){
                 
                 document.getElementById("resposta").innerText = "importar_Para_Alfabeto_JM -- " + Exception;
-            }
-                        
+            }                       
+        }
+        
+        function exportar_Para_Alfabeto_JM_Sem_Arroba(argumento){            
+            //var sb = [];
+            var sb = "";
+                                                                
+            try{
+                                        
+                for( var i = 0; i < argumento.length; i++ ) {
+                    
+                    var decimal_unicode = argumento.charCodeAt(i);
+                    //sb.push( decimal_unicode );
+                    sb += decimal_unicode;
+                    sb += "-";
+                    
+                    //var dados_anteriores = document.getElementById("ul_resposta").innerHTML;
+                    //var temp = "<li>" + i + " - " + decimal_unicode + "</li>";                    
+                    //document.getElementById("ul_resposta").innerHTML = dados_anteriores + temp;
+                                    
+                }
+                
+                return sb;
+                                                
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerText = "exportar_Para_Alfabeto_JM_Sem_Arroba -- " + Exception;
+            }                       
         }
         
     </script>
         
-<div id="resposta" style="padding: 0; margin: 0;">
         
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
 -2
-- #### IFRAME CENTRO INÍCIO #### --> 
+- #### LOGIN INÍCIO #### --> 
 <!-- 
 -0
 -1             
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+<div id="resposta" style="padding: 0; margin: 0;">
 <br>
 <table id="centrot" border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
     
@@ -341,14 +573,14 @@
             
             <img src="../arquivos/imagens/003_login/logo2.png" 
                 style="cursor: pointer; "
-                onclick="verificaString(
+                onclick="inicioTabelaLogin(
                     document.getElementById ('form_login_login').value,
                     document.getElementById ('form_login_senha').value,
                     document.getElementById ('resposta').innerHTML
                 );" alt="" width="140" height="50">
             
             <input style="float:right; margin-top: 5px; cursor: pointer;" 
-                   type="button" onclick="js_login_001_buscar_lista();" value="Novo">
+                   type="button" onclick="novo_usuario();" value="Novo Cara Pálida">
         </td>
         
         <td style="background-color: #D3D3D3; width:30%;"> </td>
@@ -359,13 +591,12 @@
 -0
 -1
 -2
-- #### IFRAME CENTRO FIM #### --> 
+- #### LOGIN FIM #### --> 
 <!-- 
 -0
 -1             
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->  
-
 </div>
     
     
@@ -381,11 +612,25 @@
 - #### MEUS CONTATOS INÍCIO #### --> 
 <!-- 
 -0
--1
+-1 
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->     
 <div id="div_meus_contatos" style="display: none; padding: 0; margin: 0;">
-    <h1 align="center" style="font:bold 150% verdana,arial,helvetica;"> MEUS CONTATOS </h1>
+    
+    <table border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
+        <tr> 
+            <td style="width:30%;">
+            
+            <td align="center" style="width:40%;">
+                <h1 align="center" style="font:bold 150% verdana,arial,helvetica;"> MEUS CONTATOS </h1>
+            </td> 
+            
+            <td style="width:30%;">
+                <input style="float:right; margin-top: 5px; cursor: pointer;" 
+                   type="button" onclick="novo_usuario();" value="Adicionar Contato Cara Pálida">
+            </td>
+        <tr> 
+    </table>
     
     <ul id="ul_meus_contatos" style="list-style:none; line-height: 1.5; padding: 0px; margin: 0px;" >
         
@@ -431,6 +676,105 @@
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
 
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### NOVO_USUÁRIO INÍCIO #### --> 
+<!-- 
+-0
+-1             
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+<div id="div_novo_usuario" style="display: none; padding: 0; margin: 0; width:100%; height: 100%;">
+    
+<ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >    
+    
+    <li align="center"  style="padding: 0px; margin: 0px; width:100%; color:black; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;">
+        <a style="color:black; font-family:  Arial, Helvetica, sans-serif; font-size: 150%; text-decoration: none;"
+            onMouseover=" this.style.color='#fff'; "
+            onMouseout="  this.style.color='black'; "       
+        > 
+            Novo Usuário Cara Pálida
+        </a>
+    </li> 
+
+<li>     
+    <table id="tb_novo_usuario" border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;"> 
+    
+        <tr>
+            <td align="right" style="background-color: #D3D3D3; width:30%;">
+            
+                <img src="../arquivos/imagens/003_login/logo.png" alt="" width="100" height="150">            
+            </td>
+        
+            <td style="background-color: #D3D3D3; width:40%;">
+            
+                <div style="background-color: #3A3A3A; height:50px;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                
+                    Email ou (DDD+Telefone): 
+                    <input id="form_novo_login" name="login" type="text" style="background-color: #3A3A3A; width:100%; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                </div>
+            
+                <br>
+            
+            <div style="background-color: #3A3A3A; height:50px;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                
+                Senha: 
+                <input id="form_novo_senha" name="senha" type="text" style="background-color: #3A3A3A; width:100%; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+            </div>
+            
+            <br>
+            
+            <div style="background-color: #3A3A3A; height:50px;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                
+                Nome: 
+                <input id="form_novo_nome" name="nome" type="text" style="background-color: #3A3A3A; width:100%; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+            </div>
+            
+            <br>
+            
+            <div style="background-color: #3A3A3A; height:50px;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                
+                Endereço Web Imagem Perfil: 
+                <input id="form_novo_imagem" name="nome" type="text" style="background-color: #3A3A3A; width:100%; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+            </div>
+            
+        </td>
+        
+        <td style="background-color: #D3D3D3; width:30%;">
+
+            <input style="margin-left: 5px; cursor: pointer;" 
+                   type="button" value="Cadastrar"
+                   
+                   onclick="inicioCadastrarTabelaLogin(
+                        document.getElementById ('form_novo_login').value,
+                        document.getElementById ('form_novo_senha').value,
+                        document.getElementById ('form_novo_nome').value,
+                        document.getElementById ('form_novo_imagem').value,
+                        document.getElementById ('resposta').innerHTML );" 
+                >
+        </td>
+    </tr>     
+    
+    </table>       
+</li> 
+
+    
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### NOVO_USUÁRIO FIM #### --> 
+<!-- 
+-0
+-1             
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->  
+</ul>
+</div>
 
 
 
