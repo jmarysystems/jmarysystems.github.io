@@ -18,6 +18,8 @@
     <body 
         style="background-color: #D3D3D3; width: 100%; height: 100%; padding: 0; margin: 0;
                font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;" > 
+        
+        <input type="hidden" id="usuario_logado" value="null">
      
         
         
@@ -71,6 +73,7 @@
     >
         
         <a 
+            id="cara_palida"
             href="login.html" 
             style="
                 
@@ -113,6 +116,9 @@
 
 
     <script>
+        
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////         
         function inicioTabelaLogin(usuario_digitado, senha_digitada, conteudo_div){  
             if (usuario_digitado === "" || usuario_digitado === null){
                 alert("Para efetuar login:\n01 informe o nome de usuário\n02 informe a senha");
@@ -145,11 +151,31 @@
                     var xhttp = new XMLHttpRequest();
                     xhttp.open("GET", url, false);
 
-                    xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+                    xhttp.send();//A execução do script para aqui até a requisição retornar do servidor
 
                     //document.getElementById("resposta").innerHTML = xhttp.responseText;
                     var mensagem = xhttp.responseText;
-                    consultaTabelaLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div );
+                    
+                    ////////////////////////////////////////////////////////////
+                    var tem_mensagem = false;
+                    var linha_recebida = mensagem.split("@");
+                    for( var i = 0; i < linha_recebida.length; i++ ) {
+                        if( linha_recebida[i].includes("-") ){
+                            tem_mensagem = true;
+                            break;
+                        }
+                    }
+                    ////////////////////////////////////////////////////////////
+                    
+                    if( tem_mensagem === true ){
+                        
+                        consultaTabelaLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div );
+                    }
+                    else{
+                        
+                        alert("Usuário: " + usuario_digitado + " \nNão Cadastrado \nCadastre-se Cara Pálida!");
+                        document.getElementById("resposta").innerHTML = conteudo_div;
+                    }
                 }, 500);
             
             }catch(Exception){
@@ -170,6 +196,7 @@
                         var usuario;
                         var senha;
                         var nome_digitado;
+                        var email_de_recuperacao;
                         var imagem_endereco_web_digitado;
                         var argumentos = linha_recebida[i].split("j");
                         for( var j = 0; j < argumentos.length; j++ ) {
@@ -189,6 +216,9 @@
                                 nome_digitado = argumentos[j];
                             }
                             else if(j === 5){
+                                email_de_recuperacao = argumentos[j];
+                            }
+                            else if(j === 6){
                                 imagem_endereco_web_digitado = argumentos[j];
                             }
                         }
@@ -218,7 +248,15 @@
                             if( pass_ok === 0 ){ 
                                 //document.getElementById("resposta").innerHTML = "<div>Login OK</div>";
                                 document.getElementById("resposta").style.display = 'none'; 
-                                document.getElementById("div_meus_contatos").style.display = 'block';                                                                
+                                document.getElementById("div_meus_contatos").style.display = 'block';  
+                                
+                                //LOGIN EFETUADO COM SUCESSO
+                                document.getElementById("usuario_logado").value = usuario_digitado;
+                                var nome_digitado_da_linha = importar_Para_Alfabeto_JM(nome_digitado).trim().toUpperCase();
+                                document.getElementById("cara_palida").innerHTML = "-)-> " + nome_digitado_da_linha + " <-(-";
+                                
+                                //LISTAR CONTATOS DO USUÁRIO LOGADO
+                                listar_contatos( document.getElementById("usuario_logado").value );
                             }
                             else{
                                 
@@ -248,15 +286,25 @@
                 document.getElementById("resposta").innerHTML = "fazerLogin -- " + Exception;
             }     
         }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////       
         
+        
+        
+        
+        
+        
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////         
         function inicioCadastrarTabelaLogin(
                 usuario_digitado, 
                     senha_digitada, 
                         nome_digitado,
-                            imagem_endereco_web_digitado,
-                                conteudo_div){  
+                            email_de_recuperacao,
+                                imagem_endereco_web_digitado,
+                                    conteudo_div){  
             if (usuario_digitado === "" || usuario_digitado === null){
-                alert("Para efetuar login:\n01 informe o email do usuário\n02 informe a senha\n03 informe o nome do usuário");
+                alert("Para criar um novo usuário Cara Pálida:\n01 informe o Email ou (DDD + Telefone)\n02 informe a senha\n03 informe o nome do usuário");
             }
             else if (senha_digitada === "" || senha_digitada === null){
                 
@@ -268,7 +316,7 @@
             }
             else{
                                                 
-                cadastrarTabelaLogin(usuario_digitado, senha_digitada, nome_digitado, imagem_endereco_web_digitado, conteudo_div);
+                cadastrarTabelaLogin(usuario_digitado, senha_digitada, nome_digitado, email_de_recuperacao, imagem_endereco_web_digitado, conteudo_div);
             }
         }
         
@@ -276,8 +324,9 @@
                 usuario_digitado, 
                     senha_digitada, 
                         nome_digitado,
-                            imagem_endereco_web_digitado,
-                                conteudo_div){  
+                            email_de_recuperacao,
+                                imagem_endereco_web_digitado,
+                                    conteudo_div){  
             
             try{
                                                         
@@ -306,12 +355,20 @@
                     var jm_usuario_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(usuario_digitado);
                     var jm_senha_digitada = exportar_Para_Alfabeto_JM_Sem_Arroba(senha_digitada);
                     var jm_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(nome_digitado);
+                    
+                    var jm_email_de_recuperacao = "null";
+                    if (email_de_recuperacao === "" || email_de_recuperacao === null){
+                        jm_email_de_recuperacao = exportar_Para_Alfabeto_JM_Sem_Arroba(email_de_recuperacao);
+                    }
+                    
                     var jm_imagem_endereco_web_digitado = "null";
-                    if (senha_digitada === "" || senha_digitada === null){
+                    if (imagem_endereco_web_digitado === "" || imagem_endereco_web_digitado === null){
                         jm_imagem_endereco_web_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(imagem_endereco_web_digitado);
                     }
+                    
                     var id_txt2 = "@" + jm_id + "j" + jm_comando + "j" + jm_usuario_digitado  + "j" + 
-                            jm_senha_digitada  + "j" +  jm_nome_digitado  + "j" +  
+                            jm_senha_digitada  + "j" +  jm_nome_digitado  + "j" + 
+                            jm_email_de_recuperacao  + "j" +
                             jm_imagem_endereco_web_digitado + "@";
                     //////////////////////////////////////////
                 
@@ -346,7 +403,652 @@
                 document.getElementById("resposta").innerHTML = "cadastrarTabelaLogin -- " + Exception;
             }     
         }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//CONSULTAR CONTATO ANTES DE CADASTRAR
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        function consultar_contato_antes_de_cadastrar_001(
+            contato_email,
+                contato_nome,
+                    contato_nome_meio,
+                        contato_ultimo_nome,
+                            conteudo_div){  
+            
+            if (contato_email === "" || contato_email === null){
+                alert("Para adicionar um novo contato:\n01 informe um email do contato ou\n02 informe o telefone do contato.");
+            }
+            else if (contato_nome === "" || contato_nome === null){
+                alert("Para adicionar um novo contato:\n01 informe o nome do contato.");
+            }
+            else{
+                
+                consultar_contato_antes_de_cadastrar_002(
+                contato_email,
+                contato_nome,
+                    contato_nome_meio,
+                        contato_ultimo_nome,
+                            conteudo_div);
+            }
+        }
         
+        function consultar_contato_antes_de_cadastrar_002(
+            contato_email,
+                contato_nome,
+                    contato_nome_meio,
+                        contato_ultimo_nome,
+                            conteudo_div){
+            
+            try{
+                setTimeout(function(){ 
+                    /* Some tasks */ 
+                     document.getElementById("div_add_contato").innerHTML = "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
+                }, 0);
+            
+                setTimeout(function(){ 
+                    var id_planilha = "10xscEU1L66fCBmVypEVn8h6b3Ku2eRZMVzbHIVzS6Ns";
+                    var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                    /* Some tasks */ 
+                    //var url = document.getElementById('url').value;
+                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", url, false);
+
+                    xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+
+                    //document.getElementById("resposta").innerHTML = xhttp.responseText;
+                    var mensagem = xhttp.responseText;
+                    
+                    ////////////////////////////////////////////////////////////
+                    var tem_mensagem = false;
+                    var linha_recebida = mensagem.split("@");
+                    for( var i = 0; i < linha_recebida.length; i++ ) {
+                        if( linha_recebida[i].includes("-") ){
+                            tem_mensagem = true;
+                            break;
+                        }
+                    }
+                    ////////////////////////////////////////////////////////////
+                    
+                    if( tem_mensagem === true ){
+                        
+                        consultar_contato_antes_de_cadastrar_003( mensagem, 
+                            contato_email,
+                                contato_nome,
+                                    contato_nome_meio,
+                                        contato_ultimo_nome,
+                                            conteudo_div );
+                    }
+                    else{
+                        
+                        consultar_contato_antes_de_cadastrar_003( mensagem, 
+                            contato_email,
+                                contato_nome,
+                                    contato_nome_meio,
+                                        contato_ultimo_nome,
+                                            conteudo_div );
+                    }
+                }, 500);
+            
+            }catch(Exception){
+                
+                document.getElementById("div_add_contato").innerHTML = "fazerRequisicao -- " + Exception;
+            }     
+        }
+        
+        function consultar_contato_antes_de_cadastrar_003( mensagem, 
+            contato_email,
+                contato_nome,
+                    contato_nome_meio,
+                        contato_ultimo_nome,
+                            conteudo_div){        
+            try{           
+                var contato_nao_cadastrado = false;
+                
+                var linha_recebida = mensagem.split("@");            
+                for( var i = 0; i < linha_recebida.length; i++ ) {
+                    if( linha_recebida[i].includes("-") ){
+                        var web_id;
+                        var web_comando;
+                        var web_usuario_logado;
+                        
+                        var web_contato_email;
+                        var web_contato_nome;
+                        var web_contato_nome_meio;
+                        var web_contato_ultimo_nome;
+
+                        var argumentos = linha_recebida[i].split("j");
+                        for( var j = 0; j < argumentos.length; j++ ) {
+                            if(j === 0){ 
+                                web_id = argumentos[j];
+                            }
+                            else if(j === 1){
+                                web_comando = argumentos[j];
+                            }
+                            else if(j === 2){
+                                web_usuario_logado = argumentos[j];
+                            }
+                            else if(j === 3){
+                                web_contato_email = argumentos[j];
+                            }
+                            else if(j === 4){
+                                web_contato_nome = argumentos[j];
+                            }
+                            else if(j === 5){
+                                web_contato_nome_meio = argumentos[j];
+                            }
+                            else if(j === 6){
+                                web_contato_ultimo_nome = argumentos[j];
+                            }
+                        }
+                        /*
+                        document.getElementById("resposta").innerHTML = 
+                            "<ul id=\"ul_resposta\" style=\"list-style:none; padding: 0px; margin: 0px;\"> </ul>";   
+                        var usuario_txt = "<li>" + importar_Para_Alfabeto_JM(usuario) + "</li>";
+                        var senha_txt = "<li>" + importar_Para_Alfabeto_JM(senha) + "</li>";                
+                        document.getElementById("ul_resposta").innerHTML = usuario_txt + senha_txt;
+                        */
+                       var contato_email_str = contato_email.trim().toUpperCase();
+                       
+                       var web_contato_email_str = importar_Para_Alfabeto_JM(web_contato_email).trim().toUpperCase();
+                       
+                       var user_ok = web_contato_email_str.localeCompare(contato_email_str);
+                       
+                       if( user_ok === 0 ){ 
+                            /*
+                            document.getElementById("resposta").innerHTML = 
+                                "<ul id=\"ul_resposta\" style=\"list-style:none; padding: 0px; margin: 0px;\"> </ul>";
+                            document.getElementById("ul_resposta").innerHTML = "Sim " + senha_da_linha + " ** " + senha_digitada_str ;
+                            */
+                            
+                            // Fim do loop
+                            contato_nao_cadastrado = true;
+                            break;
+                       }
+                       else{
+                            contato_nao_cadastrado = false;
+                            //alert("Usuário: " + usuario_digitado + "\nNão cadastrado" );
+                            //document.getElementById("resposta").innerHTML = conteudo_div;
+                       }
+                    }
+                }   
+                
+                if( contato_nao_cadastrado === true ){
+                    
+                    alert("Contato: " + contato_email + "\nNão Cadastrado! \nEste já é um Contato seu Cara Pálida!" );
+                    document.getElementById("div_add_contato").style.display = 'none'; 
+                    document.getElementById("div_add_contato").innerHTML = conteudo_div;
+                    document.getElementById("div_meus_contatos").style.display = 'block'; 
+                }
+                else{
+                    
+                    cadastrar_contato_001( 
+                        contato_email,
+                            contato_nome,
+                                contato_nome_meio,
+                                    contato_ultimo_nome,
+                                        conteudo_div);
+                }
+            }catch(Exception){
+                
+                document.getElementById("div_add_contato").innerHTML = "fazerLogin -- " + Exception;
+            }     
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//CONSULTAR CONTATO ANTES DE CADASTRAR
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//CADASTRAR CONTATO 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////       
+        function cadastrar_contato_001( 
+            contato_email,
+                contato_nome,
+                    contato_nome_meio,
+                        contato_ultimo_nome,
+                            conteudo_div){  
+            
+            if (contato_email === "" || contato_email === null){
+                alert("Para adicionar um novo contato:\n01 informe um email do contato ou\n02 informe o telefone do contato.");
+            }
+            else if (contato_nome === "" || contato_nome === null){
+                alert("Para adicionar um novo contato:\n01 informe o nome do contato.");
+            }
+            else{
+                
+                cadastrar_contato_002(
+                    contato_email,
+                        contato_nome,
+                            contato_nome_meio,
+                                contato_ultimo_nome,
+                                    conteudo_div);
+            }
+        }
+        
+        function cadastrar_contato_002(
+                contato_email,
+                        contato_nome,
+                            contato_nome_meio,
+                                contato_ultimo_nome,
+                                    conteudo_div){
+            
+            try{
+                                                        
+                setTimeout(function(){ 
+                    /* Some tasks */ 
+                    document.getElementById("div_add_contato").innerHTML = "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";                    
+                    document.getElementById("div_add_contato").style.display = 'block'; 
+                    
+                    document.getElementById("resposta").style.display = 'none'; 
+                    document.getElementById("div_meus_contatos").style.display = 'none'; 
+                    document.getElementById("div_novo_usuario").style.display = 'none';
+                }, 0);
+            
+                setTimeout(function(){ 
+                    var now = new Date();
+                    var id = now.getDate() + "/" + now.getMonth() + "/" + now.getFullYear() + "-" + 
+                             now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + "." + now.getMilliseconds();
+                     
+                    var comando = "cadastrar";
+                    
+                    var id_formulario_id = "1FAIpQLSc5mQRICTP2Zi5AwPGGzya8hQ6spe5jLTad8lM99KNEB4c6Dw";
+                
+                    var id_txt = "2072966352";
+                    
+                    //////////////////////////////////////////
+                    var jm_id = exportar_Para_Alfabeto_JM_Sem_Arroba(id);
+                    var jm_comando = exportar_Para_Alfabeto_JM_Sem_Arroba(comando);
+                    
+                //ESPECIAL    
+                    var local_usuario_logado = document.getElementById ('usuario_logado').value;
+                    var jm_local_usuario_logado_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(local_usuario_logado);
+                    
+                //OBRIGATÓRIOS TER VINDO PREENCHIDO
+                    var jm_contato_email_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(contato_email);
+                    var jm_contato_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(contato_nome);
+                    
+                //NÃO OBRIGATÓRIOS TER VINDO PREENCHIDO
+                    //////////////////////////////////////////////////////////////////////////////////////////////////
+                    var jm_contato_nome_meio_digitado;
+                    if (contato_nome_meio === "" || contato_nome_meio === null){
+                        jm_contato_nome_meio_digitado = "null";
+                    }
+                    else{
+                        jm_contato_nome_meio_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(contato_nome_meio);
+                    }
+                    //////////////////////////////////////////////////////////////////////////////////////////////////
+                    
+                    //////////////////////////////////////////////////////////////////////////////////////////////////
+                    var jm_contato_ultimo_nome_digitado;
+                                        
+                    if (jm_contato_ultimo_nome_digitado === "" || jm_contato_ultimo_nome_digitado === null){
+                        jm_contato_ultimo_nome_digitado = "null";
+                    }
+                    else{
+                        jm_contato_ultimo_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(contato_ultimo_nome);
+                    }
+                    //////////////////////////////////////////////////////////////////////////////////////////////////
+                    
+            //id a enviar        
+                    var id_txt2 = "@" + jm_id + "j" + jm_comando + "j" + 
+                            jm_local_usuario_logado_digitado  + "j" + 
+                            jm_contato_email_digitado  + "j" + 
+                            jm_contato_nome_digitado  + "j" +  
+                            jm_contato_nome_meio_digitado  + "j" +  
+                            jm_contato_ultimo_nome_digitado +
+                            "@";
+                    //////////////////////////////////////////
+                
+                    var GET_URL = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse?"
+                    + "entry." + id_txt + "=" + id_txt2;
+                    
+                    try{
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.open("GET", GET_URL, false);
+
+                        xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+                        //document.getElementById("resposta").innerHTML = "jm_id " + jm_id + " - " + "id " + id;            
+                        //document.getElementById("resposta").style.display = 'block'; 
+                        //document.getElementById("div_meus_contatos").style.display = 'none'; 
+                        //document.getElementById("div_novo_usuario").style.display = 'none';
+                    }catch(Exception){
+                
+                        //alert("jm_id " + jm_id + " - " + "id " + id);
+                        //document.getElementById("resposta").innerHTML = "xhttp - cadastrarTabelaLogin -- " + Exception;
+                    }
+
+                    alert("Contato: " + contato_email + " OK\nCadastrado com sucesso!");
+                    document.getElementById("div_add_contato").innerHTML = conteudo_div;
+                    document.getElementById("div_add_contato").style.display = 'none'; 
+                    
+                    document.getElementById("resposta").style.display = 'none'; 
+                    document.getElementById("div_meus_contatos").style.display = 'block'; 
+                    document.getElementById("div_novo_usuario").style.display = 'none';
+                    
+                    //LISTAR CONTATOS DO USUÁRIO LOGADO
+                    listar_contatos( document.getElementById("usuario_logado").value );
+                     
+                }, 500);
+            
+            }catch(Exception){
+                
+                document.getElementById("div_add_contato").innerHTML = "cadastrar_contato_002 -- " + Exception;
+            }     
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//CADASTRAR CONTATO 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//LISTAR CONTATOS 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        function listar_contatos( email_do_usuario_logado ){
+            
+            try{
+                
+                document.getElementById("resposta").style.display = 'none'; 
+                document.getElementById("div_novo_usuario").style.display = 'none';
+                document.getElementById("div_add_contato").style.display = 'none';                                     
+                
+                document.getElementById("div_meus_contatos").style.display = 'block'; 
+                
+                consultar_listar_contatos_002( email_do_usuario_logado );
+            
+            }catch(Exception){
+                
+                document.getElementById("div_meus_contatos").innerHTML = "listar_contatos -- \n\n" + Exception;
+            }     
+        }
+        
+        function consultar_listar_contatos_002( email_do_usuario_logado ){
+            
+            try{
+                setTimeout(function(){ 
+                    /* Some tasks */ 
+                    document.getElementById("ul_meus_contatos").innerHTML = "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>";
+                }, 0);
+            
+                setTimeout(function(){ 
+                    var id_planilha = "10xscEU1L66fCBmVypEVn8h6b3Ku2eRZMVzbHIVzS6Ns";
+                    var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                    /* Some tasks */ 
+                    //var url = document.getElementById('url').value;
+                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", url, false);
+
+                    xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+
+                    //document.getElementById("resposta").innerHTML = xhttp.responseText;
+                    var mensagem = xhttp.responseText;
+                    
+                    ////////////////////////////////////////////////////////////
+                    var tem_mensagem = false;
+                    var linha_recebida = mensagem.split("@");
+                    for( var i = 0; i < linha_recebida.length; i++ ) {
+                        if( linha_recebida[i].includes("-") ){
+                            tem_mensagem = true;
+                            break;
+                        }
+                    }
+                    ////////////////////////////////////////////////////////////
+                    
+                    if( tem_mensagem === true ){
+                        
+                        listar002_padrao();
+                        consultar_listar_contatos_003( mensagem, email_do_usuario_logado );
+                        //document.getElementById("ul_meus_contatos").innerHTML = mensagem;
+                    }
+                    else{
+                        
+                        listar002_padrao();
+                        //document.getElementById("ul_meus_contatos").innerHTML = mensagem;
+                    }
+                }, 500);
+            
+            }catch(Exception){
+                
+                document.getElementById("ul_meus_contatos").innerHTML = "<li>" + "fazerRequisicao -- " + Exception + "</li>";
+            }     
+        }
+        
+        function consultar_listar_contatos_003( mensagem, email_do_usuario_logado ){        
+            try{           
+                var contato_nao_cadastrado = false;
+                
+                var linha_recebida = mensagem.split("@");            
+                for( var i = 0; i < linha_recebida.length; i++ ) {
+                    if( linha_recebida[i].includes("-") ){
+                        var web_id;
+                        var web_comando;
+                        var web_usuario_logado;
+                        
+                        var web_contato_email;
+                        var web_contato_nome;
+                        var web_contato_nome_meio;
+                        var web_contato_ultimo_nome;
+
+                        var argumentos = linha_recebida[i].split("j");
+                        for( var j = 0; j < argumentos.length; j++ ) {
+                            if(j === 0){ 
+                                web_id = argumentos[j];
+                            }
+                            else if(j === 1){
+                                web_comando = argumentos[j];
+                            }
+                            else if(j === 2){
+                                web_usuario_logado = argumentos[j];
+                            }
+                            else if(j === 3){
+                                web_contato_email = argumentos[j];
+                            }
+                            else if(j === 4){
+                                web_contato_nome = argumentos[j];
+                            }
+                            else if(j === 5){
+                                web_contato_nome_meio = argumentos[j];
+                            }
+                            else if(j === 6){
+                                web_contato_ultimo_nome = argumentos[j];
+                            }
+                        }
+                        /*
+                        document.getElementById("resposta").innerHTML = 
+                            "<ul id=\"ul_resposta\" style=\"list-style:none; padding: 0px; margin: 0px;\"> </ul>";   
+                        var usuario_txt = "<li>" + importar_Para_Alfabeto_JM(usuario) + "</li>";
+                        var senha_txt = "<li>" + importar_Para_Alfabeto_JM(senha) + "</li>";                
+                        document.getElementById("ul_resposta").innerHTML = usuario_txt + senha_txt;
+                        */
+                       var local_usuario_logado_email_str = email_do_usuario_logado.trim().toUpperCase();
+                       
+                       var web_usuario_logado_email_str = importar_Para_Alfabeto_JM(web_usuario_logado).trim().toUpperCase();
+                       
+                        //var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                        //document.getElementById("ul_meus_contatos").innerHTML = anterior + contato_email_str + " - " + web_usuario_logado_str;
+                       
+                       var user_ok = web_usuario_logado_email_str.localeCompare(local_usuario_logado_email_str);
+                       
+                       if( user_ok === 0 ){ 
+                            //var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                            //document.getElementById("ul_meus_contatos").innerHTML = anterior + contato_email_str + " - " + web_usuario_logado_str;
+                            
+                            // Fim do loop
+                            contato_nao_cadastrado = true;
+                            
+                            
+                            listar001(
+                                local_usuario_logado_email_str,
+                                    web_contato_email,
+                                        web_contato_nome,
+                                            web_contato_nome_meio,
+                                                web_contato_ultimo_nome );
+                       }
+                       else{
+                            contato_nao_cadastrado = false;
+
+                       }
+                    }
+                }   
+                
+            }catch(Exception){
+                
+                document.getElementById("ul_meus_contatos").innerHTML = "consultar_contato_antes_de_cadastrar_003 -- " + Exception;
+            }     
+        }
+        
+        function listar001(
+            email_do_usuario_logado,
+                web_contato_email,
+                    web_contato_nome,
+                        web_contato_nome_meio,
+                            web_contato_ultimo_nome ){
+            
+            try{
+                
+                var add =
+                
+"<li style=\"float: left; margin-left: 5px; background-color:#3A3A3A;\" " +
+"            onMouseover=\"\n" +
+"            this.style.backgroundColor='#23871C';\"  " +
+"            " +
+"            onMouseout=\"" +
+"            this.style.backgroundColor='#3A3A3A'\"" +
+"        > " +
+"            " +
+"                <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">" +
+"                    <tr> " +
+"                        <td align=\"center\"> " +
+"                            <img src=\"../arquivos/imagens/003_login/cont.png\" " +
+"                                style=\"cursor: pointer; \"" +
+"                                onclick=\"verificaString();\" " +
+"                                title=\" " + importar_Para_Alfabeto_JM(web_contato_nome).trim()  + " \" width=\"100\" height=\"100\">" +
+"                        </td>    " +
+"                    </tr>" +
+"                    <tr> " +
+"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
+"                            " + importar_Para_Alfabeto_JM(web_contato_nome).trim() +
+"                        </td>    " +
+"                    </tr> " +
+"                    <tr> " +
+"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
+"                            " + importar_Para_Alfabeto_JM(web_contato_nome_meio).trim()  +
+"                        </td>    " +
+"                    </tr>" +
+"                    <tr> " +
+"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
+"                            " + importar_Para_Alfabeto_JM(web_contato_ultimo_nome).trim()  +
+"                        </td>    " +
+"                    </tr>" +
+"                </table>" +
+"        </li>";
+
+                var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                document.getElementById("ul_meus_contatos").innerHTML = anterior + add;
+                
+            }catch(Exception){
+                
+                document.getElementById("ul_meus_contatos").innerHTML = "listar001 -- " + Exception;
+            }     
+        }
+        
+        function listar002_padrao(){
+            
+            try{
+                    var add =
+                
+"<li style=\"float: left; background-color:#3A3A3A;\" \n" +
+"            onMouseover=\"\n" +
+"            this.style.backgroundColor='#23871C';\"  \n" +
+"            \n" +
+"            onMouseout=\"\n" +
+"            this.style.backgroundColor='#3A3A3A'\"\n" +
+"        > \n" +
+"            \n" +
+"                <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n" +
+"                    <tr> \n" +
+"                        <td align=\"center\"> \n" +
+"                            <img src=\"../arquivos/imagens/003_login/cleilson.jpg\" \n" +
+"                                style=\"cursor: pointer; \"\n" +
+"                                onclick=\"verificaString();\" \n" +
+"                                title=\" " + "Cleilson" + " \" width=\"100\" height=\"100\">\n" +
+"                        </td>    \n" +
+"                    </tr>\n" +
+"                    <tr> \n" +
+"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> \n" +
+"                            " + "Cleilson" +
+"                        </td>    \n" +
+"                    </tr> \n" +
+"                    <tr> \n" +
+"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> \n" +
+"                            " + "Henrique" +
+"                        </td>    \n" +
+"                    </tr>\n" +
+"                    <tr> \n" +
+"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> \n" +
+"                            " + "de Araujo" +
+"                        </td>    \n" +
+"                    </tr>\n" +
+"                </table>\n" +
+"        </li>";
+
+                //var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                document.getElementById("ul_meus_contatos").innerHTML = add;
+                                                
+            }catch(Exception){
+                
+                document.getElementById("listar001").innerHTML = "listar001 -- " + Exception;
+            }     
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//LISTAR CONTATOS 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        function voltar_para_contatos(){
+            
+            try{
+                
+                document.getElementById("resposta").style.display = 'none'; 
+                document.getElementById("div_meus_contatos").style.display = 'block'; 
+                document.getElementById("div_novo_usuario").style.display = 'none'; 
+                document.getElementById("div_add_contato").style.display = 'none'; 
+            
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "novo_usuario -- " + Exception;
+            }     
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
         function novo_usuario(){
             
             try{
@@ -354,12 +1056,105 @@
                 document.getElementById("resposta").style.display = 'none'; 
                 document.getElementById("div_meus_contatos").style.display = 'none'; 
                 document.getElementById("div_novo_usuario").style.display = 'block'; 
+                document.getElementById("div_add_contato").style.display = 'none'; 
             
             }catch(Exception){
                 
                 document.getElementById("resposta").innerHTML = "novo_usuario -- " + Exception;
             }     
         }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        function novo_contato(){
+            
+            try{
+                
+                document.getElementById("resposta").style.display = 'none'; 
+                document.getElementById("div_meus_contatos").style.display = 'none'; 
+                document.getElementById("div_novo_usuario").style.display = 'none'; 
+                document.getElementById("div_add_contato").style.display = 'block'; 
+            
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "novo_contato -- " + Exception;
+            }     
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//importar_Para_Alfabeto_JM
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        function importar_Para_Alfabeto_JM(txt){            
+            //var sb = [];
+            var sb = "";
+                                                                
+            try{
+                
+                var argumento = txt.split("-");
+                                        
+                for( var i = 0; i < argumento.length; i++ ) {
+                    
+                    var letra_unicode = String.fromCharCode( argumento[i] );             
+                    //sb.push( letra_unicode );
+                    sb += letra_unicode;
+                    
+                    //var dados_anteriores = document.getElementById("ul_resposta").innerHTML;
+                    //var temp = "<li>" + argumento[i] + " - " + letra_unicode + "</li>";                    
+                    //document.getElementById("ul_resposta").innerHTML = dados_anteriores + temp;
+                                    
+                }
+                
+                return sb;
+                                                
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerText = "importar_Para_Alfabeto_JM -- " + Exception;
+            }                       
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//importar_Para_Alfabeto_JM
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//exportar_Para_Alfabeto_JM_Sem_Arroba
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        function exportar_Para_Alfabeto_JM_Sem_Arroba(argumento){            
+            //var sb = [];
+            var sb = "";
+                                                                
+            try{
+                                        
+                for( var i = 0; i < argumento.length; i++ ) {
+                    
+                    var decimal_unicode = argumento.charCodeAt(i);
+                    //sb.push( decimal_unicode );
+                    sb += decimal_unicode;
+                    sb += "-";
+                    
+                    //var dados_anteriores = document.getElementById("ul_resposta").innerHTML;
+                    //var temp = "<li>" + i + " - " + decimal_unicode + "</li>";                    
+                    //document.getElementById("ul_resposta").innerHTML = dados_anteriores + temp;
+                                    
+                }
+                
+                return sb;
+                                                
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerText = "exportar_Para_Alfabeto_JM_Sem_Arroba -- " + Exception;
+            }                       
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//exportar_Para_Alfabeto_JM_Sem_Arroba
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
         
     
         function Bate_Papo_Web_0005_Separando_por_Linha_as_Mensagens(mensagem){
@@ -447,60 +1242,7 @@
             }
         }
         
-        function importar_Para_Alfabeto_JM(txt){            
-            //var sb = [];
-            var sb = "";
-                                                                
-            try{
-                
-                var argumento = txt.split("-");
-                                        
-                for( var i = 0; i < argumento.length; i++ ) {
-                    
-                    var letra_unicode = String.fromCharCode( argumento[i] );             
-                    //sb.push( letra_unicode );
-                    sb += letra_unicode;
-                    
-                    //var dados_anteriores = document.getElementById("ul_resposta").innerHTML;
-                    //var temp = "<li>" + argumento[i] + " - " + letra_unicode + "</li>";                    
-                    //document.getElementById("ul_resposta").innerHTML = dados_anteriores + temp;
-                                    
-                }
-                
-                return sb;
-                                                
-            }catch(Exception){
-                
-                document.getElementById("resposta").innerText = "importar_Para_Alfabeto_JM -- " + Exception;
-            }                       
-        }
         
-        function exportar_Para_Alfabeto_JM_Sem_Arroba(argumento){            
-            //var sb = [];
-            var sb = "";
-                                                                
-            try{
-                                        
-                for( var i = 0; i < argumento.length; i++ ) {
-                    
-                    var decimal_unicode = argumento.charCodeAt(i);
-                    //sb.push( decimal_unicode );
-                    sb += decimal_unicode;
-                    sb += "-";
-                    
-                    //var dados_anteriores = document.getElementById("ul_resposta").innerHTML;
-                    //var temp = "<li>" + i + " - " + decimal_unicode + "</li>";                    
-                    //document.getElementById("ul_resposta").innerHTML = dados_anteriores + temp;
-                                    
-                }
-                
-                return sb;
-                                                
-            }catch(Exception){
-                
-                document.getElementById("resposta").innerText = "exportar_Para_Alfabeto_JM_Sem_Arroba -- " + Exception;
-            }                       
-        }
         
     </script>
         
@@ -537,9 +1279,9 @@
     </tr> 
     
     <tr>
-        <td align="right" style="background-color: #D3D3D3; width:30%;">
+        <td align="right" style="background-color: #D3D3D3; width:30%; padding-right: 5px;">
             
-            <img src="../arquivos/imagens/003_login/logo.png" alt="" width="100" height="150">            
+            <img src="../arquivos/imagens/003_login/cara_palida.png" alt="" width="150" height="150">            
         </td>
         
         <td style="background-color: #D3D3D3; width:40%;">
@@ -587,6 +1329,7 @@
     </tr> 
     
 </table>
+</div>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
@@ -597,87 +1340,14 @@
 -1             
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->  
-</div>
-    
-    
-    
-    
-    
-    
-    
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
--0
--1
--2
-- #### MEUS CONTATOS INÍCIO #### --> 
-<!-- 
--0
--1 
--2    
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->     
-<div id="div_meus_contatos" style="display: none; padding: 0; margin: 0;">
-    
-    <table border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
-        <tr> 
-            <td style="width:30%;">
-            
-            <td align="center" style="width:40%;">
-                <h1 align="center" style="font:bold 150% verdana,arial,helvetica;"> MEUS CONTATOS </h1>
-            </td> 
-            
-            <td style="width:30%;">
-                <input style="float:right; margin-top: 5px; cursor: pointer;" 
-                   type="button" onclick="novo_usuario();" value="Adicionar Contato Cara Pálida">
-            </td>
-        <tr> 
-    </table>
-    
-    <ul id="ul_meus_contatos" style="list-style:none; line-height: 1.5; padding: 0px; margin: 0px;" >
-        
-        <!-- CONTEÚDO INÍCIO --------------------------------------------------------------------------------->                      
-        <li style="float: left; background-color:#3A3A3A;" 
-            onMouseover="
-            this.style.backgroundColor='#23871C';"  
-            
-            onMouseout="
-            this.style.backgroundColor='#3A3A3A'"
-        > 
-            
-                <table cellpadding="2" cellspacing="2" border="0">
-                    <tr> 
-                        <td align="center"> 
-                            <img src="../arquivos/imagens/003_login/cleilson.jpg" 
-                                style="cursor: pointer; "
-                                onclick="verificaString();" 
-                                title="Cleilson Henrique" width="100" height="100">
-                        </td>    
-                    </tr>
-                    <tr> 
-                        <td align="center" 
-                            style=" color: #ffffff"
-                        > 
-                            Cleilson
-                        </td>    
-                    </tr>                    
-                </table>
-        </li>
-<!-- CONTEÚDO FIM ---------------------------------------------------------------------------------> 
-        
-    </ul>
-</div>
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
--0
--1
--2
-- #### MEUS CONTATOS FIM #### --> 
-<!-- 
--0
--1
--2    
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
 
+    
+    
+    
+    
+    
 
-
+    
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
@@ -701,68 +1371,133 @@
         </a>
     </li> 
 
-<li>     
-    <table id="tb_novo_usuario" border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;"> 
-    
-        <tr>
-            <td align="right" style="background-color: #D3D3D3; width:30%;">
-            
-                <img src="../arquivos/imagens/003_login/logo.png" alt="" width="100" height="150">            
-            </td>
-        
-            <td style="background-color: #D3D3D3; width:40%;">
-            
-                <div style="background-color: #3A3A3A; height:50px;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
-                
-                    Email ou (DDD+Telefone): 
-                    <input id="form_novo_login" name="login" type="text" style="background-color: #3A3A3A; width:100%; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
-                </div>
-            
-                <br>
-            
-            <div style="background-color: #3A3A3A; height:50px;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
-                
-                Senha: 
-                <input id="form_novo_senha" name="senha" type="text" style="background-color: #3A3A3A; width:100%; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
-            </div>
-            
-            <br>
-            
-            <div style="background-color: #3A3A3A; height:50px;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
-                
-                Nome: 
-                <input id="form_novo_nome" name="nome" type="text" style="background-color: #3A3A3A; width:100%; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
-            </div>
-            
-            <br>
-            
-            <div style="background-color: #3A3A3A; height:50px;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
-                
-                Endereço Web Imagem Perfil: 
-                <input id="form_novo_imagem" name="nome" type="text" style="background-color: #3A3A3A; width:100%; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
-            </div>
-            
-        </td>
-        
-        <td style="background-color: #D3D3D3; width:30%;">
+    <li>     
+        <table id="tb_novo_usuario" border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">     
+            <tr>
+                <td align="center" style="background-color: #D3D3D3; width:100%;">
+                    
+                    <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >   
+                        
+                        <li style="">
+                            <img src="../arquivos/imagens/003_login/cara_palida.png" alt="" width="150" height="150"> 
+                        </li>
+                        
+                        <li style="">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Email ou (DDD + Telefone):
+                                            </li>
+                                            <li style="">
+                                                <input id="form_novo_login" name="login" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li> 
+                        
+                        <li style="padding-top: 5px; ">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Senha:
+                                            </li>
+                                            <li style="">
+                                                <input id="form_novo_senha" name="senha" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li>
+                        
+                        <li style="padding-top: 5px; ">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Nome:
+                                            </li>
+                                            <li style="">
+                                                <input id="form_novo_nome" name="nome" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li> 
+                        
+                        <li style="padding-top: 5px; ">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Email de Recuperação da Senha:
+                                            </li>
+                                            <li style="">
+                                                <input id="form_novo_recuperacao" name="nome" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li> 
+                        
+                        <li style="padding-top: 5px; ">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0; ">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Endereço Web Imagem Perfil:
+                                            </li>
+                                            <li style="">
+                                                <input id="form_novo_imagem" name="nome" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li> 
+                        
+                        <li style="padding-top: 5px; ">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
 
-            <input style="margin-left: 5px; cursor: pointer;" 
-                   type="button" value="Cadastrar"
-                   
-                   onclick="inicioCadastrarTabelaLogin(
-                        document.getElementById ('form_novo_login').value,
-                        document.getElementById ('form_novo_senha').value,
-                        document.getElementById ('form_novo_nome').value,
-                        document.getElementById ('form_novo_imagem').value,
-                        document.getElementById ('resposta').innerHTML );" 
-                >
-        </td>
-    </tr>     
-    
-    </table>       
-</li> 
-
-    
+                                            <li style="">
+                                                <img src="../arquivos/imagens/003_login/logo2.png" 
+                                                    style="cursor: pointer; "
+                                                    onclick="inicioCadastrarTabelaLogin(
+                                                        document.getElementById ('form_novo_login').value,
+                                                        document.getElementById ('form_novo_senha').value,
+                                                        document.getElementById ('form_novo_nome').value,
+                                                        document.getElementById ('form_novo_recuperacao').value,
+                                                        document.getElementById ('form_novo_imagem').value,
+                                                        document.getElementById ('resposta').innerHTML );"
+                                                    alt="" width="140" height="50">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li>
+                        
+                    </ul>                                          
+                </td>                  
+            </tr>        
+        </table>       
+    </li> 
+</ul>
+</div>    
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
@@ -773,8 +1508,259 @@
 -1             
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->  
-</ul>
+
+
+
+
+
+
+
+
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### MEUS CONTATOS INÍCIO #### --> 
+<!-- 
+-0
+-1 
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->     
+<div id="div_meus_contatos" style="display: none; padding: 0; margin: 0;">
+    
+    <table border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
+        <tr> 
+            <td style="width:30%;">
+            
+            <td align="center" style="width:40%;">
+                <h1 align="center" style="font:bold 150% verdana,arial,helvetica;"> MEUS CONTATOS </h1>
+            </td> 
+            
+            <td style="width:30%;">
+                <input style="float:right; margin-top: 5px; cursor: pointer;" 
+                   type="button" onclick="novo_contato();" value="Adicionar Contato Cara Pálida">
+            </td>
+        <tr> 
+    </table>
+    
+    <ul id="ul_meus_contatos" style="background-color: #D3D3D3; list-style:none; line-height: 1.5; padding: 0px; margin: 0px;" >
+        
+<!-- CONTEÚDO INÍCIO --------------------------------------------------------------------------------->                      
+        <li style="float: left; background-color:#3A3A3A;" 
+            onMouseover="
+            this.style.backgroundColor='#23871C';"  
+            
+            onMouseout="
+            this.style.backgroundColor='#3A3A3A'"
+        > 
+            
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr> 
+                        <td align="center"> 
+                            <img src="../arquivos/imagens/003_login/cleilson.jpg" 
+                                style="cursor: pointer; "
+                                onclick="verificaString();" 
+                                title="Cleilson Henrique" width="100" height="100">
+                        </td>    
+                    </tr>
+                    <tr> 
+                        <td align="center" style=" padding: 0; color: #ffffff;"> 
+                            Cleilson
+                        </td>    
+                    </tr> 
+                    <tr> 
+                        <td align="center" style=" padding: 0; color: #ffffff;"> 
+                            Henrique
+                        </td>    
+                    </tr>
+                    <tr> 
+                        <td align="center" style=" padding: 0; color: #ffffff;"> 
+                            de Araujo
+                        </td>    
+                    </tr>
+                </table>
+        </li>
+<!-- CONTEÚDO FIM ---------------------------------------------------------------------------------> 
+        
+    </ul>
 </div>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### MEUS CONTATOS FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+
+
+
+
+
+
+
+
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### ADICIONAR_CONTATO INÍCIO #### --> 
+<!-- 
+-0
+-1             
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+<div id="div_add_contato" style="display: none; padding: 0; margin: 0; width:100%; height: 100%;">
+    
+<ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >    
+    
+    <li align="center"  style="padding: 0px; margin: 0px; width:100%; color:black; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;">
+        <a style="color:black; font-family:  Arial, Helvetica, sans-serif; font-size: 150%; text-decoration: none;"
+            onMouseover=" this.style.color='#fff'; "
+            onMouseout="  this.style.color='black'; "       
+        > 
+            Adicionar Amigo(a) Cara Pálida
+        </a>
+    </li> 
+
+    <li>     
+        <table id="tb_add_contato" border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">     
+            <tr>
+                <td align="center" style="background-color: #D3D3D3; width:100%;">
+                    
+                    <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >   
+                        
+                        <li style="">
+                            <img src="../arquivos/imagens/003_login/cara_palida.png" alt="" width="150" height="150"> 
+                        </li>
+                        
+                        <li style="">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Email ou (DDD + Telefone):
+                                            </li>
+                                            <li style="">
+                                                <input id="form_add_contato_email" name="add_contato_email" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li> 
+                        
+                        <li style="">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Nome do(a) Cara Pálida:
+                                            </li>
+                                            <li style="">
+                                                <input id="form_add_contato_nome" name="add_contato_nome" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li>
+                        
+                        <li style="">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Nome do Meio ou Empresa:
+                                            </li>
+                                            <li style="">
+                                                <input id="form_add_contato_nome_meio" name="add_contato_nome_meio" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li>
+                        
+                        <li style="">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
+                                                Último Nome ou Função:
+                                            </li>
+                                            <li style="">
+                                                <input id="form_add_contato_ultimo_nome" name="add_contato_ultimo_nome" type="text" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" value="">
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li>
+                        
+                        <li style="padding-top: 5px; ">
+                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
+                                <tr>
+                                    <td align="center">
+                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
+
+                                            <li style="">
+                                                <img src="../arquivos/imagens/003_login/logo2.png" 
+                                                    style="cursor: pointer; "
+                                                    onclick="consultar_contato_antes_de_cadastrar_001(
+                                                        document.getElementById ('form_add_contato_email').value,
+                                                        document.getElementById ('form_add_contato_nome').value,
+                                                        document.getElementById ('form_add_contato_nome_meio').value,
+                                                        document.getElementById ('form_add_contato_ultimo_nome').value,
+                                                        document.getElementById ('div_add_contato').innerHTML );"
+                                                    alt="" width="140" height="50">
+                                                
+                                                <input style="float:right; margin-top: 5px; cursor: pointer;" 
+                                                       type="button" onclick="voltar_para_contatos();" value="Voltar"> 
+                                            </li>
+                                        </ul>                                                                         
+                                    </td>
+                                </tr>
+                            </table> 
+                        </li>
+                        
+                    </ul>                                          
+                </td>                  
+            </tr>        
+        </table>       
+    </li> 
+</ul>
+</div>    
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+-0
+-1
+-2
+- #### ADICIONAR_CONTATO FIM #### --> 
+<!-- 
+-0
+-1             
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
+
+
+
+
+
+
+
+
+
 
 
 

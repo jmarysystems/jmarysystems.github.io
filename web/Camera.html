@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title> jmarysystems </title>
+        <meta charset="UTF-8">
+        
+        <!-- <meta http-equiv="refresh" content=1;url="www.jmarysystems.com.br"> -->
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    </head>
+    <body>
+        
+        <input type="text" id="url" style="width:300px;" value="http://192.168.1.118:8080/videofeed">
+        <button onclick="abrir();">Abrir</button>
+
+<script type="text/javascript">
+function abrir() {
+    
+    var url = document.getElementById('url').value;
+    
+    window.open (
+url,
+'pagina',
+"width=350, height=255, top=100, left=110, scrollbars=no, menubar=no, toolbar=no, location=no, status=no, directories=no, fullscreen=yes" );
+                 
+}
+
+</script>
+
+    </body>
+</html>
