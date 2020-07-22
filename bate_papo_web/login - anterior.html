@@ -352,37 +352,26 @@
                     var id_txt = "833181104";
                     
                     //////////////////////////////////////////
-                    var jm_id = exportar_Para_Alfabeto_JM_Sem_Arroba( id.trim() );
-                    var jm_comando = exportar_Para_Alfabeto_JM_Sem_Arroba( comando.trim() );
-                    var jm_usuario_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( usuario_digitado.trim() );
-                    var jm_senha_digitada = exportar_Para_Alfabeto_JM_Sem_Arroba( senha_digitada.trim() );
-                    var jm_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( nome_digitado.trim() );
+                    var jm_id = exportar_Para_Alfabeto_JM_Sem_Arroba(id);
+                    var jm_comando = exportar_Para_Alfabeto_JM_Sem_Arroba(comando);
+                    var jm_usuario_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(usuario_digitado);
+                    var jm_senha_digitada = exportar_Para_Alfabeto_JM_Sem_Arroba(senha_digitada);
+                    var jm_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(nome_digitado);
                     
                     var jm_email_de_recuperacao = "null";
                     if (email_de_recuperacao === "" || email_de_recuperacao === null){
                         
                     }
                     else{
-                        jm_email_de_recuperacao = exportar_Para_Alfabeto_JM_Sem_Arroba( email_de_recuperacao.trim() );
+                        jm_email_de_recuperacao = exportar_Para_Alfabeto_JM_Sem_Arroba(email_de_recuperacao);
                     }
-
+                    
                     var jm_imagem_endereco_web_digitado = "null";
-                    if (imgXX === "null" || imgXX === "" || imgXX === null){
+                    if (imagem_endereco_web_digitado === "" || imagem_endereco_web_digitado === null){
                         
                     }
                     else{
-
-                        //jm_imagem_endereco_web_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(imgXX);
-                        //document.getElementById("resposta").innerHTML = "Size = " + imgXX.length + "<br>" + jm_imagem_endereco_web_digitado;
-                        
-                        jm_imagem_endereco_web_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( "sim" ); 
-                        
-                        try{
-                            salvar_imagem_do_perfil( 
-                               exportar_Para_Alfabeto_JM_Sem_Arroba(imgXX), 
-                                    jm_usuario_digitado,
-                                        jm_id );
-                        }catch(Exception){}
+                        jm_imagem_endereco_web_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(imagem_endereco_web_digitado);
                     }
                     
                     var id_txt2 = "@" + jm_id + "j" + jm_comando + "j" + jm_usuario_digitado  + "j" + 
@@ -391,19 +380,22 @@
                             jm_imagem_endereco_web_digitado + "@";
                     //////////////////////////////////////////
                 
-                    var GET_URL = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse" +
-                            "?entry." + id_txt + "=" + id_txt2;
+                    var GET_URL = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse?"
+                    + "entry." + id_txt + "=" + id_txt2;
                     
                     try{
-
                         var xhttp = new XMLHttpRequest();
                         xhttp.open("GET", GET_URL, false);
-                        xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
 
+                        xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+                        //document.getElementById("resposta").innerHTML = "jm_id " + jm_id + " - " + "id " + id;            
+                        //document.getElementById("resposta").style.display = 'block'; 
+                        //document.getElementById("div_meus_contatos").style.display = 'none'; 
+                        //document.getElementById("div_novo_usuario").style.display = 'none';
                     }catch(Exception){
                 
                         //alert("jm_id " + jm_id + " - " + "id " + id);
-                       //document.getElementById("resposta").innerHTML = "Erro xhttp - cadastrarTabelaLogin -- <br>" + Exception;
+                        //document.getElementById("resposta").innerHTML = "xhttp - cadastrarTabelaLogin -- " + Exception;
                     }
 
                     alert("Usuário: " + usuario_digitado + " OK\nCadastrado com sucesso!");
@@ -412,101 +404,13 @@
                     document.getElementById("div_meus_contatos").style.display = 'none'; 
                     document.getElementById("div_novo_usuario").style.display = 'none';
                     
-                    document.getElementById("div_conversa").style.display = 'none';                 
-                    
+                    document.getElementById("div_conversa").style.display = 'none';
+                     
                 }, 500);
             
             }catch(Exception){
                 
                 document.getElementById("resposta").innerHTML = "cadastrarTabelaLogin -- " + Exception;
-            }     
-        }
-        
-        function salvar_imagem_do_perfil( imagem, email_usuario, id_usuario ){
-            
-            try{
-                setTimeout(function(){ 
-                    
-                    var id_formulario_id = "1FAIpQLSfusUTi_J7wrIs49E38puZf1vqIIYZOxkahNb4xideZCDo8Dg";
-                    var id_txt = "833181104";
-
-                    ////////////////////////////////////////////////////////////
-                    var parte = "";
-                    var count = 0;
-                    var contador = 0;
-                    var numero = imagem.split("-");
-                    for( var i = 0; i < numero.length; i++ ) {
-                        
-                        parte += numero[i] + "-";
-                        
-                        if( count === 1900 ){
-                                                                                    
-                            contador += 1;
-                                                                                          
-                            try{
-                                var id_txt2 = "@" + id_usuario + "j" + email_usuario + "j" + contador  + "j" + parte + "@";
-                                                                                
-                                var GET_URL = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse" +
-                                    "?entry." + id_txt + "=" + id_txt2;
-                            
-                                var xhttp = new XMLHttpRequest();
-                                xhttp.open("GET", GET_URL, false);
-                                xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
-                                
-                                /*
-                                var anterior = document.getElementById("resposta").innerHTML;
-                                document.getElementById("resposta").innerHTML = anterior + 
-                                    "<br>" +                                    
-                                    "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
-                                    "-------------------------------------------------------------------------------------" + 
-                                    "<br>" + 
-                                    "Contador: " + contador + "<br>" + 
-                                    parte;                        
-                                */
-                            }catch(Exception){}
-                            
-                            parte = "";
-                            count = 0;
-                        }
-                        else{
-                            
-                            count += 1;
-                        }
-                        
-                    }
-                    ////////////////////////////////////////////////////////////
-                    
-                    try{
-                        contador += 1;
-                        
-                                var id_txt2 = "@" + id_usuario + "j" + email_usuario + "j" + 
-                                contador  + "j" + 
-                                parte + "@";
-                            
-                                var GET_URL = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse" +
-                                    "?entry." + id_txt + "=" + id_txt2;
-                            
-                                var xhttp = new XMLHttpRequest();
-                                xhttp.open("GET", GET_URL, false);
-                                xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
-                                
-                                /*
-                                var anterior = document.getElementById("resposta").innerHTML;
-                                document.getElementById("resposta").innerHTML = anterior + 
-                                    "<br>" +                                    
-                                    "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
-                                    "-------------------------------------------------------------------------------------" + 
-                                    "<br>" + 
-                                    "Contador: " + contador + "<br>" + 
-                                    parte;                        
-                                */
-                    }catch(Exception){} 
-                            
-                }, 0);
-            
-            }catch(Exception){
-                
-                document.getElementById("resposta").innerHTML = "fazerRequisicao -- " + Exception;
             }     
         }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -773,16 +677,16 @@
                     var id_txt = "2072966352";
                     
                     //////////////////////////////////////////
-                    var jm_id = exportar_Para_Alfabeto_JM_Sem_Arroba( id.trim() );
-                    var jm_comando = exportar_Para_Alfabeto_JM_Sem_Arroba( comando.trim() );
+                    var jm_id = exportar_Para_Alfabeto_JM_Sem_Arroba(id);
+                    var jm_comando = exportar_Para_Alfabeto_JM_Sem_Arroba(comando);
                     
                 //ESPECIAL    
                     var local_usuario_logado = document.getElementById ('usuario_logado').value;
-                    var jm_local_usuario_logado_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( local_usuario_logado.trim() );
+                    var jm_local_usuario_logado_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(local_usuario_logado);
                     
                 //OBRIGATÓRIOS TER VINDO PREENCHIDO
-                    var jm_contato_email_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( contato_email.trim() );
-                    var jm_contato_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( contato_nome.trim() );
+                    var jm_contato_email_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(contato_email);
+                    var jm_contato_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(contato_nome);
                     
                 //NÃO OBRIGATÓRIOS TER VINDO PREENCHIDO
                     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -791,7 +695,7 @@
                         jm_contato_nome_meio_digitado = "null";
                     }
                     else{
-                        jm_contato_nome_meio_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( contato_nome_meio.trim() );
+                        jm_contato_nome_meio_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(contato_nome_meio);
                     }
                     //////////////////////////////////////////////////////////////////////////////////////////////////
                     
@@ -802,7 +706,7 @@
                         jm_contato_ultimo_nome_digitado = "null";
                     }
                     else{
-                        jm_contato_ultimo_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( contato_ultimo_nome.trim() );
+                        jm_contato_ultimo_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba(contato_ultimo_nome);
                     }
                     //////////////////////////////////////////////////////////////////////////////////////////////////
                     
@@ -1009,17 +913,14 @@
                        
                        var user_ok = web_usuario_logado_email_str.localeCompare(local_usuario_logado_email_str);
                        
-                       //Verificar se este contato é deste usuário
-                       if( verificar_igualdade_sem_espaco_no_final( web_usuario_logado_email_str, local_usuario_logado_email_str ) === true ){
-                       //if( user_ok === 0 ){ 
-                                      
-                            /*
+                       if( user_ok === 0 ){ 
+                           
                             var anterior = document.getElementById("ul_meus_contatos").innerHTML;
                             document.getElementById("ul_meus_contatos").innerHTML = anterior + 
                                     "<br>" +                                    
                                     "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
                                     "-------------------------------------------------------------------------------------" + "<br>" +
-                                    "Verificar se este contato é deste usuário: " +
+                                    "if( user_ok === 0 ){: " +
                                     "<br>" +
                                     "Id: " + importar_Para_Alfabeto_JM(web_id).trim().toUpperCase() +
                                     "<br>" +
@@ -1034,13 +935,12 @@
                                     "web_contato_nome_meio: " + importar_Para_Alfabeto_JM(web_contato_nome_meio).trim().toUpperCase() +
                                     "<br>" +
                                     "web_contato_ultimo_nome: " + importar_Para_Alfabeto_JM(web_contato_ultimo_nome).trim().toUpperCase();
-                            */
                             
                             // Fim do loop
                             contato_nao_cadastrado = true;
                             
                             //Este é um contato deste usuário
-                            
+                            /*
                             img_perfil_001_tb_usuario_procurar_imagem_deste_contato(
                                     web_id,
                                         web_comando,
@@ -1049,13 +949,10 @@
                                                     web_contato_nome,
                                                         web_contato_nome_meio,
                                                             web_contato_ultimo_nome);
-                                                         
+                            */                             
                        }
                        else{
                            
-                           //Este não é um contato deste usuário
-                           
-                           /*
                            var anterior = document.getElementById("ul_meus_contatos").innerHTML;
                             document.getElementById("ul_meus_contatos").innerHTML = anterior + 
                                     "<br>" +                                    
@@ -1076,7 +973,7 @@
                                     "web_contato_nome_meio: " + importar_Para_Alfabeto_JM(web_contato_nome_meio).trim().toUpperCase() +
                                     "<br>" +
                                     "web_contato_ultimo_nome: " + importar_Para_Alfabeto_JM(web_contato_ultimo_nome).trim().toUpperCase();
-                            */
+                            
                            
                             contato_nao_cadastrado = false;
 
@@ -1165,7 +1062,6 @@
                         var imagem_Perfil = "../arquivos/imagens/003_login/cont.png";
                             
                             listar001(
-                              "null",
                                 imagem_Perfil, 
                                     web_id,
                                         web_comando,
@@ -1175,7 +1071,7 @@
                                                         web_contato_nome_meio,
                                                             web_contato_ultimo_nome);
                     }
-                }, 0);
+                }, 500);
             
             }catch(Exception){
                 
@@ -1258,8 +1154,6 @@
                        
                         var user_ok = usuario_da_linha.localeCompare(usuario_digitado_str);
                         
-                        var web_id_da_tb_usuario = id;
-                        
                         /*
                         var anterior = document.getElementById("ul_meus_contatos").innerHTML;
                             document.getElementById("ul_meus_contatos").innerHTML = anterior + 
@@ -1271,8 +1165,7 @@
                                     "Contato Encontrado: " + importar_Para_Alfabeto_JM(web_contato_email_da_tb_contato).trim().toUpperCase();
                             */
 
-                        //if( user_ok === 0 ){ 
-                        if( verificar_igualdade_sem_espaco_no_final( usuario_da_linha, usuario_digitado_str ) === true ){   
+                        if( user_ok === 0 ){ 
                             
                             /*
                             var anterior = document.getElementById("ul_meus_contatos").innerHTML;
@@ -1312,7 +1205,7 @@
                            
                             //finalizando - foi encontrada a imagem do perfil deste contato na tabela de usuários cara pálida
                             usuario_nao_cadastrado = true;
-                            if ( imagem_endereco_web_digitado === undefined || imagem_endereco_web_digitado === "" || imagem_endereco_web_digitado === null){
+                            if (imagem_endereco_web_digitado === "" || imagem_endereco_web_digitado === null){
                                 
                                 imagem_Perfil = "../arquivos/imagens/003_login/cont.png";
                             }
@@ -1364,10 +1257,8 @@
                                     "<br>" +
                                     "Contato Encontrado: " + importar_Para_Alfabeto_JM(web_contato_email_da_tb_contato).trim().toUpperCase();
                             */
-                         
-                    setTimeout(function(){ 
-                        listar001(
-                            web_id_da_tb_usuario,
+                           
+                    listar001(
                                 imagem_Perfil, 
                                     web_id_da_tb_contato,
                                         web_comando_da_tb_contato,
@@ -1376,7 +1267,6 @@
                                                     web_contato_nome_da_tb_contato,
                                                         web_contato_nome_meio_da_tb_contato,
                                                             web_contato_ultimo_nome_da_tb_contato);
-                    }, 0);                                        
                 }
                 else{
                             /*                
@@ -1391,7 +1281,6 @@
                             */
                            
                     listar001(
-                            web_id_da_tb_usuario,
                                 "../arquivos/imagens/003_login/cont2.png", 
                                     web_id_da_tb_contato,
                                         web_comando_da_tb_contato,
@@ -1418,7 +1307,6 @@
         
         
         function listar001(
-            web_id_da_tb_usuario,
                 imagem_Perfil, 
                     web_id,
                         web_comando,
@@ -1428,20 +1316,8 @@
                                         web_contato_nome_meio,
                                             web_contato_ultimo_nome){
             
-            try{         
+            try{                            
                 
-                var imagem_src_data = "../arquivos/imagens/003_login/cont.png";
-                
-                try{
-                    
-                    var imagem_src_data_web = baixar_imagem( web_id_da_tb_usuario );    var imagem_src_data_web = baixar_imagem( web_id_da_tb_usuario );    
-                    
-                    //var image = new Image();
-                    //image.setAttribute('src', importar_Para_Alfabeto_JM( imagem_src_data_web.trim() ).trim() );
-                    //image.src = importar_Para_Alfabeto_JM( imagem_src_data_web.trim() ).trim();
-                                        
-                    imagem_src_data = importar_Para_Alfabeto_JM( imagem_src_data_web.trim() ).trim();
-                }catch(Exception){}
                 
                 var add =
                 
@@ -1454,7 +1330,7 @@
 "        > " +
 "            " +
 
-            "<input type=\"hidden\" id=\"" + web_id + "\" value=\"" + web_id_da_tb_usuario + "\">" +
+            "<input type=\"hidden\" id=\"" + web_id + "\" value=\"" + imagem_Perfil + "\">" +
             "<input type=\"hidden\" id=\"" + web_id + web_contato_email + "\" value=\"" + importar_Para_Alfabeto_JM(web_contato_email).trim() + "\">" +
             "<input type=\"hidden\" id=\"" + web_id + web_contato_nome + "\" value=\"" + importar_Para_Alfabeto_JM(web_contato_nome).trim() + "\">" +
             "<input type=\"hidden\" id=\"" + web_id + web_contato_nome_meio + "\" value=\"" + importar_Para_Alfabeto_JM(web_contato_nome_meio).trim() + "\">" +
@@ -1462,7 +1338,7 @@
 "                <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">" +
 "                    <tr> " +
 "                        <td align=\"center\"> " +
-"                            <img src='" + imagem_src_data + "' style='cursor: pointer;'" +
+"                            <img src=\""+ imagem_Perfil + "\" style=\"cursor: pointer; \"" +
 "                                onclick=\"abrir_conversa(" +
                                      "document.getElementById ('" + web_id +                         "').value," +
                                      "document.getElementById ('" + web_id + web_contato_email +     "').value," +
@@ -1559,211 +1435,6 @@
 
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////  
-//BAIXAR IMAGEM
-///////////////////////////////////////////////////////////////////////////////////////////////////////////   
-function baixar_imagem( web_id_da_tb_usuario ){
-        var retorno = "";
-            
-            try{
-                var id_planilha = "1xCq2u_Mt9R-lDi0JeaOyTDgrSHvHphh0LD-aIySRv9Q";
-                var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
-                var xhttp = new XMLHttpRequest();
-                xhttp.open("GET", url, false);
-                xhttp.send();//A execução do script para aqui até a requisição retornar do servidor
-                //document.getElementById("resposta").innerHTML = xhttp.responseText;
-                var mensagem = xhttp.responseText;
-                    
-                ////////////////////////////////////////////////////////////
-                var tem_mensagem = false;
-                var linha_recebida = mensagem.split("@");
-                for( var i = 0; i < linha_recebida.length; i++ ) {
-                    if( linha_recebida[i].includes("-") ){
-                        tem_mensagem = true;
-                        break;
-                    }
-                }
-                ////////////////////////////////////////////////////////////
-                    
-                if( tem_mensagem === true ){
-                        
-                    var linha_recebida = mensagem.split("@");            
-                    for( var i = 0; i < linha_recebida.length; i++ ) {
-                        if( linha_recebida[i].includes("-") ){
-                            var web_id_usuario;
-                            var web_email_usuario;
-                            var web_contador;                        
-                            var web_parte;
-
-                            //var id_txt2 = "@" + id_usuario + "j" + email_usuario + "j" + contador  + "j" + parte + "@";
-                            var argumentos = linha_recebida[i].split("j");
-                            for( var j = 0; j < argumentos.length; j++ ) {
-                                if(j === 0){ 
-                                    web_id_usuario = argumentos[j];
-                                }
-                                else if(j === 1){
-                                    web_email_usuario = argumentos[j];
-                                }
-                                else if(j === 2){
-                                    web_contador = argumentos[j];
-                                }
-                                else if(j === 3){
-                                    web_parte = argumentos[j];
-                                }
-                            }
-                            
-                            var web_id_da_tb_usuario_str = importar_Para_Alfabeto_JM( web_id_da_tb_usuario.trim() ).trim().toUpperCase();                        
-                            var web_id_usuario_da_linha = importar_Para_Alfabeto_JM( web_id_usuario.trim() ).trim().toUpperCase();
-                            if( verificar_igualdade_sem_espaco_no_final( web_id_da_tb_usuario_str, web_id_usuario_da_linha ) === true ){   
-                                
-                                retorno += web_parte;
-                            }
-                        }else{
-                                                       
-                        }
-                    }                   
-                }
-                //}, 0);
-            
-            }catch(Exception){
-                
-                document.getElementById("resposta").innerHTML = "fazerRequisicao -- " + Exception;
-            } 
-            
-            return retorno;
-        }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////   
-//BAIXAR IMAGEM
-///////////////////////////////////////////////////////////////////////////////////////////////////////////   
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////   
-//VERIFICAR IGUALDADE
-///////////////////////////////////////////////////////////////////////////////////////////////////////////   
-    function verificar_igualdade_sem_espaco_no_final( object1, object2 ){
-        
-        /*
-        var anterior = document.getElementById("ul_meus_contatos").innerHTML;
-                            document.getElementById("ul_meus_contatos").innerHTML = anterior + 
-                                    "<br>" +                                    
-                                    "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
-                                    "-------------------------------------------------------------------------------------" + "<br>" +
-                                    "verificar_igualdade( object1, object2 ) " +
-                                    "<br>" +
-                                    "object1: " + object1 +
-                                    "<br>" +
-                                    "object1: " + object2;
-        */                  
-       
-        /*
-        var anterior = document.getElementById("ul_meus_contatos").innerHTML;
-                            document.getElementById("ul_meus_contatos").innerHTML = anterior + 
-                                    "<br>" +                                    
-                                    "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
-                                    "-------------------------------------------------------------------------------------" + "<br>";
-        */   
-       
-        var retorno = false;
-    
-        try{
-            var numeros1 = exportar_Para_Alfabeto_JM_Sem_Arroba(object1);
-            var numeros2 = exportar_Para_Alfabeto_JM_Sem_Arroba(object2);
-            
-            var letras1 = "";
-            var argumento1 = numeros1.split("-");                                        
-            for( var i = 0; i < argumento1.length; i++ ) {
-                try{
-                    var letra_unicode = String.fromCharCode( argumento1[i] );   
-                    
-                    if ( letra_unicode === undefined || letra_unicode === "" || letra_unicode === null){
-    
-                    }
-                    else if ( argumento1[i] > 32 ){
-                        
-                        letras1 += letra_unicode + "-";
-                    }
-                    
-                    /*
-                    var anterior = document.getElementById("ul_meus_contatos").innerHTML;
-                        document.getElementById("ul_meus_contatos").innerHTML = anterior + 
-                            "<br>" +
-                            argumento1[i] + " - " + letra_unicode;
-                    */
-                }catch(Exception){}
-            }
-            
-            var letras2 = "";
-            var argumento2 = numeros2.split("-");                                        
-            for( var i = 0; i < argumento2.length; i++ ) {   
-                try{
-                    var letra_unicode = String.fromCharCode( argumento2[i] );      
-                    
-                    if ( letra_unicode === undefined || letra_unicode === "" || letra_unicode === null){
-
-                    }
-                    else if ( argumento2[i] > 32 ){
-                        
-                        letras2 += letra_unicode + "-";
-                    }
-                    
-                    /*
-                    var anterior = document.getElementById("ul_meus_contatos").innerHTML;
-                        document.getElementById("ul_meus_contatos").innerHTML = anterior + 
-                            "<br>" +
-                            argumento2[i] + " - " + letra_unicode;
-                    */
-                }catch(Exception){}
-            }
-            
-            /*
-            var anterior = document.getElementById("ul_meus_contatos").innerHTML;
-                document.getElementById("ul_meus_contatos").innerHTML = anterior + 
-                                    "<br>" +
-                                    "<br>" +
-                                    "verificar_igualdade( object1, object2 ) " +
-                                    "<br>" +
-                                    "letras1.length: " + letras1.length +
-                                    "<br>" +
-                                    "letras2.length: " + letras2.length +
-                                    "<br>" +
-                                    "numeros1: " + numeros1 +
-                                    "<br>" +
-                                    "letras1: " + letras1 +
-                                    "<br>" +
-                                    "numeros2: " + numeros2 +
-                                    "<br>" +
-                                    "letras2: " + letras2;
-            */
-    
-            var obj_1 = letras1.split("-");
-            var obj_2 = letras2.split("-");
-            
-            if( obj_1.length === obj_2.length ){
-                
-                for( var i = 0; i < obj_1.length; i++ ) {
-                    
-                    if( obj_1[i] === obj_2[i] ){
-                        
-                        retorno = true;
-                    }
-                    else{
-                        retorno = false;
-                        break;
-                    }
-                }
-            }
-            
-        }catch(Exception){}
-        
-        return retorno;
-    }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////   
-//VERIFICAR IGUALDADE
-///////////////////////////////////////////////////////////////////////////////////////////////////////////   
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////        
@@ -1792,8 +1463,6 @@ function baixar_imagem( web_id_da_tb_usuario ){
         function novo_usuario(){
             
             try{
-                
-                try{ imgXX = "null"; /* <--- data: base64*/ }catch(Exception){}
                 
                 document.getElementById("resposta").style.display = 'none'; 
                 document.getElementById("div_meus_contatos").style.display = 'none'; 
@@ -2366,7 +2035,6 @@ function baixar_imagem( web_id_da_tb_usuario ){
                             </table> 
                         </li> 
                         
-                        <!--
                         <li style="padding-top: 5px; ">
                             <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0; ">
                                 <tr>
@@ -2407,48 +2075,6 @@ function baixar_imagem( web_id_da_tb_usuario ){
                                 </tr>
                             </table> 
                         </li>
-                        -->
-                        
-                        <li style="padding-top: 5px; ">
-                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0; ">
-                                <tr>
-                                    <td align="center">
-                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
-                                            <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
-                                                Endereço Web Imagem Perfil:
-                                            </li>
-                                            <li style="">
-                                                <input id="form_novo_imagem" type="file" onchange="encodeImageFileAsURL();" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" >
-                                            </li>
-                                        </ul>                                                                         
-                                    </td>
-                                </tr>
-                            </table> 
-                        </li> 
-                        
-                        <li style="padding-top: 5px; ">
-                            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;">
-                                <tr>
-                                    <td align="center">
-                                        <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
-
-                                            <li style="">
-                                                <img src="../arquivos/imagens/003_login/logo2.png" 
-                                                    style="cursor: pointer; "
-                                                    onclick="inicioCadastrarTabelaLogin(
-                                                        document.getElementById ('form_novo_login').value,
-                                                        document.getElementById ('form_novo_senha').value,
-                                                        document.getElementById ('form_novo_nome').value,
-                                                        document.getElementById ('form_novo_recuperacao').value,
-                                                        document.getElementById ('form_novo_imagem').src,
-                                                        document.getElementById ('resposta').innerHTML );"
-                                                    alt="" width="140" height="50">
-                                            </li>
-                                        </ul>                                                                         
-                                    </td>
-                                </tr>
-                            </table> 
-                        </li>
                         
                     </ul>                                          
                 </td>                  
@@ -2457,34 +2083,6 @@ function baixar_imagem( web_id_da_tb_usuario ){
     </li> 
 </ul>
 </div>    
-
-<script type='text/javascript'>
-    
-    var imgXX = "null"; // <--- data: base64
-    
-  function encodeImageFileAsURL() {
-
-    var filesSelected = document.getElementById("form_novo_imagem").files;
-    if (filesSelected.length > 0) {
-      var fileToLoad = filesSelected[0];
-
-      var fileReader = new FileReader();
-
-      fileReader.onload = function(fileLoadedEvent) {
-        var srcData = fileLoadedEvent.target.result; // <--- data: base64
-        imgXX = srcData;
-
-        var newImage = document.createElement('img');
-        newImage.src = srcData;
-
-        document.getElementById("output_image").src = srcData;
-        //alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
-        //console.log("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
-      }
-      fileReader.readAsDataURL(fileToLoad);
-    }
-  }
-</script>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
