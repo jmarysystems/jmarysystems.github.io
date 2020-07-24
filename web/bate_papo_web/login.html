@@ -659,20 +659,28 @@
                         
                        var contato_email_str = contato_email.trim().toUpperCase();
                        
-                       var web_contato_email_str = importar_Para_Alfabeto_JM(web_contato_email).trim().toUpperCase();
+                       var web_contato_email_str = converter_base64(web_contato_email).trim().toUpperCase();
                        
-                       var user_ok = web_contato_email_str.localeCompare(contato_email_str);
-                       
-                       if( user_ok === 0 ){ 
+                       //Verificar se este contato é cadastrado
+                       if( verificar_igualdade_sem_espaco_no_final( contato_email_str, web_contato_email_str ) === true ){                       
                             /*
                             document.getElementById("resposta").innerHTML = 
                                 "<ul id=\"ul_resposta\" style=\"list-style:none; padding: 0px; margin: 0px;\"> </ul>";
                             document.getElementById("ul_resposta").innerHTML = "Sim " + senha_da_linha + " ** " + senha_digitada_str ;
                             */
+                           
+                            //Verificar se este contato é cadastrado para este usuário   
+                            var local_usuario_logado = document.getElementById ('usuario_logado').value;
+                            var jm_local_usuario_logado_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( local_usuario_logado.trim() );
                             
-                            // Fim do loop
-                            contato_nao_cadastrado = true;
-                            break;
+                            var local_usuario_logado_str = converter_base64( jm_local_usuario_logado_digitado ).trim().toUpperCase();
+                            var web_usuario_logado_str = converter_base64( web_usuario_logado ).trim().toUpperCase();
+                            
+                            if( verificar_igualdade_sem_espaco_no_final( local_usuario_logado_str, web_usuario_logado_str ) === true ){
+                                // Fim do loop
+                                contato_nao_cadastrado = true;
+                                break;
+                            }
                        }
                        else{
                             contato_nao_cadastrado = false;
@@ -1006,9 +1014,7 @@
                                     "<br>" +
                                     "web_contato_ultimo_nome: " + importar_Para_Alfabeto_JM(web_contato_ultimo_nome).trim().toUpperCase();
                         */
-                       
-                       var user_ok = web_usuario_logado_email_str.localeCompare(local_usuario_logado_email_str);
-                       
+
                        //Verificar se este contato é deste usuário
                        if( verificar_igualdade_sem_espaco_no_final( web_usuario_logado_email_str, local_usuario_logado_email_str ) === true ){
                        //if( user_ok === 0 ){ 
@@ -1040,7 +1046,7 @@
                             contato_nao_cadastrado = true;
                             
                             //Este é um contato deste usuário
-                            
+                            //*
                             img_perfil_001_tb_usuario_procurar_imagem_deste_contato(
                                     web_id,
                                         web_comando,
@@ -1049,7 +1055,7 @@
                                                     web_contato_nome,
                                                         web_contato_nome_meio,
                                                             web_contato_ultimo_nome);
-                                                         
+                            //*/                             
                        }
                        else{
                            
@@ -1256,7 +1262,7 @@
                        
                         var usuario_da_linha = importar_Para_Alfabeto_JM(usuario).trim().toUpperCase();
                        
-                        var user_ok = usuario_da_linha.localeCompare(usuario_digitado_str);
+                        //var user_ok = usuario_da_linha.localeCompare(usuario_digitado_str);
                         
                         var web_id_da_tb_usuario = id;
                         
@@ -1279,36 +1285,17 @@
                             document.getElementById("ul_meus_contatos").innerHTML = anterior + 
                                     "<br>" +                                    
                                     "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
-                                    "-------------------------------------------------------------------------------------" + "<br>" +
-                                    importar_Para_Alfabeto_JM(web_usuario_logado_da_tb_contato).trim().toUpperCase() +
+                                    "-------------------------------------------------------------------------------------" + 
                                     "<br>" +
-                                    "Contato Encontrado: " + importar_Para_Alfabeto_JM(web_contato_email_da_tb_contato).trim().toUpperCase();
+                                    "usuario_da_linha: " + usuario_da_linha +
+                                    "<br>" +
+                                    "usuario_digitado_str: " + usuario_digitado_str;
                             */
                             
                                                                               
                             
                             // Fim do loop
-                            /*
-                            imagem_Perfil = null;
-                            if (imagem_endereco_web_digitado === "" || imagem_endereco_web_digitado === null){
-                                
-                                imagem_Perfil = "../arquivos/imagens/003_login/cont.png";
-                            }
-                            else{
-                                
-                                imagem_Perfil = importar_Para_Alfabeto_JM(imagem_endereco_web_digitado).trim();
-                            }
-                            
-                            listar001(
-                                imagem_Perfil, 
-                                    web_id_da_tb_contato,
-                                        web_comando_da_tb_contato,
-                                            web_usuario_logado_da_tb_contato,
-                                                web_contato_email_da_tb_contato,
-                                                    web_contato_nome_da_tb_contato,
-                                                        web_contato_nome_meio_da_tb_contato,
-                                                            web_contato_ultimo_nome_da_tb_contato);
-                            */
+
                            
                             //finalizando - foi encontrada a imagem do perfil deste contato na tabela de usuários cara pálida
                             usuario_nao_cadastrado = true;
@@ -1346,7 +1333,7 @@
                                 */
                                 
                             }
-                           break;
+                            break;
                        }                       
                        
                     }
@@ -1354,19 +1341,21 @@
                 
                 //*
                 if( usuario_nao_cadastrado === true ){
-                    /*                
+                    /*               
                     var anterior = document.getElementById("ul_meus_contatos").innerHTML;
                             document.getElementById("ul_meus_contatos").innerHTML = anterior + 
                                     "<br>" +                                    
                                     "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
                                     "-------------------------------------------------------------------------------------" + "<br>" +
-                                    importar_Para_Alfabeto_JM(web_usuario_logado_da_tb_contato).trim().toUpperCase() +
+                                    "if( usuario_nao_cadastrado === true ){" +
                                     "<br>" +
                                     "Contato Encontrado: " + importar_Para_Alfabeto_JM(web_contato_email_da_tb_contato).trim().toUpperCase();
-                            */
-                         
+                    */        
+                       
+                    
                     setTimeout(function(){ 
                         listar001(
+                                "sim",
                             web_id_da_tb_usuario,
                                 imagem_Perfil, 
                                     web_id_da_tb_contato,
@@ -1376,21 +1365,25 @@
                                                     web_contato_nome_da_tb_contato,
                                                         web_contato_nome_meio_da_tb_contato,
                                                             web_contato_ultimo_nome_da_tb_contato);
-                    }, 0);                                        
+                    }, 0);     
+                    
                 }
                 else{
-                            /*                
+                         
+                    /*
                     var anterior = document.getElementById("ul_meus_contatos").innerHTML;
                             document.getElementById("ul_meus_contatos").innerHTML = anterior + 
                                     "<br>" +                                    
                                     "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
                                     "-------------------------------------------------------------------------------------" + "<br>" +
-                                    importar_Para_Alfabeto_JM(web_usuario_logado_da_tb_contato).trim().toUpperCase() +
+                                    "usuario_nao_cadastrado === false" +
                                     "<br>" +
                                     "Contato Encontrado: " + importar_Para_Alfabeto_JM(web_contato_email_da_tb_contato).trim().toUpperCase();
-                            */
+                    */        
+                           
                            
                     listar001(
+                            "nao",
                             web_id_da_tb_usuario,
                                 "../arquivos/imagens/003_login/cont2.png", 
                                     web_id_da_tb_contato,
@@ -1399,7 +1392,8 @@
                                                 web_contato_email_da_tb_contato,
                                                     web_contato_nome_da_tb_contato,
                                                         web_contato_nome_meio_da_tb_contato,
-                                                            web_contato_ultimo_nome_da_tb_contato);       
+                                                            web_contato_ultimo_nome_da_tb_contato);  
+                                                          
                 }
                 //*/
                 
@@ -1418,6 +1412,7 @@
         
         
         function listar001(
+                este_e_um_usuario_cara_palida,
             web_id_da_tb_usuario,
                 imagem_Perfil, 
                     web_id,
@@ -1428,20 +1423,35 @@
                                         web_contato_nome_meio,
                                             web_contato_ultimo_nome){
             
-            try{         
+            try{  
                 
-                var imagem_src_data = "../arquivos/imagens/003_login/cont.png";
+                var imagem_src_data = imagem_Perfil;
                 
-                try{
+                if( este_e_um_usuario_cara_palida === "sim" ){
+                                                        
+                    try{
                     
-                    var imagem_src_data_web = baixar_imagem( web_id_da_tb_usuario );    var imagem_src_data_web = baixar_imagem( web_id_da_tb_usuario );    
-                    
-                    //var image = new Image();
-                    //image.setAttribute('src', importar_Para_Alfabeto_JM( imagem_src_data_web.trim() ).trim() );
-                    //image.src = importar_Para_Alfabeto_JM( imagem_src_data_web.trim() ).trim();
-                                        
-                    imagem_src_data = importar_Para_Alfabeto_JM( imagem_src_data_web.trim() ).trim();
-                }catch(Exception){}
+                        var imagem_src_data_web = baixar_imagem( web_id_da_tb_usuario );    
+         
+                        imagem_src_data = converter_base64( imagem_src_data_web );
+                        
+                        if ( imagem_src_data === undefined || imagem_src_data === "" || imagem_src_data === null){
+                            
+                            imagem_src_data = "../arquivos/imagens/003_login/cont.png";
+                        }
+                        
+                        /*
+                        var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                            document.getElementById("ul_meus_contatos").innerHTML = anterior + 
+                                    "<br>" +                                    
+                                    "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
+                                    "-------------------------------------------------------------------------------------" + "<br>" +
+                                    "function listar001(" +
+                                    "<br>" +
+                                    "imagem_src_data: " + imagem_src_data;
+                        */
+                    }catch(Exception){}
+                }
                 
                 var add =
                 
@@ -1454,10 +1464,10 @@
 "        > " +
 "            " +
 
-            "<input type=\"hidden\" id=\"" + web_id + "\" value=\"" + web_id_da_tb_usuario + "\">" +
-            "<input type=\"hidden\" id=\"" + web_id + web_contato_email + "\" value=\"" + importar_Para_Alfabeto_JM(web_contato_email).trim() + "\">" +
-            "<input type=\"hidden\" id=\"" + web_id + web_contato_nome + "\" value=\"" + importar_Para_Alfabeto_JM(web_contato_nome).trim() + "\">" +
-            "<input type=\"hidden\" id=\"" + web_id + web_contato_nome_meio + "\" value=\"" + importar_Para_Alfabeto_JM(web_contato_nome_meio).trim() + "\">" +
+            "<input type=\"hidden\" id=\"" + web_id + "\" value=\"" + imagem_src_data + "\">" +
+            "<input type=\"hidden\" id=\"" + web_id + web_contato_email + "\" value=\"" + converter_base64(web_contato_email).trim() + "\">" +
+            "<input type=\"hidden\" id=\"" + web_id + web_contato_nome + "\" value=\"" + converter_base64(web_contato_nome).trim() + "\">" +
+            "<input type=\"hidden\" id=\"" + web_id + web_contato_nome_meio + "\" value=\"" + converter_base64(web_contato_nome_meio).trim() + "\">" +
              
 "                <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">" +
 "                    <tr> " +
@@ -1469,22 +1479,22 @@
                                      "document.getElementById ('" + web_id + web_contato_nome +      "').value," +
                                      "document.getElementById ('" + web_id + web_contato_nome_meio + "').value" +
                                  ");\" " +
-"                                title=\"" + importar_Para_Alfabeto_JM(web_contato_nome).trim()  + "\" width=\"100\" height=\"100\">" +
+"                                title=\"" +  converter_base64( web_contato_nome).trim()  + "\" width=\"100\" height=\"100\">" +
 "                        </td>    " +
 "                    </tr>" +
 "                    <tr> " +
 "                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
-"                            " + importar_Para_Alfabeto_JM(web_contato_nome).trim() +
+"                            " + converter_base64(web_contato_nome).trim() +
 "                        </td>    " +
 "                    </tr> " +
 "                    <tr> " +
 "                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
-"                            " + importar_Para_Alfabeto_JM(web_contato_nome_meio).trim()  +
+"                            " + converter_base64(web_contato_nome_meio).trim()  +
 "                        </td>    " +
 "                    </tr>" +
 "                    <tr> " +
 "                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
-"                            " + importar_Para_Alfabeto_JM(web_contato_ultimo_nome).trim()  +
+"                            " + converter_base64(web_contato_ultimo_nome).trim()  +
 "                        </td>    " +
 "                    </tr>" +
 "                </table>" +
@@ -1507,7 +1517,7 @@
                 
                     var add =
                 
-"<li style=\"float: left; background-color:#3A3A3A;\" \n" +
+"<li style=\"float: left; margin-left: 5px; background-color:#3A3A3A;\" \n" +
 "            onMouseover=\"\n" +
 "            this.style.backgroundColor='#23871C';\"  \n" +
 "            \n" +
@@ -1635,6 +1645,90 @@ function baixar_imagem( web_id_da_tb_usuario ){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //BAIXAR IMAGEM
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+////CONVERTER BASE64
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+    function converter_base64( object1 ){
+        
+        /*
+        var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                            document.getElementById("ul_meus_contatos").innerHTML = anterior + 
+                                    "<br>" +                                    
+                                    "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
+                                    "-------------------------------------------------------------------------------------" + "<br>" +
+                                    "verificar_igualdade( object1, object2 ) " +
+                                    "<br>" +
+                                    "object1: " + object1 +
+                                    "<br>" +
+                                    "object1: " + object2;
+        */                  
+       
+        /*
+        var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                            document.getElementById("ul_meus_contatos").innerHTML = anterior + 
+                                    "<br>" +                                    
+                                    "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" + "<br>" +
+                                    "-------------------------------------------------------------------------------------" + "<br>";
+        */   
+       
+        var retorno = "";
+    
+        try{
+            
+            var argumento1 = object1.split("-");                                        
+            for( var i = 0; i < argumento1.length; i++ ) {
+                try{
+                    var letra_unicode = String.fromCharCode( argumento1[i] );   
+                    
+                    if ( letra_unicode === undefined || letra_unicode === "" || letra_unicode === null){
+    
+                    }
+                    else if ( argumento1[i] > 32 ){
+                        
+                        retorno += letra_unicode;
+                    }
+                    
+                    /*
+                    var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                        document.getElementById("ul_meus_contatos").innerHTML = anterior + 
+                            "<br>" +
+                            argumento1[i] + " - " + letra_unicode;
+                    */
+                }catch(Exception){}
+            }
+            
+            /*
+            var anterior = document.getElementById("ul_meus_contatos").innerHTML;
+                document.getElementById("ul_meus_contatos").innerHTML = anterior + 
+                                    "<br>" +
+                                    "<br>" +
+                                    "verificar_igualdade( object1, object2 ) " +
+                                    "<br>" +
+                                    "letras1.length: " + letras1.length +
+                                    "<br>" +
+                                    "letras2.length: " + letras2.length +
+                                    "<br>" +
+                                    "numeros1: " + numeros1 +
+                                    "<br>" +
+                                    "letras1: " + letras1 +
+                                    "<br>" +
+                                    "numeros2: " + numeros2 +
+                                    "<br>" +
+                                    "letras2: " + letras2;
+            */
+            
+        }catch(Exception){}
+        
+        return retorno;
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//CONVERTER BASE64
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+
 
 
 
@@ -2415,10 +2509,10 @@ function baixar_imagem( web_id_da_tb_usuario ){
                                     <td align="center">
                                         <ul style="list-style:none; padding: 0px; margin: 0px; width:100%;" >
                                             <li style="width:100%; background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
-                                                Endereço Web Imagem Perfil:
+                                                Escolher Imagem do Perfil:
                                             </li>
                                             <li style="">
-                                                <input id="form_novo_imagem" type="file" onchange="encodeImageFileAsURL();" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;" >
+                                                <input id="form_novo_imagem" type="file" onchange="encodeImageFileAsURL();" style="background-color: #3A3A3A; height: 50px; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 90%;" >
                                             </li>
                                         </ul>                                                                         
                                     </td>
@@ -2796,14 +2890,14 @@ function baixar_imagem( web_id_da_tb_usuario ){
             <tr> 
         </table>
             
-        <table border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
+        <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding-top: 5px;"> 
             <tr> 
                 
-                <td style="background-color: #D3D3D3; width:50%;">
+                <td style="background-color: #D3D3D3; width:70%;">
             
                     <div style="background-color: #3A3A3A; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
                 
-                        Usuário: 
+                        <label style="float: left; padding: 0px; margin: 0px;"> Usuário: </label> 
                         <table border="0" cellpadding="0" cellspacing="0" style="background-color: #3A3A3A; width:100%; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;"> 
                             <tr> 
                                 
@@ -2811,7 +2905,7 @@ function baixar_imagem( web_id_da_tb_usuario ){
                                     <img src="../arquivos/imagens/003_login/cleilson.jpg" width="50" height="50">
                                 </td>
                                 
-                                <td>
+                                <td style="padding-left: 5px;">
                                     Bom dia! segue o resumo por setor e listagem  dos produtos armazenados e não expostos 
                                     Recebidos ontem 17/07/20.
                                 </td>
@@ -2821,7 +2915,7 @@ function baixar_imagem( web_id_da_tb_usuario ){
             
                 </td>
                 
-                <td style="float: left; width:50%;"> 
+                <td style="float: left; width:30%;"> 
 
                 </td>   
  
@@ -2830,26 +2924,27 @@ function baixar_imagem( web_id_da_tb_usuario ){
     
         
     
-        <table border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
+        <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding-top: 5px;"> 
             <tr> 
-                <td style="float: right; width:50%;"> 
+                <td style="float: right; width:30%;"> 
 
                 </td>    
                 
-                <td style="background-color: #D3D3D3; width:50%;">
+                <td style="background-color: #D3D3D3; width:70%;">
             
                     <div style="background-color: #EDECEC; color:#000; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
                 
-                        Usuário: 
+                        <label style="float: right; padding: 0px; margin: 0px;"> Usuário: </label> 
                         <table border="0" cellpadding="0" cellspacing="0" style="background-color: #EDECEC; width:100%; color: #000; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;"> 
                             <tr> 
-                                <td>
-                                    <img src="../arquivos/imagens/003_login/cleilson.jpg" width="50" height="50">
+                                                                
+                                <td style="padding-left: 5px;">
+                                    Bom dia! segue o resumo por setor e listagem  dos produtos armazenados e não expostos 
+                                    Recebidos ontem 17/07/20.
                                 </td>
                                 
                                 <td>
-                                    Bom dia! segue o resumo por setor e listagem  dos produtos armazenados e não expostos 
-                                    Recebidos ontem 17/07/20.
+                                    <img src="../arquivos/imagens/003_login/cleilson.jpg" width="50" height="50">
                                 </td>
                             </tr> 
                         </table>    
@@ -2883,9 +2978,9 @@ function baixar_imagem( web_id_da_tb_usuario ){
 <table border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
     
     <tr>
-        <td style="background-color: #D3D3D3; width:30%;"> </td>
+        <td style="background-color: #D3D3D3; width:20%;"> </td>
         
-        <td align="center" style="background-color: #D3D3D3;"> 
+        <td align="center" style="background-color: #D3D3D3; width:60%;"> 
             
             <a style="color:black; font-family:  Arial, Helvetica, sans-serif; font-size: 150%; text-decoration: none;"
                onMouseover=" this.style.color='#fff'; "
@@ -2896,16 +2991,16 @@ function baixar_imagem( web_id_da_tb_usuario ){
             
         </td>
         
-        <td style="background-color: #D3D3D3; width:30%;"> </td>
+        <td style="background-color: #D3D3D3; width:20%;"> </td>
     </tr> 
     
     <tr>
-        <td align="right" style="background-color: #D3D3D3; width:30%; padding-right: 5px;">
+        <td align="right" style="background-color: #D3D3D3; width:20%; padding-right: 5px;">
             
             <img src="../arquivos/imagens/003_login/cara_palida.png" alt="" width="150" height="150">            
         </td>
         
-        <td style="background-color: #D3D3D3; width:40%;">
+        <td colspan="2" style="background-color: #D3D3D3; width:60%; padding-right: 15px;">
             
             <div style="background-color: #3A3A3A; height:100%;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
                 
@@ -2915,24 +3010,20 @@ function baixar_imagem( web_id_da_tb_usuario ){
             </div>
             
         </td>
-        
-        <td style="background-color: #D3D3D3; width:30%;">
-            
-               
-        </td>
+
     </tr>     
     
     <tr>
-        <td style="background-color: #D3D3D3; width:30%;"> </td>
+        <td style="background-color: #D3D3D3; width:20%;"> </td>
         
-        <td align="center" style="background-color: #D3D3D3;"> 
+        <td align="center" style="background-color: #D3D3D3; width:60%;"> 
             
             <img src="../arquivos/imagens/003_login/enviar.png" 
                 style="cursor: pointer; "
                 alt="" width="140" height="50">
         </td>
         
-        <td style="background-color: #D3D3D3; width:30%;"> </td>
+        <td style="background-color: #D3D3D3; width:20%;"> </td>
     </tr> 
     
 </table>        
