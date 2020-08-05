@@ -18,11 +18,18 @@
     <body 
         style="background-color: #D3D3D3; width: 100%; height: 100%; padding: 0; margin: 0;
                font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;" > 
+ 
+<!-- 14 letras para o nome, nome do meio e último nome -->           
+        <img id="img_conversa_user_logado" src="../arquivos/imagens/003_login/cleilson.jpg" alt="" width="50" height="50" style="display: none;" >
         
-        <input type="hidden" id="usuario_logado" value="null">    
+        <input type="hidden" id="usuario_logado" value="null"> 
+        <input type="hidden" id="usuario_logado_id" value="null">
+        <input type="hidden" id="usuario_logado_id_nome" value="null">
+        <input type="hidden" id="usuario_logado_id_sobrenome" value="">
         <input type="hidden" id="usuario_logado_imagem" value="null">
         
-        
+        <input type="hidden" id="lista_de_contatos_input" value="null">
+
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
@@ -116,6 +123,8 @@
 
 
     <script>
+        var lista_de_contatos = "";
+        var endereco_imagem_user_logado = "";
         
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////         
@@ -247,16 +256,36 @@
                            
                             if( pass_ok === 0 ){ 
                                 //document.getElementById("resposta").innerHTML = "<div>Login OK</div>";
+                                setTimeout(function(){
+                                    try{
+                                        var imagem_src_data_web22 = baixar_imagem( id );    
+                                        var imagem_src_data22 = converter_base64( imagem_src_data_web22 );
+                                        if ( imagem_src_data22 === undefined || imagem_src_data22 === "" || imagem_src_data22 === null){
+                                            
+                                            imagem_src_data22 = "../arquivos/imagens/003_login/cont.png";
+                                        }
+                                        
+                                        endereco_imagem_user_logado = imagem_src_data22;
+                                        document.getElementById("usuario_logado_imagem").value = imagem_src_data22;
+                                        
+                                        document.getElementById("img_conversa_user_logado").src = imagem_src_data22;
+
+                                    }catch(Exception){}
+                                }, 500);
+                                
                                 document.getElementById("resposta").style.display = 'none'; 
                                 document.getElementById("div_meus_contatos").style.display = 'block';  
                                 
-                                //LOGIN EFETUADO COM SUCESSO
+                                //LOGIN EFETUADO COM SUCESSO 
                                 document.getElementById("usuario_logado").value = usuario_digitado;
                                 var nome_digitado_da_linha = importar_Para_Alfabeto_JM(nome_digitado).trim().toUpperCase();
                                 document.getElementById("cara_palida").innerHTML = "-)-> " + nome_digitado_da_linha + " <-(-";
+                                document.getElementById("usuario_logado_id_nome").value = nome_digitado_da_linha;
                                 
-                                //LISTAR CONTATOS DO USUÁRIO LOGADO
+                                //LISTAR CONTATOS DO USUÁRIO LOGADO 
                                 listar_contatos( document.getElementById("usuario_logado").value );
+                                
+                                document.getElementById("usuario_logado_id").value = id;      
                             }
                             else{
                                 
@@ -854,7 +883,7 @@
                     
                     //LISTAR CONTATOS DO USUÁRIO LOGADO
                     listar_contatos( document.getElementById("usuario_logado").value );
-                     
+                      
                 }, 500);
             
             }catch(Exception){
@@ -1045,6 +1074,18 @@
                             // Fim do loop
                             contato_nao_cadastrado = true;
                             
+                            var temp = lista_de_contatos;
+                            
+                            lista_de_contatos = 
+                                    web_id + "j" + 
+                                        web_comando + "j" + 
+                                            web_usuario_logado + "j" + 
+                                                web_contato_email + "j" + 
+                                                    web_contato_nome + "j" + 
+                                                        web_contato_nome_meio + "j" + 
+                                                                web_contato_ultimo_nome  + "@" + temp;                           
+                            document.getElementById("lista_de_contatos_input").value = lista_de_contatos;
+                            
                             //Este é um contato deste usuário
                             //*
                             img_perfil_001_tb_usuario_procurar_imagem_deste_contato(
@@ -1093,11 +1134,162 @@
             }catch(Exception){
                 
                 document.getElementById("ul_meus_contatos").innerHTML = "consultar_contato_antes_de_cadastrar_003 -- " + Exception;
-            }     
+            }   
+            
+            //listar_contatos_um_por_um_mensagem();
+            
         }
         
         
+        function listar_contatos_um_por_um_mensagem(){
+            
+            try{
+                /*setTimeout(function(){ 
+                     document.getElementById("resposta").innerHTML = "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
+                }, 0);*/
+            
+                setTimeout(function(){ 
+                    var id_planilha = "1UHCZa_LGpJ1pnY4HI0DhuuaBpjtmpp_Hpih-q1BiFVk";
+                    var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                    /* Some tasks */ 
+                    //var url = document.getElementById('url').value;
+                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", url, false);
+
+                    xhttp.send();//A execução do script para aqui até a requisição retornar do servidor
+
+                    //document.getElementById("resposta").innerHTML = xhttp.responseText;
+                    var mensagem = xhttp.responseText;
+                    
+                    ////////////////////////////////////////////////////////////
+                    var tem_mensagem = false;
+                    var linha_recebida = mensagem.split("@");
+                    for( var i = 0; i < linha_recebida.length; i++ ) {
+                        if( linha_recebida[i].includes("-") ){
+                            tem_mensagem = true;
+                            break;
+                        }
+                    }
+                    ////////////////////////////////////////////////////////////
+                                        
+                    if( tem_mensagem === true ){
+
+                        /*
+                        setTimeout(function(){ 
+                            img_perfil_003_tb_usuario_procurar_imagem_deste_contato( mensagem, 
+                                web_id,
+                                        web_comando,
+                                            web_usuario_logado,
+                                                web_contato_email,
+                                                    web_contato_nome,
+                                                        web_contato_nome_meio,
+                                                            web_contato_ultimo_nome );
+                                                            
+                        }, 0);
+                        */
+                       
+                        listar_contatos_um_por_um( mensagem );
+                    }
+                    else{
+                        
+                        /*
+                        var imagem_Perfil = "../arquivos/imagens/003_login/cont.png";
+                            
+                            listar001(
+                              "null",
+                                imagem_Perfil, 
+                                    web_id,
+                                        web_comando,
+                                            web_usuario_logado,
+                                                web_contato_email,
+                                                    web_contato_nome,
+                                                        web_contato_nome_meio,
+                                                            web_contato_ultimo_nome);
+                        */
+                    }
+                }, 0);
+            
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "fazerRequisicao -- " + Exception;
+            }     
+        }    
+    
         
+        function listar_contatos_um_por_um( mensagem ){
+            
+            try{
+                
+                var linha_recebida = lista_de_contatos.split("@");            
+                for( var i = 0; i < linha_recebida.length; i++ ) {
+                    if( linha_recebida[i].includes("-") ){
+                        var web_id;
+                        var web_comando;
+                        var web_usuario_logado;
+                        
+                        var web_contato_email;
+                        var web_contato_nome;
+                        var web_contato_nome_meio;
+                        var web_contato_ultimo_nome;
+
+                        var argumentos = linha_recebida[i].split("j");
+                        for( var j = 0; j < argumentos.length; j++ ) {
+                            if(j === 0){ 
+                                web_id = argumentos[j];
+                            }
+                            else if(j === 1){
+                                web_comando = argumentos[j];
+                            }
+                            else if(j === 2){
+                                web_usuario_logado = argumentos[j];
+                            }
+                            else if(j === 3){
+                                web_contato_email = argumentos[j];
+                            }
+                            else if(j === 4){
+                                web_contato_nome = argumentos[j];
+                            }
+                            else if(j === 5){
+                                web_contato_nome_meio = argumentos[j];
+                            }
+                            else if(j === 6){
+                                web_contato_ultimo_nome = argumentos[j];
+                            }
+                        }
+                        
+                        //
+                        /*
+                        img_perfil_001_tb_usuario_procurar_imagem_deste_contato(
+                                    web_id,
+                                        web_comando,
+                                            web_usuario_logado,
+                                                web_contato_email,
+                                                    web_contato_nome,
+                                                        web_contato_nome_meio,
+                                                            web_contato_ultimo_nome);
+                        */     
+                       
+                        img_perfil_003_tb_usuario_procurar_imagem_deste_contato( mensagem, 
+                                web_id,
+                                        web_comando,
+                                            web_usuario_logado,
+                                                web_contato_email,
+                                                    web_contato_nome,
+                                                        web_contato_nome_meio,
+                                                            web_contato_ultimo_nome );
+                    }
+                }
+                
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "listar_contatos_um_por_um -- " + Exception;
+            }
+            
+            //GERAR TELAS DE CONVERSAS
+            
+        }
         
         
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -1423,7 +1615,11 @@
                                         web_contato_nome_meio,
                                             web_contato_ultimo_nome){
             
-            try{  
+            try{
+                
+                var nome_principal = "";   try{ nome_principal = converter_base64(web_contato_nome).trim(); }catch(Exception){}
+                var nome_do_meio = "";     try{ nome_do_meio = converter_base64(web_contato_nome_meio).trim(); }catch(Exception){}
+                var nome_ultimo_nome = ""; try{ nome_ultimo_nome = converter_base64(web_contato_ultimo_nome).trim(); }catch(Exception){}
                 
                 var imagem_src_data = imagem_Perfil;
                 
@@ -1453,6 +1649,20 @@
                     }catch(Exception){}
                 }
                 
+                if ( nome_do_meio === undefined || nome_do_meio === "" || nome_do_meio === null){
+                            
+                    nome_do_meio = "-";
+                }
+                if ( nome_ultimo_nome === undefined || nome_ultimo_nome === "" || nome_ultimo_nome === null){
+                            
+                    nome_ultimo_nome = "-";
+                }
+                
+                //setTimeout(function(){    
+                    var nome_principal_mais_nome_do_meio = nome_principal + " " + nome_do_meio;
+                    criar_tela_de_conversa( web_id, web_contato_email, imagem_src_data, nome_principal, nome_principal_mais_nome_do_meio );
+                //}, 0);
+                                                
                 var add =
                 
 "<li style=\"float: left; margin-left: 5px; background-color:#3A3A3A;\" " +
@@ -1464,37 +1674,39 @@
 "        > " +
 "            " +
 
+            "<input type=\"hidden\" id=\"" + "web_contato_id" + web_id + "\" value=\"" + web_id + "\">" +
             "<input type=\"hidden\" id=\"" + web_id + "\" value=\"" + imagem_src_data + "\">" +
             "<input type=\"hidden\" id=\"" + web_id + web_contato_email + "\" value=\"" + converter_base64(web_contato_email).trim() + "\">" +
-            "<input type=\"hidden\" id=\"" + web_id + web_contato_nome + "\" value=\"" + converter_base64(web_contato_nome).trim() + "\">" +
-            "<input type=\"hidden\" id=\"" + web_id + web_contato_nome_meio + "\" value=\"" + converter_base64(web_contato_nome_meio).trim() + "\">" +
+            "<input type=\"hidden\" id=\"" + web_id + web_contato_nome + "\" value=\"" + nome_principal + "\">" +
+            "<input type=\"hidden\" id=\"" + web_id + web_contato_nome_meio + "\" value=\"" + nome_do_meio + "\">" +
              
 "                <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">" +
 "                    <tr> " +
 "                        <td align=\"center\"> " +
 "                            <img src='" + imagem_src_data + "' style='cursor: pointer;'" +
 "                                onclick=\"abrir_conversa(" +
+                                     "document.getElementById ('" + "web_contato_id" + web_id +      "').value," +
                                      "document.getElementById ('" + web_id +                         "').value," +
                                      "document.getElementById ('" + web_id + web_contato_email +     "').value," +
                                      "document.getElementById ('" + web_id + web_contato_nome +      "').value," +
                                      "document.getElementById ('" + web_id + web_contato_nome_meio + "').value" +
                                  ");\" " +
-"                                title=\"" +  converter_base64( web_contato_nome).trim()  + "\" width=\"100\" height=\"100\">" +
+"                                title=\"" +  nome_principal  + "\" width=\"100\" height=\"100\">" +
 "                        </td>    " +
 "                    </tr>" +
 "                    <tr> " +
 "                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
-"                            " + converter_base64(web_contato_nome).trim() +
+"                            " + nome_principal +
 "                        </td>    " +
 "                    </tr> " +
 "                    <tr> " +
 "                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
-"                            " + converter_base64(web_contato_nome_meio).trim()  +
+"                            " + nome_do_meio  +
 "                        </td>    " +
 "                    </tr>" +
 "                    <tr> " +
 "                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
-"                            " + converter_base64(web_contato_ultimo_nome).trim()  +
+"                            " + nome_ultimo_nome  +
 "                        </td>    " +
 "                    </tr>" +
 "                </table>" +
@@ -1502,13 +1714,293 @@
 
                 var anterior = document.getElementById("ul_meus_contatos").innerHTML;
                 document.getElementById("ul_meus_contatos").innerHTML = anterior + add;
-                
+                                                                
             }catch(Exception){
                 
                 document.getElementById("ul_meus_contatos").innerHTML = "listar001 -- " + Exception;
             }     
         }
         
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+////CRIAR TELA DE CONVERSA 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        function criar_tela_de_conversa( web_id, web_contato_email, imagem_src_data, nome_principal, nome_principal_mais_nome_do_meio ){
+            
+            try{
+                
+                var add = 
+"<div id='" + "contato" + web_id + "' style=\"display: none; padding: 0; margin: 0;\">" +   
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//////TELA INICIAL - INÍCIO   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+"<input type=\"hidden\" id='" + "img_conversa" + web_id + "input" + "' value=\"" + imagem_src_data + "\">" +
+
+                "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; padding: 0; margin: 0;\"> " +
+"            <tr> " +
+"                <td style=\"width:30%;\"> " +
+"                " +
+"                    <img id='" + "img_conversa" + web_id + "' src='" + imagem_src_data + "' alt=\"\" width=\"50\" height=\"50\">" +
+"                </td>    " +
+"            " +
+"                <td align=\"center\" style=\"width:40%;\">" +
+"                    <h1 id='" + "h1_conversa" + web_id + "' align=\"center\" style=\"font:bold 150% verdana,arial,helvetica;\"> " + nome_principal_mais_nome_do_meio + " </h1>" +
+"                </td> " +
+"            " +
+"                <td style=\"width:30%;\">" +
+"                    <input style=\"float: right; margin-top: 5px; cursor: pointer;\" " +
+"                        type=\"button\" onclick=\"voltar_para_meus_contato();\" value=\"Voltar\">" +
+"                </td>" +
+"            <tr> " +
+"        </table>" +
+"    " +
+"        <hr style=\"padding: 0; margin: 0;\">" +
+"        " +
+
+         "<input type=\"hidden\" id=\"" + "contador" + web_id + "\" value=\"" + "0" + "\">" +
+         
+         "<input type=\"hidden\" id=\"" + "escrever_mensagem" + web_id + "\" value=\"" + web_id + "\">" +
+            
+"        <div id='" + "botao_escrever_mensagem" + web_id + "' style=\"display: block; width:100%; padding: 0; margin: 0;\"> " +
+"            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; padding: 0; margin: 0;\"> " +
+"                <tr> " +
+"                    <td>" +
+"                        <input style=\"float: right; margin-top: 5px; cursor: pointer;\" " +
+"                            type=\"button\" onclick=\"escrever_mensagem( " + 
+                                   "document.getElementById ('" + "escrever_mensagem" + web_id + "').value"
+                             + " );\" value=\"Escrever Mensagem\">" +
+"                    </td>" +
+"                <tr> " +
+"            </table>" +
+"        </div>" +
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//////TELA INICIAL - FIM   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//////CONVERSAS - INÍCIO   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+         "<div id='" + "div_todas_as_conversas" + web_id + "' style=\"display: block; padding: 0; margin: 0;\">"  +
+ 
+             
+         "</div>" +
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//////CONVERSAS - FIM   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//////ESCREVER E ENVIAR MENSAGENS - INÍCIO   
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+"<div id='" + "div_enviar_conversa" + web_id + "' style=\"display: none; padding: 0; margin: 0;\">" +
+
+"        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;\"> " +
+"            <tr> " +
+
+"                    <td>" +
+"                        <input style=\"float: right; margin-top: 5px; cursor: pointer;\" " +
+"                            type=\"button\" onclick=\"voltar_para_todas_as_mensagem( " + 
+                                   "document.getElementById ('" + "escrever_mensagem" + web_id + "').value"
+                             + " );\" value=\"Cancelar Mensagem\">" +
+"                    </td>" +
+"            <tr> " +
+"        </table>" +
+
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%;\"> " +
+
+"    <tr>" +
+"        <td style=\"background-color: #D3D3D3; width:20%;\"> </td>" +
+
+"        <td align=\"center\" style=\"background-color: #D3D3D3; width:60%;\"> " + 
+
+"            <a style=\"color:black; font-family:  Arial, Helvetica, sans-serif; font-size: 150%; text-decoration: none;\"" +
+"               onMouseover=\" this.style.color='#fff'; \"" +
+"               onMouseout=\"  this.style.color='black'; \"       " +
+
+"                NOVA MENSAGEM  " +
+"            </a>" +
+
+"        </td>" +
+
+"        <td style=\"background-color: #D3D3D3; width:20%;\"> </td>" +
+"    </tr> " +
+
+"    <tr>" +
+"        <td align=\"right\" style=\"background-color: #D3D3D3; width:20%; padding-right: 5px;\">" +
+
+"            <img src=\"../arquivos/imagens/003_login/cara_palida.png\" alt=\"\" width=\"150\" height=\"150\">            " +
+"        </td>" +
+
+"        <td colspan=\"2\" style=\"background-color: #D3D3D3; width:60%; padding-right: 15px;\">" +
+
+"            <div style=\"background-color: #3A3A3A; height:100%;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;\">" +
+
+"                Escrever Aqui                 " +
+"                <textarea id='" + "mensagem_a_enviar" + web_id + "' name=\"w3review\" rows=\"4\" cols=\"50\" style=\"background-color: #3A3A3A; width:100%; height: 100%; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;\">  </textarea>" +
+
+"            </div>" +
+
+"        </td>" +
+
+"    </tr>     " +
+
+"    <tr>" +
+"        <td style=\"background-color: #D3D3D3; width:20%;\"> </td>" +
+
+"        <td align=\"center\" style=\"background-color: #D3D3D3; width:60%;\"> " +
+
+"            <img src=\"../arquivos/imagens/003_login/enviar.png\" " +
+"                style=\"cursor: pointer; \"" +
+"                alt=\"\" width=\"140\" height=\"50\"" +
+
+"                onclick=\"enviar_mensagem(" + "document.getElementById ('" + "escrever_mensagem" + web_id + "').value," + "document.getElementById ( '" + "mensagem_a_enviar" + web_id + "' ).value );\">" +
+"        </td>" +
+
+"        <td style=\"background-color: #D3D3D3; width:20%;\"> </td>" +
+"    </tr> " +
+"</table>        " +
+"    </div>" +
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//////ESCREVER E ENVIAR MENSAGENS - FIM   
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+"</div>";
+                
+                var anterior = document.getElementById("div_conversa").innerHTML;
+                document.getElementById("div_conversa").innerHTML = anterior + add;
+                
+                //setTimeout(function(){ 
+                    //var contador = document.getElementById( "contador" + web_id ).value;
+                    loop_controle( web_id, web_contato_email, nome_principal );
+                //}, 0);                
+                
+            }catch(Exception){
+                
+                document.getElementById("ul_meus_contatos").innerHTML = "criar_tela_de_conversa -- " + Exception;
+            }     
+        }
+        
+        function loop_controle( web_id, web_contato_email, nome_principal ){
+            setTimeout(function(){ 
+                loop( web_id, web_contato_email, nome_principal );
+            }, 1000);
+        }
+        
+        function loop( web_id, web_contato_email, nome_principal ){
+            try{            
+                setTimeout(function(){ 
+
+                    var id_planilha = "10n3TYa4DlEbwduXiXU94yY5tHeStfoFeeod6EO-ST_o";
+                    var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                    /* Some tasks */ 
+                    //var url = document.getElementById('url').value;
+                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", url, false);
+
+                    xhttp.send();//A execução do script para aqui até a requisição retornar do servidor
+
+                    //document.getElementById("resposta").innerHTML = xhttp.responseText;
+                    var mensagem = xhttp.responseText;
+                    
+                    ////////////////////////////////////////////////////////////
+                    var tem_mensagem = false;
+                    var linha_recebida = mensagem.split("@");
+                    for( var i = 0; i < linha_recebida.length; i++ ) {
+                        if( linha_recebida[i].includes("-") ){
+                            tem_mensagem = true;
+                            break;
+                        }
+                    }
+                    ////////////////////////////////////////////////////////////
+                                        
+                    if( tem_mensagem === true ){
+                        /* var id_txt2 = "@" + jm_id + "j" + jm_comando + "j" + jm_remetente  + "j" + 
+                           jm_destinatario  + "j" +  
+                           jm_mensagem_a_enviar + "@"; 
+                        */
+                        
+                        var linha_recebida = mensagem.split("@");            
+                        for( var i = 0; i < linha_recebida.length; i++ ) {
+                            if( document.getElementById( "contador" + web_id ).value < i ){
+                                if( linha_recebida[i].includes("-") ){
+                                    var jm_id;
+                                    var jm_comando;
+                                    var jm_remetente;   
+                                    var jm_destinatario;   
+                                    var jm_mensagem_a_receber;
+
+                                    var argumentos = linha_recebida[i].split("j");
+                                    for( var j = 0; j < argumentos.length; j++ ) {
+                                        if(j === 0){ 
+                                            jm_id = argumentos[j];
+                                        }
+                                        else if(j === 1){
+                                            jm_comando = argumentos[j];
+                                        }
+                                        else if(j === 2){
+                                            jm_remetente = argumentos[j];
+                                        }
+                                        else if(j === 3){
+                                            jm_destinatario = argumentos[j];
+                                        }
+                                        else if(j === 4){
+                                            jm_mensagem_a_receber = argumentos[j];
+                                        }
+                                    }
+                                
+                                    var _00_local_usuario_logado_email_str            = document.getElementById("usuario_logado").value.trim().toUpperCase();
+                                    
+                                    var _11_local_contato_desta_tabela_email_str      = importar_Para_Alfabeto_JM( web_contato_email ).trim().toUpperCase();
+                                
+                                    var _00_web_usuario_logado_email_remetente_str    = importar_Para_Alfabeto_JM(jm_remetente).trim().toUpperCase();
+                                    var _11_web_usuario_logado_email_destinatario_str = importar_Para_Alfabeto_JM(jm_destinatario).trim().toUpperCase();
+
+                                    //Se o remetente for igual ao usuário logado então:
+                                    if( verificar_igualdade_sem_espaco_no_final( _00_web_usuario_logado_email_remetente_str, _00_local_usuario_logado_email_str ) === true ){
+                           
+                                        //Se o destinatário for igual ao contato local aberto então:
+                                        if( verificar_igualdade_sem_espaco_no_final( _11_local_contato_desta_tabela_email_str, _11_web_usuario_logado_email_destinatario_str ) === true ){
+                                            var web_mensagem_str = importar_Para_Alfabeto_JM( jm_mensagem_a_receber ).trim();
+                                            var web_hora_str = importar_Para_Alfabeto_JM( jm_id ).trim();
+                                    
+                                            var imagem_src_data = document.getElementById("usuario_logado_imagem").value;
+                                            registrar_mensagem_enviada( web_id, web_hora_str + " - " + document.getElementById( "contador" + web_id ).value + " - " + i, web_mensagem_str, imagem_src_data );
+                                        }
+                                    } 
+                                    //Se o remetente for igual ao usuário logado então:
+                                    else if( verificar_igualdade_sem_espaco_no_final( _00_web_usuario_logado_email_remetente_str, _11_local_contato_desta_tabela_email_str ) === true ){
+                           
+                                        //Se o destinatário for igual ao usuário logado então:
+                                        if( verificar_igualdade_sem_espaco_no_final( _11_web_usuario_logado_email_destinatario_str, _00_local_usuario_logado_email_str ) === true ){
+                                            var web_mensagem_str = importar_Para_Alfabeto_JM( jm_mensagem_a_receber ).trim();
+                                            var web_hora_str = importar_Para_Alfabeto_JM( jm_id ).trim();
+                                    
+                                            var imagem_src_data = document.getElementById("usuario_logado_imagem").value;
+                                            registrar_mensagem_enviada_esquerda( nome_principal, web_id, web_hora_str + " - " + document.getElementById( "contador" + web_id ).value + " - " + i, web_mensagem_str, imagem_src_data );
+                                        }
+                                    }
+                                                                
+                                }
+                                
+                                document.getElementById( "contador" + web_id ).value = i;
+                            }
+                        } 
+                    }
+                }, 0);
+                
+            }catch(Exception){                
+            }
+            finally {   
+                
+                loop_controle( web_id, web_contato_email );
+            } 
+        }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//////CRIAR TELA DE CONVERSA   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////      
+
         function listar002_padrao(){
             
             try{               
@@ -1517,36 +2009,40 @@
                 
                     var add =
                 
-"<li style=\"float: left; margin-left: 5px; background-color:#3A3A3A;\" \n" +
-"            onMouseover=\"\n" +
-"            this.style.backgroundColor='#23871C';\"  \n" +
+"<li style=\"float: left; margin-left: 5px; background-color:#3A3A3A;\" " +
+"            onMouseover=\"" +
+"            this.style.backgroundColor='#23871C';\"  " +
 "            \n" +
 "            onMouseout=\"\n" +
-"            this.style.backgroundColor='#3A3A3A'\"\n" +
-"        > \n" +
-"            \n" +
-"                <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n" +
-"                    <tr> \n" +
-"                        <td align=\"center\"> \n" +
-"                            <img src=\"" + imagem_Perfim + "\" " +
-"                                style=\"cursor: pointer; \"\n" +
-"                                onclick=\"abrir_conversa();\" \n" +
-"                                title=\" " + "Cleilson" + " \" width=\"100\" height=\"100\">\n" +
-"                        </td>    \n" +
+"            this.style.backgroundColor='#3A3A3A'\"" +
+"        > " +
+"            " +
+"                <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">" +
+"                    <tr> \n" +    
+"                        <td align=\"center\"> " +
+"                            <img src='" + endereco_imagem_user_logado + "' style='cursor: pointer;'" +
+"                                onclick=\"abrir_conversa(" +
+                                     "document.getElementById ('" + "img_conversa_user_logado" +                         "').src," +
+                                     "document.getElementById ('" + "usuario_logado_id" +     "').value," +
+                                     "document.getElementById ('" + "usuario_logado_id_nome" +      "').value," +
+                                     "document.getElementById ('" + "usuario_logado_id_sobrenome" + "').value" +
+                                 ");\" " +
+"                                title=\"" +  "usuario_logado_id"  + "\" width=\"100\" height=\"100\">" +
+"                        </td>    " +
+"                    </tr>" +
+"                    <tr> " +
+"                        <td align=\"center\" style=\" padding: 0; color: #3A3A3A;\"> " +
+"                            " + "-" +
+"                        </td>    " +
+"                    </tr> " +
+"                    <tr> " +
+"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> " +
+"                            " + "-)-> Você <-(-" +
+"                        </td>    " +
 "                    </tr>\n" +
 "                    <tr> \n" +
-"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> \n" +
-"                            " + "Cleilson" +
-"                        </td>    \n" +
-"                    </tr> \n" +
-"                    <tr> \n" +
-"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> \n" +
-"                            " + "Henrique" +
-"                        </td>    \n" +
-"                    </tr>\n" +
-"                    <tr> \n" +
-"                        <td align=\"center\" style=\" padding: 0; color: #ffffff;\"> \n" +
-"                            " + "de Araujo" +
+"                        <td align=\"center\" style=\" padding: 0; color: #3A3A3A;\"> " +
+"                            " + "-" +
 "                        </td>    \n" +
 "                    </tr>\n" +
 "                </table>\n" +
@@ -1557,7 +2053,7 @@
                                                 
             }catch(Exception){
                 
-                document.getElementById("listar001").innerHTML = "listar002_padrao -- " + Exception;
+                document.getElementById("ul_meus_contatos").innerHTML = "listar002_padrao -- " + Exception;
             }     
         }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////  
@@ -1855,7 +2351,8 @@ function baixar_imagem( web_id_da_tb_usuario ){
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //VERIFICAR IGUALDADE
-///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
 
 
 
@@ -1951,8 +2448,9 @@ function baixar_imagem( web_id_da_tb_usuario ){
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
-///////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        function abrir_conversa(img, web_contato_email, web_contato_nome, web_contato_nome_meio ){
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+        var email_do_contato_atual_selecionado = "";
+        function abrir_conversa( web_contato_id, img, web_contato_email, web_contato_nome, web_contato_nome_meio ){
             
             try{
                 
@@ -1963,11 +2461,19 @@ function baixar_imagem( web_id_da_tb_usuario ){
                 
                 document.getElementById("div_conversa").style.display = 'block'; 
                 
-                conversa_dados(img, web_contato_email, web_contato_nome, web_contato_nome_meio );
+                //botao_escrever_mensagem
+                document.getElementById("botao_escrever_mensagem").style.display = 'block';
+                document.getElementById("div_enviar_conversa").style.display = 'none';
+                document.getElementById("div_todas_as_conversa").style.display = 'block';
+                document.getElementById("mensagem_a_enviar").value = "";
+                
+                email_do_contato_atual_selecionado = web_contato_email;
+                                                
+                conversa_dados( web_contato_id, img, web_contato_email, web_contato_nome, web_contato_nome_meio );
             
             }catch(Exception){
                 
-                document.getElementById("resposta").innerHTML = "voltar_para_meus_contato -- " + Exception;
+                document.getElementById("div_conversa").innerHTML = "abrir_conversa -- " + Exception;
             }     
         }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -1977,16 +2483,19 @@ function baixar_imagem( web_id_da_tb_usuario ){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //img_conversa / h1_conversa / ul_conversa
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        function conversa_dados(img, web_contato_email, web_contato_nome, web_contato_nome_meio ){
+        function conversa_dados(web_contato_id, img, web_contato_email33, web_contato_nome33, web_contato_nome_meio33 ){
             
             try{
                 
-                document.getElementById("img_conversa").src = img;
-                document.getElementById("h1_conversa").innerHTML = web_contato_nome + " " + web_contato_nome_meio;
+                //document.getElementById("img_conversa" + img ).src = img;
+                //document.getElementById("h1_conversa" + img ).innerHTML = web_contato_nome33 + " " + web_contato_nome_meio33;
+          
+                document.getElementById( "contato" + web_contato_id ).style.display = 'block';
+
             
             }catch(Exception){
                 
-                document.getElementById("resposta").innerHTML = "conversa_dados -- " + Exception;
+                document.getElementById("div_conversa").innerHTML = "contato" + web_contato_id + "<br>" + "conversa_dados -- " + Exception;
             }     
         }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -1995,16 +2504,16 @@ function baixar_imagem( web_id_da_tb_usuario ){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        function escrever_mensagem(){
+        function escrever_mensagem( web_id ){
             try{
                 
-                //////////////////////////////////////////////////////////////////////
-                document.getElementById("div_conversa").style.display = 'block'; 
+                //document.getElementById("div_conversa").innerHTML = web_id;
                 
-                document.getElementById("div_enviar_conversa").style.display = 'block';
-                document.getElementById("div_todas_as_conversa").style.display = 'none';
-                //////////////////////////////////////////////////////////////////////
-
+                ///*                
+                document.getElementById( "div_enviar_conversa" + web_id ).style.display = 'block';
+                document.getElementById( "div_todas_as_conversas" + web_id ).style.display = 'none';
+                document.getElementById( "botao_escrever_mensagem" + web_id ).style.display = 'none';
+                //*/
             }catch(Exception){
                 
                 document.getElementById("div_conversa").innerHTML = "abrir_conversa -- " + Exception;
@@ -2014,26 +2523,260 @@ function baixar_imagem( web_id_da_tb_usuario ){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        function voltar_para_todas_as_mensagem(){
+        function enviar_mensagem( web_id, mensagem_a_enviar ){
             try{
                 
-                //////////////////////////////////////////////////////////////////////
-                document.getElementById("div_conversa").style.display = 'block'; 
+                //document.getElementById("div_conversa").innerHTML = mensagem_a_enviar;
                 
-                document.getElementById("div_enviar_conversa").style.display = 'none';
-                document.getElementById("div_todas_as_conversa").style.display = 'block';
-                //////////////////////////////////////////////////////////////////////
+                ///*
+                if ( mensagem_a_enviar.trim() === undefined || mensagem_a_enviar.trim() === "" || mensagem_a_enviar.trim() === null){
+                    
+                    alert("Escreva algo para poder ser enviado!\n");
+                }
+                else{
+                
+                    setTimeout(function(){ 
+                        var now = new Date();
+                        var id = now.getDate() + "/" + now.getMonth() + "/" + now.getFullYear() + " - " + 
+                             now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + "." + now.getMilliseconds();
+                     
+                        var comando = "cadastrar";
+                    
+                        var id_formulario_id = "1FAIpQLSefOZQKDyggUc78UrCSe5c5Lx6uupzPJR8UYh6wxOgDKTf4Sg";
+                
+                        var id_txt = "833181104";
+                    
+                       //////////////////////////////////////////
+                       var jm_id = exportar_Para_Alfabeto_JM_Sem_Arroba( id.trim() );
+                       var jm_comando = exportar_Para_Alfabeto_JM_Sem_Arroba( comando.trim() );
+                        var jm_remetente = exportar_Para_Alfabeto_JM_Sem_Arroba( document.getElementById("usuario_logado").value.trim() );
+                        var jm_destinatario = exportar_Para_Alfabeto_JM_Sem_Arroba( email_do_contato_atual_selecionado.trim() );
+                        var jm_mensagem_a_enviar = exportar_Para_Alfabeto_JM_Sem_Arroba( mensagem_a_enviar.trim() );
+                                       
+                        var id_txt2 = "@" + jm_id + "j" + jm_comando + "j" + jm_remetente  + "j" + 
+                            jm_destinatario  + "j" +  
+                            jm_mensagem_a_enviar + "@";
+                        //////////////////////////////////////////
+                
+                        var GET_URL = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse" +
+                            "?entry." + id_txt + "=" + id_txt2;
+                    
+                        try{
 
+                           var xhttp = new XMLHttpRequest();
+                            xhttp.open("GET", GET_URL, false);
+                            xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+
+                        }catch(Exception){
+                
+                            //alert("jm_id " + jm_id + " - " + "id " + id);
+                           //document.getElementById("resposta").innerHTML = "Erro xhttp - cadastrarTabelaLogin -- <br>" + Exception;
+                        }         
+                        
+                        document.getElementById( "mensagem_a_enviar" + web_id ).value = "";  
+                        var imagem_src_data = document.getElementById("usuario_logado_imagem").value;
+                        //Não registra a mensagem por que ela vai ser lida e gravada pelo loop
+                        //registrar_mensagem_enviada( web_id, id, mensagem_a_enviar, imagem_src_data );
+                        voltar_para_todas_as_mensagem( web_id );
+                    
+                    }, 0);
+                                        
+                }
+                //*/
             }catch(Exception){
                 
-                document.getElementById("div_conversa").innerHTML = "abrir_conversa -- " + Exception;
+                document.getElementById("div_conversa").innerHTML = "enviar_mensagem -- " + Exception;
             }     
         }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   endereco_imagem_user_logado     
+        function registrar_mensagem_enviada( web_id, hora, mensagem_a_enviar, imagem_src_data ){
+            try{
+                //endereco_imagem_user_logado
+                /*
+                var imagem_src_temp = "";
+                
+                try{
+                                        var imagem_src_data_web22 = baixar_imagem( document.getElementById("usuario_logado_id").value );    
+                                        var imagem_src_data22 = converter_base64( imagem_src_data_web22 );
+                                        if ( imagem_src_data22 === undefined || imagem_src_data22 === "" || imagem_src_data22 === null){
+                                            
+                                            imagem_src_data22 = "../arquivos/imagens/003_login/cont.png";
+                                        }
+                                        
+                                        imagem_src_temp = imagem_src_data22;
+
+                }catch(Exception){}
+                */
+                var msg = 
+"<!-- CONVERSA ENVIADA - INÍCIO -->" +
+
+"<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr> <td>    <div style=\" padding: 0px; margin: 0px;\"> " +
+
+"        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: 5px; float: right; \"> " +
+
+"            <tr> " +
+"                <td style=\"background-color: #D3D3D3; \">" +
+"                        <label style=\"float: right; padding: 0px; margin: 0px;\">  " + "Você: " + hora + "  </label> " +
+"                </td>" +
+"            </tr> " +
+
+"            <tr> " +
+"                <td style=\"background-color: #D3D3D3; \">" +
+"            " +
+"                    <div style=\"background-color: #EDECEC; color:#000; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;\">" +
+"                " +
+"                        <table width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color: #EDECEC; color: #000; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;\"> " +
+"                            <tr> " +
+"                                                                " +
+"                                <td style=\"padding-left: 5px;\">" +
+                                     "<div style=\"  padding-right: 10px;    \">" +
+                                         mensagem_a_enviar +
+                                     "</div>" +
+"                                </td>" +
+"                                " +
+"                                <td style=\" width:50; float: right; \">" +
+"                                    <img src=\"" + endereco_imagem_user_logado + "\" " + " width=\"50\" height=\"50\">" +
+"                                </td>" +
+"                            </tr> " +
+"                        </table>    " +
+"                    </div>" +
+"            " +
+"                </td>" +
+"                " +
+"            </tr> " +
+"        </table>" +
+
+"   </div> </td> </tr> </table>" +
+
+"        <!-- CONVERSA ENVIADA - FIM -->";
+
+                var anterior = document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML;
+                document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML = msg + anterior;
+                
+            }catch(Exception){
+                
+                document.getElementById("div_conversa").innerHTML = "registrar_mensagem_enviada -- " + Exception;
+            }     
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   endereco_imagem_user_logado     
+        function registrar_mensagem_enviada_esquerda( nome_contato, web_id, hora, mensagem_a_enviar, imagem_src_data ){
+            try{
+                //endereco_imagem_user_logado
+                /*
+                var imagem_src_temp = "";
+                
+                try{
+                                        var imagem_src_data_web22 = baixar_imagem( document.getElementById("usuario_logado_id").value );    
+                                        var imagem_src_data22 = converter_base64( imagem_src_data_web22 );
+                                        if ( imagem_src_data22 === undefined || imagem_src_data22 === "" || imagem_src_data22 === null){
+                                            
+                                            imagem_src_data22 = "../arquivos/imagens/003_login/cont.png";
+                                        }
+                                        
+                                        imagem_src_temp = imagem_src_data22;
+
+                }catch(Exception){}
+                */
+                var msg = 
+"<!-- CONVERSA ENVIADA - INÍCIO -->" +
+
+"<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr> <td>    <div style=\" padding: 0px; margin: 0px;\"> " +
+
+"        <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"padding-top: 5px; float: left; \"> " +
+
+"            <tr> " +
+"                <td style=\"background-color: #D3D3D3; \">" +
+"                        <label style=\"float: left; padding: 0px; margin: 0px;\">  " + nome_contato + ": " + hora + "  </label> " +
+"                </td>" +
+"            </tr> " +
+
+"            <tr> " +
+"                <td style=\"background-color: #D3D3D3; \">" +
+"            " +
+"                    <div style=\"background-color: #3A3A3A; color:#000; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;\">" +
+"                " +
+"                        <table width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color: #3A3A3A; color: #fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;\"> " +
+"                            <tr> " +
+
+"                                <td style=\" width:50; float: left; \">" +
+"                                    <img src=\"" + imagem_src_data + "\" " + " width=\"50\" height=\"50\">" +
+"                                </td>" +
+"                                                                " +
+"                                <td vertical-align=\"center\" style=\" padding-left: 5px; float: left; \">" +
+                                     "<div style=\"  padding-left: 5px;  padding-top: 10px;  \">" +
+                                         mensagem_a_enviar +
+                                     "</div>" +
+"                                </td>" +
+"                            </tr> " +
+"                        </table>    " +
+"                    </div>" +
+"            " +
+"                </td>" +
+"                " +
+"            </tr> " +
+"        </table>" +
+
+"   </div> </td> </tr> </table>" +
+
+"        <!-- CONVERSA ENVIADA - FIM -->";
+
+                var anterior = document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML;
+                document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML = msg + anterior;
+                
+            }catch(Exception){
+                
+                document.getElementById("div_conversa").innerHTML = "registrar_mensagem_enviada -- " + Exception;
+            }     
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        function voltar_para_todas_as_mensagem( web_id ){
+            try{
+                
+                //document.getElementById("div_conversa").innerHTML = web_id;
+                
+                ///*                
+                document.getElementById( "div_enviar_conversa" + web_id ).style.display = 'none';
+                document.getElementById( "div_todas_as_conversas" + web_id ).style.display = 'block';
+                document.getElementById( "botao_escrever_mensagem" + web_id ).style.display = 'block';
+                //*/
+                
+            }catch(Exception){
+                
+                document.getElementById("div_conversa").innerHTML = "voltar_para_todas_as_mensagem -- " + Exception;
+            }     
+        }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//GERAR TELAS DE CONVERSAS
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//  
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//GERAR TELAS DE CONVERSAS
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+
 
 
 
@@ -2857,12 +3600,13 @@ function baixar_imagem( web_id_da_tb_usuario ){
 -2    
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->     
 <div id="div_conversa" style="display: none; padding: 0; margin: 0;">
+<div id="oculto" style="display: none; padding: 0; margin: 0;">
         
-        <table border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
+        <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;"> 
             <tr> 
                 <td style="width:30%;"> 
                 
-                    <img id="img_conversa" src="../arquivos/imagens/003_login/cleilson.jpg" width="50" height="50">
+                    <img id="img_conversa" src="../arquivos/imagens/003_login/cleilson.jpg" alt="" width="50" height="50">
                 </td>    
             
                 <td align="center" style="width:40%;">
@@ -2876,20 +3620,22 @@ function baixar_imagem( web_id_da_tb_usuario ){
             <tr> 
         </table>
     
-        <hr>
+        <hr style="padding: 0; margin: 0;">
+        
+        <div id="botao_escrever_mensagem" style="display: block; width:100%; padding: 0; margin: 0;"> 
+            <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding: 0; margin: 0;"> 
+                <tr> 
+                    <td style="">
+                        <input style="float: right; margin-top: 5px; cursor: pointer;" 
+                            type="button" onclick="escrever_mensagem();" value="Escrever Mensagem">
+                    </td>
+                <tr> 
+            </table>
+        </div>
         
     <div id="div_todas_as_conversa" style="display: block; padding: 0; margin: 0;">    
-        
-        <table border="0" cellpadding="0" cellspacing="0" style="width:100%;"> 
-            <tr> 
-            
-                <td style="">
-                    <input style="float: right; margin-top: 5px; cursor: pointer;" 
-                        type="button" onclick="escrever_mensagem();" value="Escrever Mensagem">
-                </td>
-            <tr> 
-        </table>
-            
+             
+        <!-- CONVERSA RECEBIDA - INÍCIO -->
         <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding-top: 5px;"> 
             <tr> 
                 
@@ -2902,7 +3648,7 @@ function baixar_imagem( web_id_da_tb_usuario ){
                             <tr> 
                                 
                                 <td>
-                                    <img src="../arquivos/imagens/003_login/cleilson.jpg" width="50" height="50">
+                                    <img src="../arquivos/imagens/003_login/cleilson.jpg" alt="" width="50" height="50">
                                 </td>
                                 
                                 <td style="padding-left: 5px;">
@@ -2921,9 +3667,10 @@ function baixar_imagem( web_id_da_tb_usuario ){
  
             </tr> 
         </table>
-    
+        <!-- CONVERSA RECEBIDA - FIM -->
         
-    
+        
+        <!-- CONVERSA ENVIADA - INÍCIO -->
         <table border="0" cellpadding="0" cellspacing="0" style="width:100%; padding-top: 5px;"> 
             <tr> 
                 <td style="float: right; width:30%;"> 
@@ -2944,7 +3691,7 @@ function baixar_imagem( web_id_da_tb_usuario ){
                                 </td>
                                 
                                 <td>
-                                    <img src="../arquivos/imagens/003_login/cleilson.jpg" width="50" height="50">
+                                    <img src="../arquivos/imagens/003_login/cleilson.jpg" alt="" width="50" height="50">
                                 </td>
                             </tr> 
                         </table>    
@@ -2954,6 +3701,8 @@ function baixar_imagem( web_id_da_tb_usuario ){
                 
             </tr> 
         </table>
+        <!-- CONVERSA ENVIADA - FIM -->
+        
     </div>   
     
     
@@ -3005,7 +3754,7 @@ function baixar_imagem( web_id_da_tb_usuario ){
             <div style="background-color: #3A3A3A; height:100%;   color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;">
                 
                 Escrever Aqui                 
-                <textarea id="w3review" name="w3review" rows="4" cols="50" style="background-color: #3A3A3A; width:100%; height: 100%; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;">  </textarea>
+                <textarea id="mensagem_a_enviar" name="w3review" rows="4" cols="50" style="background-color: #3A3A3A; width:100%; height: 100%; color:#fff; font-family:  Arial, Helvetica, sans-serif; font-size: 150%;">  </textarea>
                 
             </div>
             
@@ -3020,7 +3769,9 @@ function baixar_imagem( web_id_da_tb_usuario ){
             
             <img src="../arquivos/imagens/003_login/enviar.png" 
                 style="cursor: pointer; "
-                alt="" width="140" height="50">
+                alt="" width="140" height="50"
+                
+                onclick="enviar_mensagem( document.getElementById ('mensagem_a_enviar').value );">
         </td>
         
         <td style="background-color: #D3D3D3; width:20%;"> </td>
@@ -3029,6 +3780,7 @@ function baixar_imagem( web_id_da_tb_usuario ){
 </table>        
     </div>  
 
+</div>
 </div>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
