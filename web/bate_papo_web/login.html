@@ -9,6 +9,8 @@
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0">    
         
+        <script type="text/javascript" src='../arquivos/js/jquery.js'></script>
+        
         <script type="text/javascript" src='../arquivos/js/js_bate_papo_web/js_login_001.js'></script>
        
         <style>          
@@ -280,6 +282,7 @@
                                 document.getElementById("usuario_logado").value = usuario_digitado;
                                 var nome_digitado_da_linha = importar_Para_Alfabeto_JM(nome_digitado).trim().toUpperCase();
                                 document.getElementById("cara_palida").innerHTML = "-)-> " + nome_digitado_da_linha + " <-(-";
+                                //document.getElementById("cara_palida").innerHTML = "-)-> " + "Cara Pálida Web" + " <-(-";
                                 document.getElementById("usuario_logado_id_nome").value = nome_digitado_da_linha;
                                 
                                 //LISTAR CONTATOS DO USUÁRIO LOGADO 
@@ -344,10 +347,128 @@
                 alert("Para efetuar login:\n01 informe o email do usuário\n02 informe a senha\n03 informe o nome do usuário");
             }
             else{
-                                                
-                cadastrarTabelaLogin(usuario_digitado, senha_digitada, nome_digitado, email_de_recuperacao, imagem_endereco_web_digitado, conteudo_div);
+                                
+                ////////////////////////////////////////////////////////////
+                var id_planilha = "1UHCZa_LGpJ1pnY4HI0DhuuaBpjtmpp_Hpih-q1BiFVk";
+                var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("GET", url, false);
+                xhttp.send();
+                var mensagem = xhttp.responseText;
+                ////////////////////////////////////////////////////////////
+                
+                ////////////////////////////////////////////////////////////
+                var tem_mensagem = false;
+                try{
+                    var linha_recebida = mensagem.split("@");
+                    for( var i = 0; i < linha_recebida.length; i++ ) {
+                        if( linha_recebida[i].includes("-") ){
+                            tem_mensagem = true;
+                            break;
+                        }
+                    }
+                }catch(Exception){}    
+                ////////////////////////////////////////////////////////////
+                
+                if( tem_mensagem === true ){
+                    
+                    consultar_para_verificar_se_usuario_esta_cadastrado(mensagem, usuario_digitado, senha_digitada, nome_digitado, email_de_recuperacao, imagem_endereco_web_digitado, conteudo_div);
+                }
+                else{
+                    
+                    cadastrarTabelaLogin(usuario_digitado, senha_digitada, nome_digitado, email_de_recuperacao, imagem_endereco_web_digitado, conteudo_div);
+                }
             }
         }
+        
+        
+        function consultar_para_verificar_se_usuario_esta_cadastrado( 
+            mensagem,
+                usuario_digitado_recebido, 
+                    senha_digitada_recebido, 
+                        nome_digitado_recebido, 
+                            email_de_recuperacao_recebido, 
+                                imagem_endereco_web_digitado_recebido, 
+                                    conteudo_div){
+            try{           
+                var usuario_nao_cadastrado = false;
+                
+                var linha_recebida = mensagem.split("@");            
+                for( var i = 0; i < linha_recebida.length; i++ ) {
+                    if( linha_recebida[i].includes("-") ){
+                        var id;
+                        var comando;
+                        var usuario;
+                        var senha;
+                        var nome_digitado;
+                        var email_de_recuperacao;
+                        var imagem_endereco_web_digitado;
+                        var argumentos = linha_recebida[i].split("j");
+                        for( var j = 0; j < argumentos.length; j++ ) {
+                            if(j === 0){ 
+                                id = argumentos[j];
+                            }
+                            else if(j === 1){
+                                comando = argumentos[j];
+                            }
+                            else if(j === 2){
+                                usuario = argumentos[j];
+                            }
+                            else if(j === 3){
+                                senha = argumentos[j];
+                            }
+                            else if(j === 4){
+                                nome_digitado = argumentos[j];
+                            }
+                            else if(j === 5){
+                                email_de_recuperacao = argumentos[j];
+                            }
+                            else if(j === 6){
+                                imagem_endereco_web_digitado = argumentos[j];
+                            }
+                        }
+
+                       var usuario_digitado_str = usuario_digitado_recebido.trim().toUpperCase();
+
+                       var usuario_da_linha = importar_Para_Alfabeto_JM(usuario).trim().toUpperCase();
+                       
+                       if( verificar_igualdade_sem_espaco_no_final( usuario_da_linha, usuario_digitado_str ) === true ){                                                     
+                            
+                            // Fim do loop
+                            usuario_nao_cadastrado = false;
+                            break;
+                       }
+                       else{
+                            usuario_nao_cadastrado = true;
+                            //alert("Usuário: " + usuario_digitado + "\nNão cadastrado" );
+                            //document.getElementById("resposta").innerHTML = conteudo_div;
+                       }
+                    }
+                }   
+                
+                if( usuario_nao_cadastrado === true ){
+                    
+                    //alert("Usuário: " + usuario_digitado + "\nNão cadastrado" );
+                    //document.getElementById("resposta").innerHTML = conteudo_div;
+                    cadastrarTabelaLogin(usuario_digitado_recebido, senha_digitada_recebido, nome_digitado_recebido, email_de_recuperacao_recebido, imagem_endereco_web_digitado_recebido, conteudo_div);
+                }
+                else{
+                    
+                    alert("Usuário: " + usuario_digitado_recebido + "\nJá cadastrado" + "\n\nEscolha um E-mail ou número de telefone diferente para cadastrar um novo usuário\n\nEste já existe." );
+                
+                    document.getElementById("resposta").innerHTML = conteudo_div;
+                                    document.getElementById("resposta").style.display = 'none'; 
+                                    document.getElementById("div_meus_contatos").style.display = 'none'; 
+                                    document.getElementById("div_novo_usuario").style.display = 'block';
+                    
+                                    document.getElementById("div_conversa").style.display = 'none'; 
+                }
+            }catch(Exception){
+                
+                document.getElementById("resposta").innerHTML = "fazerLogin -- " + Exception;
+            }     
+        }
+        
         
         function cadastrarTabelaLogin(
                 usuario_digitado, 
@@ -386,6 +507,8 @@
                     var jm_usuario_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( usuario_digitado.trim() );
                     var jm_senha_digitada = exportar_Para_Alfabeto_JM_Sem_Arroba( senha_digitada.trim() );
                     var jm_nome_digitado = exportar_Para_Alfabeto_JM_Sem_Arroba( nome_digitado.trim() );
+                    
+                    //alert( "nome_digitado = " + nome_digitado + " -- " + "jm_nome_digitado " + jm_nome_digitado );
                     
                     var jm_email_de_recuperacao = "null";
                     if (email_de_recuperacao === "" || email_de_recuperacao === null){
@@ -1882,27 +2005,65 @@
         
         function loop_controle( web_id, web_contato_email, nome_principal ){
             setTimeout(function(){ 
-                loop( web_id, web_contato_email, nome_principal );
+                loadDoc( web_id, web_contato_email, nome_principal );
             }, 1000);
         }
         
-        function loop( web_id, web_contato_email, nome_principal ){
+        function loadDoc( web_id, web_contato_email, nome_principal ) {
+            var id_planilha = "10n3TYa4DlEbwduXiXU94yY5tHeStfoFeeod6EO-ST_o";
+            var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+            
+            try{
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                        //document.getElementById("demo").innerHTML = this.responseText;
+                        loop( this.responseText, web_id, web_contato_email, nome_principal );
+                    }
+                };
+                xhttp.open("GET", url, true);
+                xhttp.send();
+            }catch(Exception){                
+            }
+            finally {   
+                
+                loop_controle( web_id, web_contato_email );
+            }
+        }
+                
+        function loop( mensagem, web_id, web_contato_email, nome_principal ){
             try{            
                 setTimeout(function(){ 
-
+                    /*
                     var id_planilha = "10n3TYa4DlEbwduXiXU94yY5tHeStfoFeeod6EO-ST_o";
                     var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
-                    /* Some tasks */ 
                     //var url = document.getElementById('url').value;
                     var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
 
                     var xhttp = new XMLHttpRequest();
                     xhttp.open("GET", url, false);
-
                     xhttp.send();//A execução do script para aqui até a requisição retornar do servidor
-
                     //document.getElementById("resposta").innerHTML = xhttp.responseText;
                     var mensagem = xhttp.responseText;
+                    */
+                    
+                    /*
+                    $.ajax({
+                     tipo : "POST" ,
+                        url :   "COMANDO / LOGIN"  +  "/"  +  usr  +  "/"  +  passagem ,
+                       dados : {  paginasolicitada : "admin / topo / topo_index.jsp" ,  cmd : "login" ,  login : usr ,  senha : pass  } ,
+                        
+                       erro : function ( ) {  alert (  "Erro inesperado na requisição da página!"  ) ;  } ,
+                
+                        // sucesso: função (resultado) {document.getElementById ("central") .innerHTML = resultado; }
+                
+                        sucesso : função ( resultado ) {  $ ( "#tudo" ) . html ( resultado ) ;  }
+                
+                        // sucesso: função (resultado) {document.getElementById ("tudo") .innerHTML = result; } - window.location.href = "";
+                        // tempo limite: ajaxTimeOut,
+                        // statusCode: {404: function () {alert ("página não encontrada"); }}
+                    });
+                    */
                     
                     ////////////////////////////////////////////////////////////
                     var tem_mensagem = false;
@@ -1999,7 +2160,7 @@
             }
             finally {   
                 
-                loop_controle( web_id, web_contato_email );
+                //loop_controle( web_id, web_contato_email );
             } 
         }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////// 
@@ -2774,11 +2935,11 @@ function baixar_imagem( web_id_da_tb_usuario ){
 "                        <table width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color: #3A3A3A; color: #fff; font-family:  Arial, Helvetica, sans-serif; font-size: 120%;\"> " +
 "                            <tr> " +
 
-"                                <td style=\" width:50; float: left; \">" +
+"                                <td style=\" width:50;  \">" +
 "                                    <img src=\"" + imagem_src_data + "\" " + " width=\"50\" height=\"50\">" +
 "                                </td>" +
 "                                                                " +
-"                                <td vertical-align=\"center\" style=\" padding-left: 5px; float: left; \">" +
+"                                <td vertical-align=\"center\" style=\" padding-left: 5px;  \">" +
                                      "<div style=\"  padding-left: 5px;  padding-top: 10px;  \">" +
                                          mensagem_a_enviar +
                                      "</div>" +
