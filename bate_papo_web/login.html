@@ -1858,6 +1858,8 @@
 //////TELA INICIAL - INÍCIO   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////  
 "<input type=\"hidden\" id='" + "img_conversa" + web_id + "input" + "' value=\"" + imagem_src_data + "\">" +
+        
+"<input type=\"hidden\" id='" + "msg_enviadas" + web_id + "input" + "' value=\"" + "0" + "\">" +
 
                 "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; padding: 0; margin: 0;\"> " +
 "            <tr> " +
@@ -2022,6 +2024,7 @@
                     }
                 };
                 xhttp.open("GET", url, true);
+                //xhttp.open("GET", url, false);
                 xhttp.send();
             }catch(Exception){                
             }
@@ -2086,7 +2089,7 @@
                         for( var i = 0; i < linha_recebida.length; i++ ) {
                             if( document.getElementById( "contador" + web_id ).value < i ){
                                 if( linha_recebida[i].includes("-") ){
-                                    var jm_id;
+                                    var jm_id_msg;
                                     var jm_comando;
                                     var jm_remetente;   
                                     var jm_destinatario;   
@@ -2095,7 +2098,7 @@
                                     var argumentos = linha_recebida[i].split("j");
                                     for( var j = 0; j < argumentos.length; j++ ) {
                                         if(j === 0){ 
-                                            jm_id = argumentos[j];
+                                            jm_id_msg = argumentos[j];
                                         }
                                         else if(j === 1){
                                             jm_comando = argumentos[j];
@@ -2124,12 +2127,15 @@
                                         //Se o destinatário for igual ao contato local aberto então:
                                         if( verificar_igualdade_sem_espaco_no_final( _11_local_contato_desta_tabela_email_str, _11_web_usuario_logado_email_destinatario_str ) === true ){
                                             var web_mensagem_str = importar_Para_Alfabeto_JM( jm_mensagem_a_receber ).trim();
-                                            var web_hora_str = importar_Para_Alfabeto_JM( jm_id ).trim();
+                                            var web_hora_str = importar_Para_Alfabeto_JM( jm_id_msg ).trim();
                                             
                                             var nova_mensagem = web_mensagem_str.trim().replace("\n", "<br>");
+                                            
+                                            if( vericar_id_de_mensagens( jm_id_msg, web_id ) === false ){
                                     
-                                            var imagem_src_data = document.getElementById("usuario_logado_imagem").value;
-                                            registrar_mensagem_enviada( web_id, web_hora_str, nova_mensagem, imagem_src_data );
+                                                var imagem_src_data = document.getElementById("usuario_logado_imagem").value;
+                                                registrar_mensagem_enviada( web_id, web_hora_str, nova_mensagem, imagem_src_data );
+                                            }
                                         }
                                     } 
                                     //Se o remetente for igual ao usuário logado então:
@@ -2138,7 +2144,7 @@
                                         //Se o destinatário for igual ao usuário logado então:
                                         if( verificar_igualdade_sem_espaco_no_final( _11_web_usuario_logado_email_destinatario_str, _00_local_usuario_logado_email_str ) === true ){
                                             var web_mensagem_str = importar_Para_Alfabeto_JM( jm_mensagem_a_receber ).trim();
-                                            var web_hora_str = importar_Para_Alfabeto_JM( jm_id ).trim();
+                                            var web_hora_str = importar_Para_Alfabeto_JM( jm_id_msg ).trim();
                                             
                                             var nova_mensagem = web_mensagem_str.trim().replace("\n", "<br>");
                                     
@@ -2162,6 +2168,46 @@
                 
                 //loop_controle( web_id, web_contato_email );
             } 
+        }
+        
+        function vericar_id_de_mensagens( jm_id_msg_num_web_receb, web_id ){
+            
+            var retorno = false;
+            
+            try{
+                
+                var linha_recebida = document.getElementById( "msg_enviadas" + web_id + "input" ).value.split("@");            
+                for( var i = 0; i < linha_recebida.length; i++ ) {
+                    if( linha_recebida[i].includes("-") ){
+                        var interno_id;
+
+                        var argumentos = linha_recebida[i].split("j");
+                        for( var j = 0; j < argumentos.length; j++ ) {
+                            if(j === 0){ 
+                                interno_id = argumentos[j];
+                            }
+                        }
+                        
+                        var jm_id_msg_num_web = jm_id_msg_num_web_receb.trim(); 
+                        var jm_id_msg_num_intern = interno_id.trim(); 
+                        
+                        if( verificar_igualdade_sem_espaco_no_final( jm_id_msg_num_web, jm_id_msg_num_intern ) === true ){
+                            
+                            retorno = true;
+                            break;
+                        }
+                    }
+                }
+                
+            }catch(Exception){                
+            }
+            finally {   
+                
+                //loop_controle( web_id, web_contato_email );
+            } 
+            
+            return retorno;
+            
         }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 //////CRIAR TELA DE CONVERSA   
@@ -2784,6 +2830,14 @@ function baixar_imagem( web_id_da_tb_usuario ){
                             jm_destinatario  + "j" +  
                             jm_mensagem_a_enviar + "@";
                         //////////////////////////////////////////
+                        
+                        /******************************************************/
+                        var temp = document.getElementById( "msg_enviadas" + web_id + "input" ).value;
+                            
+                        var lista = jm_id + "j" + "@" + temp;    
+                                                        
+                        document.getElementById( "msg_enviadas" + web_id + "input" ).value = lista;
+                        /******************************************************/
                 
                         var GET_URL = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse" +
                             "?entry." + id_txt + "=" + id_txt2;
@@ -2803,7 +2857,7 @@ function baixar_imagem( web_id_da_tb_usuario ){
                         document.getElementById( "mensagem_a_enviar" + web_id ).value = "";  
                         var imagem_src_data = document.getElementById("usuario_logado_imagem").value;
                         //Não registra a mensagem por que ela vai ser lida e gravada pelo
-                        //registrar_mensagem_enviada( web_id, id, mensagem_a_enviar, imagem_src_data );
+                        registrar_mensagem_enviada( web_id, id, mensagem_a_enviar, imagem_src_data );
                         voltar_para_todas_as_mensagem( web_id );
                     
                     }, 0);
@@ -2960,10 +3014,19 @@ function baixar_imagem( web_id_da_tb_usuario ){
                 var anterior = document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML;
                 document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML = msg + anterior;
                 
+                play();
+                
             }catch(Exception){
                 
                 document.getElementById("div_conversa").innerHTML = "registrar_mensagem_enviada -- " + Exception;
             }     
+        }
+        
+        function play(){
+            try{
+                var audio = document.getElementById("http://dev.interactive-creation-works.net/1/1.ogg");
+                audio.play();
+            }catch(Exception){}
         }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
