@@ -20,8 +20,15 @@
     <body 
         style="background-color: #D3D3D3; width: 100%; height: 100%; padding: 0; margin: 0;
                font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: black; line-height: 1.5;" > 
+        
+        <!-- <source src="../arquivos/sons/whatsapp001.mp3" type="audio/mpeg"> --> 
+        <!-- <source src="../arquivos/sons/iphone_sms.mp3" type="audio/mpeg"> --> 
+        <audio id="audio" controls style="display: none; padding: 0; margin: 0;"> 
+            
+            <source src="../arquivos/sons/whatsapp001.mp3" type="audio/mpeg">
+        </audio>
  
-<!-- 14 letras para o nome, nome do meio e último nome -->           
+<!-- 14 letras para o nome, nome do meio e último nome iphone_sms-->           
         <img id="img_conversa_user_logado" src="../arquivos/imagens/003_login/cleilson.jpg" alt="" width="50" height="50" style="display: none;" >
         
         <input type="hidden" id="usuario_logado" value="null"> 
@@ -140,53 +147,85 @@
             }
             else{
                 
-                baixarTabelaLogin(usuario_digitado, senha_digitada, conteudo_div);
+                var count_login = 1;
+                
+                baixarTabelaLogin(usuario_digitado, senha_digitada, conteudo_div, count_login);
             }
         }
         
-        function baixarTabelaLogin(usuario_digitado, senha_digitada, conteudo_div){
+        function loop_controle_login(usuario_digitado, senha_digitada, conteudo_div, count_login){
+            setTimeout(function(){ 
+                baixarTabelaLogin(usuario_digitado, senha_digitada, conteudo_div, count_login);
+            }, 1000);
+        }
+        
+        function baixarTabelaLogin(usuario_digitado, senha_digitada, conteudo_div, count_login){
             
             try{
-                setTimeout(function(){ 
-                    /* Some tasks */ 
-                     document.getElementById("resposta").innerHTML = "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
-                }, 0);
+                
+                var id_planilha = "1UHCZa_LGpJ1pnY4HI0DhuuaBpjtmpp_Hpih-q1BiFVk";
+                var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                //var url = document.getElementById('url').value;
+                var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                
+            
             
                 setTimeout(function(){ 
-                    var id_planilha = "1UHCZa_LGpJ1pnY4HI0DhuuaBpjtmpp_Hpih-q1BiFVk";
-                    var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
                     /* Some tasks */ 
-                    //var url = document.getElementById('url').value;
-                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
-
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.open("GET", url, false);
-
-                    xhttp.send();//A execução do script para aqui até a requisição retornar do servidor
-
-                    //document.getElementById("resposta").innerHTML = xhttp.responseText;
-                    var mensagem = xhttp.responseText;
-                    
-                    ////////////////////////////////////////////////////////////
-                    var tem_mensagem = false;
-                    var linha_recebida = mensagem.split("@");
-                    for( var i = 0; i < linha_recebida.length; i++ ) {
-                        if( linha_recebida[i].includes("-") ){
-                            tem_mensagem = true;
-                            break;
+                     document.getElementById("resposta").innerHTML = 
+                            "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> " + count_login + " </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>" + 
+                            "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
+                }, 0);
+                
+                
+                var mensagem_login = "";
+                
+            
+                setTimeout(function(){ 
+                    try{
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                            if (this.readyState === 4 && this.status === 200) {
+                                //document.getElementById("demo").innerHTML = this.responseText;
+                                mensagem_login = xhttp.responseText;
+                            }
+                        };
+                        //xhttp.open("GET", url, true);
+                        xhttp.open("GET", url, false);
+                        xhttp.send();
+                    }catch(Exception){                
+                    }
+                    finally {   
+                
+                        var tem_mensagem = false;
+                        var linha_recebida = mensagem_login.split("@");
+                        for( var i = 0; i < linha_recebida.length; i++ ) {
+                            if( linha_recebida[i].includes("-") ){
+                                tem_mensagem = true;
+                                break;
+                            }
+                        }
+                        
+                        if( tem_mensagem === true ){
+                            
+                            consultaTabelaLogin( mensagem_login, usuario_digitado, senha_digitada, conteudo_div );
+                        }
+                        else{
+                        
+                            if( count_login < 20 ){
+                            
+                                var count_x = count_login+=1;
+                                
+                                loop_controle_login(usuario_digitado, senha_digitada, conteudo_div, count_x);
+                            }
+                            else{
+                            
+                                alert("Usuário: " + usuario_digitado + " \nNão Cadastrado \nCadastre-se Cara Pálida!");
+                                document.getElementById("resposta").innerHTML = conteudo_div;
+                            }
                         }
                     }
-                    ////////////////////////////////////////////////////////////
-                    
-                    if( tem_mensagem === true ){
-                        
-                        consultaTabelaLogin( mensagem, usuario_digitado, senha_digitada, conteudo_div );
-                    }
-                    else{
-                        
-                        alert("Usuário: " + usuario_digitado + " \nNão Cadastrado \nCadastre-se Cara Pálida!");
-                        document.getElementById("resposta").innerHTML = conteudo_div;
-                    }
+
                 }, 500);
             
             }catch(Exception){
@@ -688,72 +727,106 @@
             }
             else{
                 
+                var count_x = 1;
+                
                 consultar_contato_antes_de_cadastrar_002(
-                contato_email,
-                contato_nome,
-                    contato_nome_meio,
-                        contato_ultimo_nome,
-                            conteudo_div);
+                    count_x,
+                        contato_email,
+                            contato_nome,
+                                contato_nome_meio,
+                                    contato_ultimo_nome,
+                                        conteudo_div);
             }
         }
         
+        function loop_controle_consultar_contato( count_x, contato_email, contato_nome, contato_nome_meio, contato_ultimo_nome, conteudo_div){
+            setTimeout(function(){ 
+                consultar_contato_antes_de_cadastrar_002( count_x, contato_email, contato_nome, contato_nome_meio, contato_ultimo_nome, conteudo_div);
+            }, 1000);
+        }
+        
         function consultar_contato_antes_de_cadastrar_002(
-            contato_email,
-                contato_nome,
-                    contato_nome_meio,
-                        contato_ultimo_nome,
-                            conteudo_div){
-            
+            count_x,
+                contato_email,
+                    contato_nome,
+                        contato_nome_meio,
+                            contato_ultimo_nome,
+                                conteudo_div){
+                                
             try{
-                setTimeout(function(){ 
-                    /* Some tasks */ 
-                     document.getElementById("div_add_contato").innerHTML = "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
-                }, 0);
+                
+                var id_planilha = "10xscEU1L66fCBmVypEVn8h6b3Ku2eRZMVzbHIVzS6Ns";
+                var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs"; 
+                //var url = document.getElementById('url').value;
+                var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
+                
+            
             
                 setTimeout(function(){ 
-                    var id_planilha = "10xscEU1L66fCBmVypEVn8h6b3Ku2eRZMVzbHIVzS6Ns";
-                    var key = "AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
                     /* Some tasks */ 
-                    //var url = document.getElementById('url').value;
-                    var url = "https://sheets.googleapis.com/v4/spreadsheets/"+ id_planilha +"/values/A:B?key=AIzaSyBwiMCywJRFQHuuksWdhqwjOrR5mDaWJYs";
-
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.open("GET", url, false);
-
-                    xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
-
-                    //document.getElementById("resposta").innerHTML = xhttp.responseText;
-                    var mensagem = xhttp.responseText;
-                    
-                    ////////////////////////////////////////////////////////////
-                    var tem_mensagem = false;
-                    var linha_recebida = mensagem.split("@");
-                    for( var i = 0; i < linha_recebida.length; i++ ) {
-                        if( linha_recebida[i].includes("-") ){
-                            tem_mensagem = true;
-                            break;
+                     document.getElementById("div_add_contato").innerHTML = 
+                            "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> " + count_login + " </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>" + 
+                            "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table>";
+                }, 0);
+                
+                
+                var mensagem_x = "";
+                
+            
+                setTimeout(function(){ 
+                    try{
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                            if (this.readyState === 4 && this.status === 200) {
+                                //document.getElementById("demo").innerHTML = this.responseText;
+                                mensagem_x = xhttp.responseText;
+                            }
+                        };
+                        //xhttp.open("GET", url, true);
+                        xhttp.open("GET", url, false);
+                        xhttp.send();
+                    }catch(Exception){                
+                    }
+                    finally {   
+                
+                        var tem_mensagem = false;
+                        var linha_recebida = mensagem_x.split("@");
+                        for( var i = 0; i < linha_recebida.length; i++ ) {
+                            if( linha_recebida[i].includes("-") ){
+                                tem_mensagem = true;
+                                break;
+                            }
+                        }
+                        
+                        if( tem_mensagem === true ){
+                            
+                            consultar_contato_antes_de_cadastrar_003( mensagem_x, 
+                                contato_email,
+                                    contato_nome,
+                                        contato_nome_meio,
+                                            contato_ultimo_nome,
+                                                conteudo_div );
+                        }
+                        else{
+                        
+                            if( count_x < 2 ){
+                            
+                                var count_x_y = count_x+=1;
+                                
+                                loop_controle_consultar_contato( count_x_y, contato_email, contato_nome, contato_nome_meio, contato_ultimo_nome, conteudo_div);
+                            }
+                            else{
+                            
+                                consultar_contato_antes_de_cadastrar_003( mensagem_x, 
+                                    contato_email,
+                                        contato_nome,
+                                            contato_nome_meio,
+                                                contato_ultimo_nome,
+                                                    conteudo_div );
+                            }
                         }
                     }
-                    ////////////////////////////////////////////////////////////
-                    
-                    if( tem_mensagem === true ){
-                        
-                        consultar_contato_antes_de_cadastrar_003( mensagem, 
-                            contato_email,
-                                contato_nome,
-                                    contato_nome_meio,
-                                        contato_ultimo_nome,
-                                            conteudo_div );
-                    }
-                    else{
-                        
-                        consultar_contato_antes_de_cadastrar_003( mensagem, 
-                            contato_email,
-                                contato_nome,
-                                    contato_nome_meio,
-                                        contato_ultimo_nome,
-                                            conteudo_div );
-                    }
+
                 }, 500);
             
             }catch(Exception){
@@ -762,6 +835,7 @@
             }     
         }
         
+                
         function consultar_contato_antes_de_cadastrar_003( mensagem, 
             contato_email,
                 contato_nome,
@@ -1038,7 +1112,9 @@
                 
                 document.getElementById("div_conversa").style.display = 'none';
                 
-                consultar_listar_contatos_002_na_tabela_de_contatos( email_do_usuario_logado );
+                var countXX22 = 1;
+                
+                consultar_listar_contatos_002_na_tabela_de_contatos( email_do_usuario_logado, countXX22 );
             
             }catch(Exception){
                 
@@ -1046,12 +1122,14 @@
             }     
         }
         
-        function consultar_listar_contatos_002_na_tabela_de_contatos( email_do_usuario_logado ){
+        function consultar_listar_contatos_002_na_tabela_de_contatos( email_do_usuario_logado, countXX22 ){
             
             try{
                 setTimeout(function(){ 
                     /* Some tasks */ 
-                    document.getElementById("ul_meus_contatos").innerHTML = "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>";
+                    document.getElementById("ul_meus_contatos").innerHTML = 
+                            "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> " + countXX22 + " </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>" +
+                            "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>";
                 }, 0);
             
                 setTimeout(function(){ 
@@ -1782,8 +1860,8 @@
                 }
                 
                 //setTimeout(function(){    
-                    var nome_principal_mais_nome_do_meio = nome_principal + " " + nome_do_meio;
-                    criar_tela_de_conversa( web_id, web_contato_email, imagem_src_data, nome_principal, nome_principal_mais_nome_do_meio );
+                    //var nome_principal_mais_nome_do_meio = nome_principal + " " + nome_do_meio;
+                    //criar_tela_de_conversa( web_id, web_contato_email, imagem_src_data, nome_principal, nome_principal_mais_nome_do_meio );
                 //}, 0);
                                                 
                 var add =
@@ -1837,6 +1915,11 @@
 
                 var anterior = document.getElementById("ul_meus_contatos").innerHTML;
                 document.getElementById("ul_meus_contatos").innerHTML = anterior + add;
+                
+                //setTimeout(function(){    
+                    var nome_principal_mais_nome_do_meio = nome_principal + " " + nome_do_meio;
+                    criar_tela_de_conversa( web_id, web_contato_email, imagem_src_data, nome_principal, nome_principal_mais_nome_do_meio );
+                //}, 0);
                                                                 
             }catch(Exception){
                 
@@ -3024,7 +3107,10 @@ function baixar_imagem( web_id_da_tb_usuario ){
         
         function play(){
             try{
-                var audio = document.getElementById("http://dev.interactive-creation-works.net/1/1.ogg");
+                var audio = document.getElementById("audio");
+                audio.controls = true;
+                audio.volume = 1.0;
+                
                 audio.play();
             }catch(Exception){}
         }
