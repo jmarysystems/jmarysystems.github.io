@@ -20,7 +20,7 @@
                 document.getElementById("div_conversa").style.display = 'none';
                 
                 //////////////////////////////////////////////////////////////////////
-                //document.getElementById("ul_meus_contatos").style.display = 'none'; 
+                document.getElementById("ul_meus_contatos").style.display = 'none'; 
                 //////////////////////////////////////////////////////////////////////
                 
                 var countXX22 = 1;
@@ -66,6 +66,17 @@
                 document.getElementById("ul_meus_contatos").innerHTML = 
                         "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> " + "Baixando contatos: " + count_x + " </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>" +
                         "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>";
+                }, 0);
+////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////
+                setTimeout(function(){ 
+                    document.getElementById("contato_tabela_xy_01").style.display = 'block';
+                /* Some tasks */ 
+                document.getElementById("contato_tabela_xy_01").innerHTML = 
+                        "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> " + "Por favor! Aguarde <br> Carregando..." + " </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>" +
+                        "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> <img src='../arquivos/imagens/003_login/javafx-loading-100x100.gif' style='cursor: pointer; 'width='80' height='80'> </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>" + 
+                        "<li> <table border='0' cellpadding='0' cellspacing='0' style='width:100%;'> <tr><td style='width:30%;'> </td></tr>  <tr> <td align='center' style='width:40%;'> " + "Gerando Html" + " </td> </tr> <tr><td style='width:30%;'> </td></tr> </table> </li>";
                 }, 0);
 ////////////////////////////////////////////////////////////////////////////
 

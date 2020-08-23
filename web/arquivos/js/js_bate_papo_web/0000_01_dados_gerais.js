@@ -3,3 +3,4 @@
  * and open the template in the editor.
  */
 
+var carregado = 0;

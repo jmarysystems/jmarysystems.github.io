@@ -5,7 +5,7 @@
  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   endereco_imagem_user_logado     
-        function registrar_mensagem_enviada_esquerda( nome_contato, web_id, hora, mensagem_a_enviar, imagem_src_data ){
+        function registrar_mensagem_enviada_esquerda( nome_contato, web_id, hora, mensagem_a_enviar ){
             try{
 setTimeout(function(){                   
                 //endereco_imagem_user_logado
@@ -24,6 +24,9 @@ setTimeout(function(){
 
                 }catch(Exception){}
                 */
+               
+               var imagem_src_data = document.getElementById ( web_id ).value; 
+               
                 var msg = 
 "<!-- CONVERSA ENVIADA - INÍCIO -->" +
 
@@ -67,8 +70,10 @@ setTimeout(function(){
 
 "        <!-- CONVERSA ENVIADA - FIM -->";
 
-                var anterior = document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML;
-                document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML = msg + anterior;
+                setTimeout(function(){ 
+                    var anterior = document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML;
+                    document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML = msg + anterior;
+                }, 0);
                 
                 play();
 

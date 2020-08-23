@@ -3,6 +3,46 @@
  * and open the template in the editor.
  */
 
+        function registrar_mensagem_a__direita( jm_id_msg_num_web_receb, web_id, hora, mensagem_a_enviar ){
+                
+            var retorno = false;
+            
+            try{
+                
+                var linha_recebida = document.getElementById( "msg_enviadas" + web_id + "input" ).value.split("@");            
+                for( var i = 0; i < linha_recebida.length; i++ ) {
+                    if( linha_recebida[i].includes("-") ){
+                        var interno_id;
+
+                        var argumentos = linha_recebida[i].split("j");
+                        for( var j = 0; j < argumentos.length; j++ ) {
+                            if(j === 0){ 
+                                interno_id = argumentos[j];
+                            }
+                        }
+                        
+                        var jm_id_msg_num_web = jm_id_msg_num_web_receb.trim(); 
+                        var jm_id_msg_num_intern = interno_id.trim(); 
+                        
+                        if( verificar_igualdade_sem_espaco_no_final( jm_id_msg_num_web, jm_id_msg_num_intern ) === true ){
+                            
+                            retorno = true;
+                            break;
+                        }
+                    }
+                }
+                
+            }catch(Exception){                
+            }
+            finally {   
+                
+                if( retorno === false ){
+                    
+                    registrar_mensagem_enviada( web_id, hora, mensagem_a_enviar );
+                }
+            }         
+        }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////   endereco_imagem_user_logado     
         function registrar_mensagem_enviada( web_id, hora, mensagem_a_enviar ){
@@ -67,8 +107,10 @@ setTimeout(function(){
 
 "        <!-- CONVERSA ENVIADA - FIM -->";
 
-                var anterior = document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML;
-                document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML = msg + anterior;
+                setTimeout(function(){ 
+                    var anterior = document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML;
+                    document.getElementById( "div_todas_as_conversas" + web_id ).innerHTML = msg + anterior;
+                }, 0);                
                 
 }, 0);                
             }catch(Exception){
