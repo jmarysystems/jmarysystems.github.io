@@ -152,12 +152,14 @@
 "                    <tr> \n" +    
 "                        <td align=\"center\"> " +
 "                            <img src='" + endereco_imagem_user_logado + "' style='cursor: pointer;'" +
+/*
 "                                onclick=\"abrir_conversa(" +
                                      "document.getElementById ('" + "img_conversa_user_logado" +                         "').src," +
                                      "document.getElementById ('" + "usuario_logado_id" +     "').value," +
                                      "document.getElementById ('" + "usuario_logado_id_nome" +      "').value," +
                                      "document.getElementById ('" + "usuario_logado_id_sobrenome" + "').value" +
                                  ");\" " +
+*/                
 "                                title=\"" +  "usuario_logado_id"  + "\" width=\"100\" height=\"100\">" +
 "                        </td>    " +
 "                    </tr>" +
