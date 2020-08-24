@@ -529,6 +529,9 @@
 "            <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; padding: 0; margin: 0;\"> " +
 "                <tr> " +
 "                    <td>" +
+"                        <h1 " + "' align=\"left\" style=\"font:bold 70% verdana,arial,helvetica;\"> " + converter_base64(web_contato_email).trim() + " </h1>" +
+"                    </td>" +
+"                    <td>" +
 "                        <input style=\"float: right; margin-top: 5px; cursor: pointer;\" " +
 "                            type=\"button\" onclick=\"escrever_mensagem( " + 
                                    "document.getElementById ('" + "escrever_mensagem" + web_id + "').value"

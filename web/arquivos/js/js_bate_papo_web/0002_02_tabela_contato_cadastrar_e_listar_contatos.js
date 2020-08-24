@@ -5,32 +5,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////  
 //CADASTRAR CONTATO 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////       
-        function cadastrar_contato_001( 
-            contato_email,
-                contato_nome,
-                    contato_nome_meio,
-                        contato_ultimo_nome,
-                            conteudo_div){  
-            
-            if (contato_email === "" || contato_email === null){
-                alert("Para adicionar um novo contato:\n01 informe um email do contato ou\n02 informe o telefone do contato.");
-            }
-            else if (contato_nome === "" || contato_nome === null){
-                alert("Para adicionar um novo contato:\n01 informe o nome do contato.");
-            }
-            else{
-                
-                cadastrar_contato_002(
-                    contato_email,
-                        contato_nome,
-                            contato_nome_meio,
-                                contato_ultimo_nome,
-                                    conteudo_div);
-            }
-        }
-        
-        function cadastrar_contato_002(
+///////////////////////////////////////////////////////////////////////////////////////////////////////////               
+        function cadastrar_contato_001(
                 contato_email,
                         contato_nome,
                             contato_nome_meio,
@@ -110,14 +86,19 @@
                     + "entry." + id_txt + "=" + id_txt2;
                     
                     try{
+                        /*
                         var xhttp = new XMLHttpRequest();
                         xhttp.open("GET", GET_URL, false);
-
                         xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
-                        //document.getElementById("resposta").innerHTML = "jm_id " + jm_id + " - " + "id " + id;            
-                        //document.getElementById("resposta").style.display = 'block'; 
-                        //document.getElementById("div_meus_contatos").style.display = 'none'; 
-                        //document.getElementById("div_novo_usuario").style.display = 'none';
+                        */
+                        
+                        //**//                            
+                        $.post( GET_URL,
+                            function(data, status){
+                                alert("Data: " + data + "\nStatus: " + status);
+                            }
+                        );
+                        //**//
                     }catch(Exception){
                 
                         //alert("jm_id " + jm_id + " - " + "id " + id);

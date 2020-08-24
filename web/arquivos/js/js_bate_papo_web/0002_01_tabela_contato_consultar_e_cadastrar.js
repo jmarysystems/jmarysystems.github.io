@@ -47,7 +47,7 @@
                 setTimeout(function(){ 
                      var count_xx = count_x + 1;
                      
-                    _02_controle_baixar_tabela_usuario_cad(
+                    _02_controle_baixar_tabela_consultar_contato(
                     count_xx,
                         contato_email,
                             contato_nome,
@@ -58,7 +58,7 @@
             }
             else{
                 
-                alert("Verifique sua conexão \ncom a internet.");
+                alert("Verifique sua conexão \ncom a internet. \nContato " + contato_email + " não Cadastrado!");
                 document.getElementById("resposta").innerHTML = conteudo_div;
             }
         }
@@ -89,8 +89,9 @@
                 jQuery.getJSON(url).success(function(data) {
                     //console.log(data); 
                     //alert( JSON.stringify(data) );
-                    _03_controle_verificar_se_tem_mensagem_usuario_cad(
-                    JSON.stringify(data),
+                    document.getElementById("tabela_temp_dos_contatos_para_cadastrar").value = JSON.stringify(data);
+                    
+                    _03_controle_verificar_se_tem_mensagem_consultar_contato(
                     count_x,
                         contato_email,
                             contato_nome,
@@ -99,7 +100,7 @@
                                         conteudo_div);
                 }).error(function(message) {
                     //console.error('error' + message); 
-                    _01_controle_loop_usuario_cad(
+                    _01_controle_loop_consultar_contato(
                     count_x,
                         contato_email,
                             contato_nome,
@@ -115,19 +116,17 @@
         }
         
         function _03_controle_verificar_se_tem_mensagem_consultar_contato( 
-                mensagem_x,
                 count_x,
-                usuario_digitado_recebido, 
-                    senha_digitada_recebido, 
-                        nome_digitado_recebido, 
-                            email_de_recuperacao_recebido, 
-                                imagem_endereco_web_digitado_recebido, 
-                                    conteudo_div){
+                    contato_email,
+                            contato_nome,
+                                contato_nome_meio,
+                                    contato_ultimo_nome,
+                                        conteudo_div){
             
             try{
                 
                 var tem_mensagem = false;
-                var linha_recebida = mensagem_x.split("@");
+                var linha_recebida = document.getElementById("tabela_temp_dos_contatos_para_cadastrar").value.split("@");
                 for( var i = 0; i < linha_recebida.length; i++ ) {
                     if( linha_recebida[i].includes("-") ){
                         tem_mensagem = true;
@@ -137,25 +136,21 @@
                 
                 if( tem_mensagem === true ){
                     
-                    consultar_para_verificar_se_usuario_esta_cadastrado( 
-                        mensagem_x,
-                            usuario_digitado_recebido, 
-                                senha_digitada_recebido, 
-                                    nome_digitado_recebido, 
-                                        email_de_recuperacao_recebido, 
-                                            imagem_endereco_web_digitado_recebido, 
-                                                conteudo_div);
+                    consultar_contato_antes_de_cadastrar_003( 
+                        contato_email,
+                            contato_nome,
+                                contato_nome_meio,
+                                    contato_ultimo_nome,
+                                        conteudo_div);
                 }
                 else{
                     
-                    _01_controle_loop_usuario_cad(
-                        count_x,    
-                            usuario_digitado_recebido, 
-                                senha_digitada_recebido, 
-                                    nome_digitado_recebido, 
-                                        email_de_recuperacao_recebido, 
-                                            imagem_endereco_web_digitado_recebido, 
-                                                conteudo_div);
+                    cadastrar_contato_001( 
+                        contato_email,
+                            contato_nome,
+                                contato_nome_meio,
+                                    contato_ultimo_nome,
+                                        conteudo_div);
                 }
             }
             catch(Exception){}
@@ -164,7 +159,7 @@
 /////////////////////////////////////////////////////////////////////////
         
                 
-        function consultar_contato_antes_de_cadastrar_003( mensagem, 
+        function consultar_contato_antes_de_cadastrar_003( 
             contato_email,
                 contato_nome,
                     contato_nome_meio,
@@ -173,7 +168,7 @@
             try{           
                 var contato_nao_cadastrado = false;
                 
-                var linha_recebida = mensagem.split("@");            
+                var linha_recebida = document.getElementById("tabela_temp_dos_contatos_para_cadastrar").value.split("@");            
                 for( var i = 0; i < linha_recebida.length; i++ ) {
                     if( linha_recebida[i].includes("-") ){
                         var web_id;

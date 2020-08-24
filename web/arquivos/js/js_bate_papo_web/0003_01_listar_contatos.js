@@ -20,6 +20,7 @@
                 document.getElementById("div_conversa").style.display = 'none';
                 
                 //////////////////////////////////////////////////////////////////////
+                lista_de_contatos = "";
                 document.getElementById("ul_meus_contatos").style.display = 'none'; 
                 //////////////////////////////////////////////////////////////////////
                 
@@ -160,7 +161,7 @@
                                      "document.getElementById ('" + "usuario_logado_id_sobrenome" + "').value" +
                                  ");\" " +
 */                
-"                                title=\"" +  "usuario_logado_id"  + "\" width=\"100\" height=\"100\">" +
+"                                title=\"" +  document.getElementById("usuario_logado").value  + "\" width=\"100\" height=\"100\">" +
 "                        </td>    " +
 "                    </tr>" +
 "                    <tr> " +

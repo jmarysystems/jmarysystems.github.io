@@ -59,10 +59,7 @@
                             xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
                             */
                            
-                            //**//
-                            var getx = "https://docs.google.com/forms/d/e/" + id_formulario_id + "/formResponse";
-                            var arg1 = "entry." + id_txt;
-                            
+                            //**//                            
                             $.post( GET_URL,
                                 function(data, status){
                                     alert("Data: " + data + "\nStatus: " + status);
