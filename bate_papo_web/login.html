@@ -1402,5 +1402,110 @@
 
 
 
+
+<!-- 
+-0
+-1
+-2
+- #### JQUERY INÍCIO #### --> 
+<!-- 
+-0
+-1
+-2    
+-->  
+<script type="text/javascript">
+    
+    jQuery(document).ready(function(){    
+    
+        setTimeout(function(){ baixar_tabela_usuarios(); }, 0);
+        setTimeout(function(){ baixar_tabela_imagens_dos_contatos(); }, 0);
+        setTimeout(function(){ baixar_tabela_contatos(); }, 0);
+
+    });
+    
+    function baixar_tabela_usuarios(){
+//INÍCIO - BAIXANDO TABELA PRODUTOS POR EAN  
+    try{
+        
+        $.ajax({
+            url: ur__planilha_login,
+            success: function(data) {
+                document.getElementById("tabela_usuarios").value = JSON.stringify(data);
+            },
+            error : function(error) {
+                //alert(error);
+            }
+        });
+    }catch(Exception){}
+//FIM - BAIXANDO TABELA       
+     }
+     
+     function baixar_tabela_imagens_dos_contatos(){
+//INÍCIO - BAIXANDO TABELA 
+    try{
+        
+        $.ajax({
+            url: ur__planilha_imagens_users,
+            success: function(data) {
+                document.getElementById("tabela_imagens_dos_contatos").value = JSON.stringify(data);
+            },
+            error : function(error) {
+                //alert(error);
+            }
+        });
+    }catch(Exception){}
+//FIM - BAIXANDO TABELA        
+     }
+     
+     function baixar_tabela_contatos(){
+//INÍCIO - BAIXANDO TABELA 
+    try{
+        
+        $.ajax({
+            url: url_planilha_tabela_contatos,
+            success: function(data) {
+                document.getElementById("tabela_contatos").value = JSON.stringify(data);
+            },
+            error : function(error) {
+                //alert(error);
+            }
+        });
+    }catch(Exception){}
+//FIM - BAIXANDO TABELA        
+     }
+     
+     function baixar_tabela_contatos(){
+//INÍCIO - BAIXANDO TABELA 
+    try{
+        
+        $.ajax({
+            url: url_planilha_tabela_conversas,
+            success: function(data) {
+                document.getElementById("tabela_conversas").value = JSON.stringify(data);
+            },
+            error : function(error) {
+                //alert(error);
+            }
+        });
+    }catch(Exception){}
+//FIM - BAIXANDO TABELA        
+     }
+     
+     
+</script>
+<!-- 
+-0
+-1
+-2
+- #### JQUERY FIM #### --> 
+<!-- 
+-0
+-1
+-2    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++   
+-->
+
+
+
     </body>
 </html>
