@@ -622,7 +622,7 @@
 "                style=\"cursor: pointer; \"" +
 "                alt=\"\" width=\"140\" height=\"50\"" +
 
-"                onclick=\" voltar_para_todas_as_mensagem(" + web_id + "); enviar_mensagem(" + "document.getElementById ('" + "escrever_mensagem" + web_id + "').value," + "document.getElementById ( '" + "mensagem_a_enviar" + web_id + "' ).value );  \">" +
+"                onclick=\"enviar_mensagem(" + "document.getElementById ('" + "escrever_mensagem" + web_id + "').value," + "document.getElementById ( '" + "mensagem_a_enviar" + web_id + "' ).value ); voltar_para_todas_as_mensagem('" + web_id + "'); \">" +
 "        </td>" +
 
 "        <td style=\"background-color: #D3D3D3; width:20%;\"> </td>" +

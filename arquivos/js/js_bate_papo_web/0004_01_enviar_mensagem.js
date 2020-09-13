@@ -17,9 +17,9 @@
                 }
                 else{
                     
-                    //setTimeout(function(){
-                    //    voltar_para_todas_as_mensagem( web_id );
-                    //}, 0);
+                    setTimeout(function(){
+                        voltar_para_todas_as_mensagem( web_id );
+                    }, 0);
                 
                     setTimeout(function(){ 
                         var now = new Date();
