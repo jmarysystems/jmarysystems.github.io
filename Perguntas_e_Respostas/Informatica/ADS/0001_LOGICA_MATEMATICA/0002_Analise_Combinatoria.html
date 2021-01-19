@@ -82,14 +82,24 @@ www.jmarysystems.com.br
                     case 4: if( x === 'p' ){ proximo( exe4 ); } else{ resposta( exe4 ); }  break;
                     case 5: if( x === 'p' ){ proximo( exe5 ); } else{ resposta( exe5 ); }  break;
                     case 6: if( x === 'p' ){ proximo( exe6 ); } else{ resposta( exe6 ); }  break;
+                    case 7: if( x === 'p' ){ proximo( exe7 ); } else{ resposta( exe7 ); }  break;
+                    case 8: if( x === 'p' ){ proximo( exe8 ); } else{ resposta( exe8 ); }  break;
+                    case 9: if( x === 'p' ){ proximo( exe9 ); } else{ resposta( exe9 ); }  break;
+                    case 10: if( x === 'p' ){ proximo( exe10 ); } else{ resposta( exe10 ); }  break;
+                    case 11: if( x === 'p' ){ proximo( exe11 ); } else{ resposta( exe11 ); }  break;
+                    case 12: if( x === 'p' ){ proximo( exe12 ); } else{ resposta( exe12 ); }  break;
+                    case 13: if( x === 'p' ){ proximo( exe13 ); } else{ resposta( exe13 ); }  break;
+                    case 14: if( x === 'p' ){ proximo( exe14 ); } else{ resposta( exe14 ); }  break;
+                    case 15: if( x === 'p' ){ proximo( exe15 ); } else{ resposta( exe15 ); }  break;
+                    case 16: if( x === 'p' ){ proximo( exe16 ); } else{ resposta( exe16 ); }  break;
+                    case 17: if( x === 'p' ){ proximo( exe17 ); } else{ resposta( exe17 ); }  break;
                     
                         
                     default:     
                         //document.getElementById('tdtitulo').innerHTML = "FIM dos " + assuntodoexercicio;
-                        document.getElementById('nomedesteexercicio').innerHTML = "FIM - " + assuntodoexercicio;
+                        document.getElementById('nomedesteexercicio').innerHTML = "FIM dos " + assuntodoexercicio;
                         document.getElementById( 'bt1' ).className += "dispnone";
-                                                                                           // Último Slide
-                        document.getElementById('centroexe').src ="0003_Logica_proposicional/Slide14.PNG";
+                        document.getElementById('centroexe').src ="0002_Analise_Combinatoria/Slide1.PNG";
                         
                         mostrarocultar('img_home');    
                         mostrarocultar('bt1');  
@@ -123,16 +133,27 @@ www.jmarysystems.com.br
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
         <script type="text/javascript">  
                 
-            var assuntodoexercicio = "Lógica Proposicional";
+            var assuntodoexercicio = "Exercícios Analise Combinatória";
                         
             var exeatual = 0; var qtdacertos = 0; var qtdaerros = 0;
             
-            var exe1 = new Array("0003_Logica_proposicional/Slide2.PNG", "0003_Logica_proposicional/Slide3.PNG", "B" );                
-            var exe2 = new Array("0003_Logica_proposicional/Slide4.PNG", "0003_Logica_proposicional/Slide5.PNG", "C" );
-            var exe3 = new Array("0003_Logica_proposicional/Slide6.PNG", "0003_Logica_proposicional/Slide7.PNG", "C" );
-            var exe4 = new Array("0003_Logica_proposicional/Slide8.PNG", "0003_Logica_proposicional/Slide9.PNG", "B" );
-            var exe5 = new Array("0003_Logica_proposicional/Slide10.PNG", "0003_Logica_proposicional/Slide11.PNG", "A" );
-            var exe6 = new Array("0003_Logica_proposicional/Slide12.PNG", "0003_Logica_proposicional/Slide13.PNG", "A" );
+            var exe1 = new Array("0002_Analise_Combinatoria/Slide2.PNG", "0002_Analise_Combinatoria/Slide3.PNG", "C" );                
+            var exe2 = new Array("0002_Analise_Combinatoria/Slide4.PNG", "0002_Analise_Combinatoria/Slide5.PNG", "B" );
+            var exe3 = new Array("0002_Analise_Combinatoria/Slide6.PNG", "0002_Analise_Combinatoria/Slide7.PNG", "A" );
+            var exe4 = new Array("0002_Analise_Combinatoria/Slide8.PNG", "0002_Analise_Combinatoria/Slide9.PNG", "B" );
+            var exe5 = new Array("0002_Analise_Combinatoria/Slide10.PNG", "0002_Analise_Combinatoria/Slide11.PNG", "B" );
+            var exe6 = new Array("0002_Analise_Combinatoria/Slide12.PNG", "0002_Analise_Combinatoria/Slide13.PNG", "C" );
+            var exe7 = new Array("0002_Analise_Combinatoria/Slide14.PNG", "0002_Analise_Combinatoria/Slide15.PNG", "A" );
+            var exe8 = new Array("0002_Analise_Combinatoria/Slide16.PNG", "0002_Analise_Combinatoria/Slide17.PNG", "D" );
+            var exe9 = new Array("0002_Analise_Combinatoria/Slide18.PNG", "0002_Analise_Combinatoria/Slide19.PNG", "A" );
+            var exe10 = new Array("0002_Analise_Combinatoria/Slide20.PNG", "0002_Analise_Combinatoria/Slide21.PNG", "C" );
+            var exe11 = new Array("0002_Analise_Combinatoria/Slide22.PNG", "0002_Analise_Combinatoria/Slide23.PNG", "C" );
+            var exe12 = new Array("0002_Analise_Combinatoria/Slide24.PNG", "0002_Analise_Combinatoria/Slide25.PNG", "A" );
+            var exe13 = new Array("0002_Analise_Combinatoria/Slide26.PNG", "0002_Analise_Combinatoria/Slide27.PNG", "B" );
+            var exe14 = new Array("0002_Analise_Combinatoria/Slide28.PNG", "0002_Analise_Combinatoria/Slide29.PNG", "B" );
+            var exe15 = new Array("0002_Analise_Combinatoria/Slide30.PNG", "0002_Analise_Combinatoria/Slide31.PNG", "D" );
+            var exe16 = new Array("0002_Analise_Combinatoria/Slide32.PNG", "0002_Analise_Combinatoria/Slide33.PNG", "C" );
+            var exe17 = new Array("0002_Analise_Combinatoria/Slide34.PNG", "0002_Analise_Combinatoria/Slide35.PNG", "C" );
             
 
  
@@ -330,7 +351,7 @@ www.jmarysystems.com.br
                 </td> 
                 
                 <td id="nomedesteexercicio" style="margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 100%; color:#FFFFFF;" align="left" valign="center">
-                    Exercícios 
+                    Exercícios Análise Combinatória
                 </td> 
                                     
                 <td style="margin: 0px; padding: 0px; padding-right: 5px; height: 100%;" align="right" valign="center">
@@ -399,7 +420,7 @@ www.jmarysystems.com.br
         <td width="100%" height="100%" style="margin: 0px; padding: 0px;"> 
             <div style="margin: 0px; padding: 0px; width: 100%; height: 100%;">
                 <img id="centroexe" class="crtl_imagem" 
-                    src="0003_Logica_proposicional/Slide1.PNG" 
+                    src="0002_Analise_Combinatoria/Slide1.PNG" 
                 > 
             </div>
         </td> 

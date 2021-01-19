@@ -71,8 +71,6 @@ www.jmarysystems.com.br
         <script type="text/javascript">  
             function proximoexecombase( x ) {    
                 
-                document.getElementById('audio_mouse_encima').play();
-                
                 if( x === 'p' ){ exeatual++; }
                 
                 switch( exeatual ) {
@@ -82,19 +80,18 @@ www.jmarysystems.com.br
                     case 4: if( x === 'p' ){ proximo( exe4 ); } else{ resposta( exe4 ); }  break;
                     case 5: if( x === 'p' ){ proximo( exe5 ); } else{ resposta( exe5 ); }  break;
                     case 6: if( x === 'p' ){ proximo( exe6 ); } else{ resposta( exe6 ); }  break;
-                    
                         
                     default:     
                         //document.getElementById('tdtitulo').innerHTML = "FIM dos " + assuntodoexercicio;
-                        document.getElementById('nomedesteexercicio').innerHTML = "FIM - " + assuntodoexercicio;
+                        document.getElementById('nomedesteexercicio').innerHTML = "FIM dos " + assuntodoexercicio;
                         document.getElementById( 'bt1' ).className += "dispnone";
+                        
                                                                                            // Último Slide
                         document.getElementById('centroexe').src ="0003_Logica_proposicional/Slide14.PNG";
                         
                         mostrarocultar('img_home');    
                         mostrarocultar('bt1');  
                 }
-                                
             }
         //--></script>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -133,7 +130,6 @@ www.jmarysystems.com.br
             var exe4 = new Array("0003_Logica_proposicional/Slide8.PNG", "0003_Logica_proposicional/Slide9.PNG", "B" );
             var exe5 = new Array("0003_Logica_proposicional/Slide10.PNG", "0003_Logica_proposicional/Slide11.PNG", "A" );
             var exe6 = new Array("0003_Logica_proposicional/Slide12.PNG", "0003_Logica_proposicional/Slide13.PNG", "A" );
-            
 
  
         //--></script>
@@ -164,8 +160,6 @@ www.jmarysystems.com.br
 
 <script type="text/javascript"><!--
     function iniciar( exeR ) {    
-        document.getElementById('audio_mouse_encima').play();
-                        
         exeatual++;
         document.getElementById('centroexe').src =exeR[0];
         
@@ -176,12 +170,8 @@ www.jmarysystems.com.br
         
         //mostrarocultar('nomedesteexercicio');
         //mostrarocultar('nomedesteexercicio');
-        
-        
     }
     function proximo( exeR ) {    
-        document.getElementById('audio_mouse_encima').play();
-        
         //exeatual++;
         document.getElementById('centroexe').src =exeR[0];
 
@@ -190,15 +180,11 @@ www.jmarysystems.com.br
         
         mostrarocultar('bt1');
         mostrarocultar('bt2');
-        
-        
     }
     
     function resposta( exeR ) {   
         var x = document.getElementById("abcdresposta").value;
         if( x === exeR[2] ){
-            
-            document.getElementById('audio_acerto').play();
             
             document.getElementById('centroexe').src =exeR[1];   
             qtdacertos++;
@@ -208,8 +194,6 @@ www.jmarysystems.com.br
             document.getElementById('nomedesteexercicio').innerHTML = "Parabéns Resposta Correta - Opção: " + exeR[2];
         }
         else{
-            
-            document.getElementById('audio_erro').play();
             
             document.getElementById('centroexe').src =exeR[1];   
             qtdaerros++;            
@@ -272,10 +256,10 @@ www.jmarysystems.com.br
                     <td style="margin: 0px; padding: 0px;" align="center" valign="center">
                         <img id="img_home" 
                             style="display: none; margin: 0px; padding: 0px; height: 90%; width: 30px; cursor: pointer;"
-                            src="../../../../arquivos/imagens/002_menu/casa.png"             
-                            onmouseover="this.src='../../../../arquivos/imagens/002_menu/casa.png'" 
-                            onmouseout="this.src='../../../../arquivos/imagens/002_menu/casa.png'"
-                            onClick="window.open('../../../../index.html','_parent');"
+                            src="../../../../../../arquivos/imagens/002_menu/casa.png"             
+                            onmouseover="this.src='../../../../../../arquivos/imagens/002_menu/casa.png'" 
+                            onmouseout="this.src='../../../../../../arquivos/imagens/002_menu/casa.png'"
+                            onClick="window.open('../../../../../../index.html','_parent');"
                         > 
                     </td>  
                     
@@ -415,22 +399,8 @@ www.jmarysystems.com.br
 -1
 -2    
 -->
-
-
-        <audio id="audio_acerto" controls style="display: none; padding: 0; margin: 0;"> 
-            
-            <source src="../../../../arquivos/sons/acerto.mp3" type="audio/mpeg">
-        </audio>
        
-        <audio id="audio_erro" controls style="display: none; padding: 0; margin: 0;"> 
-            
-            <source src="../../../../arquivos/sons/erro.mp3" type="audio/mpeg">
-        </audio>
 
-        <audio id="audio_mouse_encima" controls style="display: none; padding: 0; margin: 0;"> 
-            
-            <source src="../../../../arquivos/sons/MouseEncima.mp3" type="audio/mpeg">
-        </audio>
 
     </body>
 </html>
