@@ -43,7 +43,7 @@ www.jmarysystems.com.br
 @media (max-width : 418px) {
     /*topo*/
         .crtl_de_certo_ou_errado_cima{ width: 50px; height: 10px; }
-        .crtl_imagem{ position: inherit; width: 100%; height: 92%; }
+        .crtl_imagem{ position: inherit; width: 100%; height: auto; }
     /*topo*/
 }
         </style>
@@ -74,7 +74,7 @@ www.jmarysystems.com.br
                 document.getElementById('audio_mouse_encima').play();
                 
                 if( x === 'p' ){ exeatual++; }
-                
+                 
                 switch( exeatual ) {
                     case 1: if( x === 'p' ){ proximo( exe1 ); } else{ resposta( exe1 ); }  break;
                     case 2: if( x === 'p' ){ proximo( exe2 ); } else{ resposta( exe2 ); }  break;
@@ -90,10 +90,9 @@ www.jmarysystems.com.br
                     
                         
                     default:     
-                        //document.getElementById('tdtitulo').innerHTML = "FIM dos " + assuntodoexercicio;
                         document.getElementById('nomedesteexercicio').innerHTML = "FIM - " + assuntodoexercicio;
                         document.getElementById( 'bt1' ).className += "dispnone";
-                                                                                           // Último Slide
+                                                                                 
                         document.getElementById('centroexe').src = pasta + "/Slide" + int_exe_final + ".PNG";
                         
                         mostrarocultar('img_home');    
@@ -101,7 +100,7 @@ www.jmarysystems.com.br
                 }
                                 
             }
-        //--></script>
+        </script>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
@@ -155,7 +154,7 @@ www.jmarysystems.com.br
         w=w+x;z=z+x; var exe10 = new Array( pasta + "/Slide" + w + ".PNG",  pasta + "/Slide" + z + ".PNG", "A" );  
         w=w+x;z=z+x; var exe11 = new Array( pasta + "/Slide" + w + ".PNG",  pasta + "/Slide" + z + ".PNG", "A" );   
  
-    //--></script>
+    </script>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
@@ -181,7 +180,7 @@ www.jmarysystems.com.br
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--> 
 <input type="hidden" id="abcdresposta" value="Z">
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
     function iniciar( exeR ) {    
         document.getElementById('audio_mouse_encima').play();
                         
@@ -243,6 +242,7 @@ www.jmarysystems.com.br
         document.getElementById( 'bt1' ).removeAttribute( "class", "dispnone" );
         document.getElementById( 'bt2' ).className += "dispnone";
     }
+    
     function abcdResposta(abcdR) {
         document.getElementById("abcdresposta").value = abcdR;
         mostrarocultar('bt1');
@@ -256,7 +256,7 @@ www.jmarysystems.com.br
             document.getElementById(id).style.display = 'none';
         }
     };
-//--></script>        
+</script>        
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 -0
 -1
