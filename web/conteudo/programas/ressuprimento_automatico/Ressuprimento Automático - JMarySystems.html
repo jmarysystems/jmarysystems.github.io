@@ -87,6 +87,14 @@ footer{padding:26px 0;color:var(--muted);font-size:.9rem}
 .wh{transform-box:fill-box;transform-origin:center;animation:sp 7s ease-in infinite}
 @keyframes sp{90%,100%{transform:rotate(3600deg)}}
 @media(prefers-reduced-motion:reduce){.road::after,.truck,.wh{animation:none}}
+.more{padding:56px 0 8px}
+.mg{display:grid;gap:14px;margin-top:20px}
+@media(min-width:700px){.mg{grid-template-columns:1fr 1fr}}
+.mg a{display:block;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:6px;padding:16px 18px;text-decoration:none;color:var(--ink)}
+.mg a:hover{border-color:var(--accent)}
+.mg b{display:block;font:800 1.2rem "Bricolage Grotesque",system-ui,sans-serif}
+.mg span{color:var(--muted)}
+.back{display:inline-block;margin-top:20px;color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -98,12 +106,12 @@ footer{padding:26px 0;color:var(--muted);font-size:.9rem}
     <div class="jm-info">
       <a class="jm-fone" href="https://wa.me/5585981931133?text=Ol%C3%A1%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es!" target="_blank" rel="noopener" aria-label="Chamar a JMarySystems no WhatsApp">
         <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#25D366"/><path fill="#fff" d="M30.6 26.4c-1.3-.8-2.7-1.6-3.5-.4l-.8 1.1c-.5.6-1.2.5-2.2 0-2.3-1.2-4.3-3-5.4-5.3-.4-.9-.5-1.5.1-2l1-.9c1-.9.2-2-.5-3.3-.8-1.4-1.4-1.8-2.4-1.2-1.6 1-2.5 2.5-2 4.7 1 4.3 5.4 8.800 9.700 10 2 .5 3.900-.2 5-1.700.8-1.100.4-1.700-.9-2.500z"/></svg>
-        <span class="n1">85</span><span class="n2">8193.1133</span>
+        <span class="n1">85</span><span class="n2">98193-1133</span>
       </a>
       <div class="jm-soc">
-        <a href="https://www.jmarysystems.com.br/web/index.html" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.jmarysystems.com.br/web/index.html" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://www.jmarysystems.com.br/web/index.html" target="_blank" rel="noopener">Contato</a>
+        <a href="https://www.jmarysystems.com.br/web/index.html">Início</a>
+        <a href="tel:+5585981931133">Ligar</a>
+        <a href="https://wa.me/5585981931133?text=Ol%C3%A1%2C%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%21" target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
   </div>
@@ -175,6 +183,8 @@ footer{padding:26px 0;color:var(--muted);font-size:.9rem}
     </ol>
   </div>
 </section>
+
+<section class="more"><div class="wrap"><h2>Conheça também</h2><div class="mg"><a href="https://www.jmarysystems.com.br/web/conteudo/programas/armazenados_e_nao_expostos/Armazenados%20e%20n%C3%A3o%20expostos%20-%20JMarySystems.html"><b>Armazenados e não expostos</b><span>Depósito X Ponto de Vendas</span></a><a href="https://www.jmarysystems.com.br/web/conteudo/programas/inventarios/Conta%20Certa%20-%20Invent%C3%A1rios%20-%20JMarySystems_03.html"><b>Conta Certa - Inventários</b><span>Gerenciar inventários</span></a></div><a class="back" href="https://www.jmarysystems.com.br/web/index.html">← Voltar para Software</a></div></section>
 
 <section class="band" id="contato">
   <div class="wrap">
