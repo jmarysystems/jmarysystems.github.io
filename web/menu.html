@@ -180,6 +180,8 @@ nav .btn{margin-left:auto}
 .t-estoque{background:#2b3a4a}
 .t-comercial{background:#0f7b8a}
 .t-financeiro{background:#c62828}
+.mj-secao[hidden]{display:none}
+.mj-aviso{padding:30px 4px;color:#5b6b7e;font-size:.95rem}
 @media(max-width:720px){.mj-app{flex-direction:column}.mj-sidebar{width:100%;flex:none}}
 </style></head>
 <body>
@@ -208,18 +210,20 @@ nav .btn{margin-left:auto}
   <aside class="mj-sidebar">
     <div class="mj-marca"><span class="mj-marca-icone">▣</span> Menu JMary</div>
     <div class="mj-nav">
-      <a class="mj-item ativo" href="https://www.jmarysystems.com.br/web/menu.html"><span class="mj-icone">▦</span>Sistemas</a>
-      <a class="mj-item" href="#estoque"><span class="mj-icone">▤</span>Estoque</a>
-      <a class="mj-item" href="#comercial"><span class="mj-icone">≡</span>Comercial</a>
-      <a class="mj-item" href="#financeiro"><span class="mj-icone">▥</span>Financeiro</a>
-      <a class="mj-item" href="#nota-fiscal"><span class="mj-icone">▧</span>Nota Fiscal</a>
-      <a class="mj-item" href="#usuarios"><span class="mj-icone">◉</span>Usuários</a>
+      <a class="mj-item ativo" data-ir="sistemas" href="#sistemas"><span class="mj-icone">▦</span>Sistemas</a>
+      <a class="mj-item" data-ir="estoque" href="#estoque"><span class="mj-icone">▤</span>Estoque</a>
+      <a class="mj-item" data-ir="comercial" href="#comercial"><span class="mj-icone">≡</span>Comercial</a>
+      <a class="mj-item" data-ir="financeiro" href="#financeiro"><span class="mj-icone">▥</span>Financeiro</a>
+      <a class="mj-item" data-ir="nota" href="#nota-fiscal"><span class="mj-icone">▧</span>Nota Fiscal</a>
+      <a class="mj-item" data-ir="usuarios" href="#usuarios"><span class="mj-icone">◉</span>Usuários</a>
     </div>
   </aside>
+
   <main class="mj-conteudo">
-    <div class="mj-cards">
-      <a class="mj-card" id="estoque" href="#estoque">
-        <div class="mj-arte"><svg width="86" height="86" viewBox="0 0 86 86" aria-hidden="true">
+    <section class="mj-secao" data-view="inicio">
+      <div class="mj-cards">
+        <a class="mj-card" data-ir="estoque" href="#estoque">
+          <div class="mj-arte"><svg width="86" height="86" viewBox="0 0 86 86" aria-hidden="true">
 <rect x="18" y="12" width="44" height="60" rx="4" fill="#f4e3c8" stroke="#8a6a3d" stroke-width="3"/>
 <rect x="30" y="6" width="20" height="12" rx="3" fill="#c9a26a" stroke="#8a6a3d" stroke-width="3"/>
 <circle cx="34" cy="34" r="9" fill="#fff" stroke="#4a7c59" stroke-width="3"/>
@@ -228,19 +232,19 @@ nav .btn{margin-left:auto}
 <circle cx="52" cy="52" r="9" fill="#fff" stroke="#4a7c59" stroke-width="3"/>
 <path d="M60 58 l14 -14 6 6 -14 14 -7 1z" fill="#e8b64c" stroke="#8a6a3d" stroke-width="2"/>
 </svg></div>
-        <div class="mj-titulo t-estoque">ESTOQUE</div>
-      </a>
-      <a class="mj-card" id="comercial" href="#comercial">
-        <div class="mj-arte"><svg width="92" height="86" viewBox="0 0 92 86" aria-hidden="true">
+          <div class="mj-titulo t-estoque">ESTOQUE</div>
+        </a>
+        <a class="mj-card" data-ir="comercial" href="#comercial">
+          <div class="mj-arte"><svg width="92" height="86" viewBox="0 0 92 86" aria-hidden="true">
 <path d="M14 44 L44 26 L44 62 Z" fill="#2b8fa8" stroke="#1b6274" stroke-width="3" stroke-linejoin="round"/>
 <rect x="44" y="24" width="26" height="40" rx="6" fill="#e3f1f5" stroke="#1b6274" stroke-width="3"/>
 <rect x="16" y="62" width="20" height="8" rx="3" fill="#1b6274"/>
 <path d="M70 33 h10 M70 44 h10 M70 55 h10" stroke="#e0a63a" stroke-width="4" stroke-linecap="round"/>
 </svg></div>
-        <div class="mj-titulo t-comercial">COMERCIAL</div>
-      </a>
-      <a class="mj-card" id="financeiro" href="#financeiro">
-        <div class="mj-arte"><svg width="92" height="86" viewBox="0 0 92 86" aria-hidden="true">
+          <div class="mj-titulo t-comercial">COMERCIAL</div>
+        </a>
+        <a class="mj-card" data-ir="financeiro" href="#financeiro">
+          <div class="mj-arte"><svg width="92" height="86" viewBox="0 0 92 86" aria-hidden="true">
 <ellipse cx="46" cy="50" rx="30" ry="22" fill="#f2a8a8" stroke="#a83232" stroke-width="3"/>
 <circle cx="70" cy="38" r="12" fill="#f2a8a8" stroke="#a83232" stroke-width="3"/>
 <circle cx="74" cy="35" r="2.2" fill="#5a1a1a"/>
@@ -250,11 +254,65 @@ nav .btn{margin-left:auto}
 <circle cx="40" cy="46" r="9" fill="#fff" stroke="#a83232" stroke-width="2.5"/>
 <text x="40" y="51" font-family="Arial" font-size="13" font-weight="bold" fill="#a83232" text-anchor="middle">$</text>
 </svg></div>
-        <div class="mj-titulo t-financeiro">FINANCEIRO</div>
-      </a>
-    </div>
+          <div class="mj-titulo t-financeiro">FINANCEIRO</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="mj-secao" data-view="sistemas" hidden>
+      <div class="mj-cards">
+        <a class="mj-card" href="https://www.jmarysystems.com.br/Cota-Certa/">
+          <div class="mj-arte"><svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true">
+<rect x="18" y="12" width="46" height="62" rx="5" fill="#fff" stroke="#2b3a4a" stroke-width="3"/>
+<path d="M28 26h26M28 36h26M28 46h18" stroke="#9fb0c2" stroke-width="3" stroke-linecap="round"/>
+<circle cx="66" cy="58" r="17" fill="#e8f1fb" stroke="#2f7fd1" stroke-width="3"/>
+<path d="M60 50h12M60 58h12M66 50v18" stroke="#2f7fd1" stroke-width="3" stroke-linecap="round"/>
+</svg></div>
+          <div class="mj-titulo t-estoque">Cota-Certa</div>
+        </a>
+        <a class="mj-card" href="https://www.jmarysystems.com.br/Armazenados-E-Nao-Expostos/">
+          <div class="mj-arte"><svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true">
+<path d="M18 34 L48 20 L78 34 L48 48 Z" fill="#e8f4f6" stroke="#0f7b8a" stroke-width="3" stroke-linejoin="round"/>
+<path d="M18 34v26l30 14 30-14V34" fill="#f4fbfc" stroke="#0f7b8a" stroke-width="3" stroke-linejoin="round"/>
+<path d="M48 48v26" stroke="#0f7b8a" stroke-width="3"/>
+<circle cx="62" cy="64" r="11" fill="#fff" stroke="#0f7b8a" stroke-width="3"/>
+<path d="M70 72l8 8" stroke="#0f7b8a" stroke-width="4" stroke-linecap="round"/>
+</svg></div>
+          <div class="mj-titulo t-comercial">Arm. e não Exp.</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="mj-secao" data-view="estoque" hidden><p class="mj-aviso">Estoque — em construção.</p></section>
+    <section class="mj-secao" data-view="comercial" hidden><p class="mj-aviso">Comercial — em construção.</p></section>
+    <section class="mj-secao" data-view="financeiro" hidden><p class="mj-aviso">Financeiro — em construção.</p></section>
+    <section class="mj-secao" data-view="nota" hidden><p class="mj-aviso">Nota Fiscal — em construção.</p></section>
+    <section class="mj-secao" data-view="usuarios" hidden><p class="mj-aviso">Usuários — em construção.</p></section>
   </main>
 </div>
+
+<script>
+(function () {
+  var secoes = document.querySelectorAll('[data-view]');
+  var itens = document.querySelectorAll('.mj-item');
+  function abrir(nome) {
+    for (var i = 0; i < secoes.length; i++) {
+      secoes[i].hidden = secoes[i].getAttribute('data-view') !== nome;
+    }
+  }
+  var alvos = document.querySelectorAll('[data-ir]');
+  for (var i = 0; i < alvos.length; i++) {
+    alvos[i].addEventListener('click', function (ev) {
+      ev.preventDefault();
+      var alvo = this.getAttribute('data-ir');
+      abrir(alvo);
+      for (var j = 0; j < itens.length; j++) {
+        itens[j].classList.toggle('ativo', itens[j].getAttribute('data-ir') === alvo);
+      }
+    });
+  }
+})();
+</script>
 <script>
 (function(){
 var WA="https://wa.me/5585981931133?text=";
