@@ -184,6 +184,17 @@ nav .btn{margin-left:auto}
 .t-familia{background:#c9761f}
 .t-verde{background:#2e7d32}
 .mj-secao[hidden]{display:none}
+.mj-passos{display:grid;gap:18px;max-width:980px}
+.mj-guia{border:1px solid #dfe5ec;border-radius:12px;background:#fff;padding:18px 20px}
+.mj-guia h3{margin:0 0 4px;font-size:17px;color:#173a6b}
+.mj-guia p.sub{margin:0 0 12px;color:#5b6b80;font-size:13px}
+.mj-passo{display:flex;gap:12px;padding:10px 0;border-top:1px dashed #e6ebf2}
+.mj-passo:first-of-type{border-top:none}
+.mj-passo-num{flex:0 0 26px;height:26px;border-radius:50%;background:#2f6fbf;color:#fff;
+  font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.mj-passo-txt{font-size:14px;color:#2b3a4a;line-height:1.45}
+.mj-passo-txt b{color:#173a6b}
+
 .mj-frame{width:100%;height:calc(100vh - 190px);min-height:520px;border:0;display:block;background:#f4f6f9}
 .mj-aviso{padding:30px 4px;color:#5b6b7e;font-size:.95rem}
 @media(max-width:720px){.mj-app{flex-direction:column}.mj-sidebar{width:100%;flex:none}}
@@ -222,6 +233,7 @@ nav .btn{margin-left:auto}
       <a class="mj-item" data-ir="fiscal" href="#fiscal"><span class="mj-icone">▧</span>Fiscal</a>
       <a class="mj-item" data-ir="contabilidade" href="#contabilidade"><span class="mj-icone">▤</span>Contabilidade</a>
       <a class="mj-item" data-ir="usuarios" href="#configuracoes"><span class="mj-icone">◉</span>Configurações</a>
+      <a class="mj-item" data-ir="passos" href="#passo-a-passo"><span class="mj-icone">▷</span>Passo a Passo</a>
     </div>
   </aside>
 
@@ -489,6 +501,16 @@ nav .btn{margin-left:auto}
 </svg></div>
           <div class="mj-titulo t-familia">CEST</div>
         </a>
+      </div>
+    </section>
+
+    <section class="mj-secao" data-view="passos" hidden>
+      <div class="mj-passos">
+      <div class="mj-guia"><h3>Controle de Validade — lançar produto</h3><p class="sub">Quem tem acesso ao módulo validade cadastra os produtos próximos do vencimento.</p><div class="mj-passo"><div class="mj-passo-num">1</div><div class="mj-passo-txt">Abra <b>Operacional → Controle de Validade</b> e entre com CPF/CNPJ e senha.</div></div><div class="mj-passo"><div class="mj-passo-num">2</div><div class="mj-passo-txt">No menu lateral, clique em <b>Lançar produto</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">3</div><div class="mj-passo-txt">Escolha o <b>estabelecimento</b> (a loja fica gravada para os próximos lançamentos).</div></div><div class="mj-passo"><div class="mj-passo-num">4</div><div class="mj-passo-txt">Bipe ou digite o <b>EAN</b> (ou o SKU) e clique em <b>Buscar produto</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">5</div><div class="mj-passo-txt">Se o produto não existir, o sistema avisa — cadastre antes em <b>Produtos</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">6</div><div class="mj-passo-txt">Informe a <b>quantidade</b> e a <b>data de vencimento</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">7</div><div class="mj-passo-txt">Confira os dados e clique em <b>Adicionar</b>. O campo do EAN é limpo para o próximo item.</div></div><div class="mj-passo"><div class="mj-passo-num">8</div><div class="mj-passo-txt">Para conferir tudo, use <b>Produtos no controle</b> — com filtros por loja, categoria, situação e o botão <b>Imprimir</b>.</div></div></div>
+      <div class="mj-guia"><h3>Retorno Comercial de Validade — responder</h3><p class="sub">O comercial responde somente os itens que ainda estão sem retorno.</p><div class="mj-passo"><div class="mj-passo-num">1</div><div class="mj-passo-txt">Abra <b>Operacional → Retorno Comercial de Validade</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">2</div><div class="mj-passo-txt">Clique em <b>Retorno comercial</b> no menu lateral.</div></div><div class="mj-passo"><div class="mj-passo-num">3</div><div class="mj-passo-txt">A lista mostra <b>apenas os itens sem retorno</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">4</div><div class="mj-passo-txt">Localize o produto pelos filtros de loja, categoria ou pela busca (EAN, SKU ou descrição).</div></div><div class="mj-passo"><div class="mj-passo-num">5</div><div class="mj-passo-txt">Clique em <b>Responder</b> e confira os dados do produto e da sinalização.</div></div><div class="mj-passo"><div class="mj-passo-num">6</div><div class="mj-passo-txt">Escreva o <b>Retorno do comercial</b> (ex.: será trocado, devolvido, promovido).</div></div><div class="mj-passo"><div class="mj-passo-num">7</div><div class="mj-passo-txt">Clique em <b>Responder</b>. O item sai da lista e o Controle de Validade passa a mostrar o texto, a data e quem respondeu.</div></div></div>
+      <div class="mj-guia"><h3>Sugestão de Pedido — da planilha ao pedido</h3><p class="sub">Transforma a planilha de ressuprimento em pedido por fornecedor.</p><div class="mj-passo"><div class="mj-passo-num">1</div><div class="mj-passo-txt">Em <b>Comercial → Sugestão de Pedido</b>, abra <b>Listas</b> e clique em <b>Importar lista</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">2</div><div class="mj-passo-txt">Escolha o arquivo (aba <b>RELATORIO</b>), dê um nome e marque a criação dos cadastros que faltarem.</div></div><div class="mj-passo"><div class="mj-passo-num">3</div><div class="mj-passo-txt">Volte em <b>Sugestão de Pedido</b> e clique em <b>Nova sugestão</b>: escolha a lista base e o nome.</div></div><div class="mj-passo"><div class="mj-passo-num">4</div><div class="mj-passo-txt">Na sugestão, ajuste quantidades, estoque de segurança e modo de cálculo.</div></div><div class="mj-passo"><div class="mj-passo-num">5</div><div class="mj-passo-txt">Clique em <b>Gerar pedido sugerido</b> — só aí o pedido é criado.</div></div><div class="mj-passo"><div class="mj-passo-num">6</div><div class="mj-passo-txt">Em <b>Pedidos Sugeridos</b>, use <b>Imprimir</b> para gerar o documento do fornecedor (com CNPJ).</div></div><div class="mj-passo"><div class="mj-passo-num">7</div><div class="mj-passo-txt">O envio por <b>WhatsApp</b> ou <b>e-mail</b> usa o contato do fornecedor.</div></div></div>
+      <div class="mj-guia"><h3>Armazenados e Não Expostos</h3><p class="sub">Conferência do que está no depósito por loja.</p><div class="mj-passo"><div class="mj-passo-num">1</div><div class="mj-passo-txt">Abra <b>Operacional → Armazenados e Não Expostos</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">2</div><div class="mj-passo-txt">Escolha a operação e depois o <b>estabelecimento</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">3</div><div class="mj-passo-txt">Cole os códigos em <b>Armazenados e Não Expostos</b> e em <b>Listagem Total Auditada</b> (um EAN ou SKU por linha).</div></div><div class="mj-passo"><div class="mj-passo-num">4</div><div class="mj-passo-txt">Clique em <b>Verificar</b> para ver o que não está cadastrado.</div></div><div class="mj-passo"><div class="mj-passo-num">5</div><div class="mj-passo-txt">Clique em <b>Enviar</b> para gravar a conferência.</div></div></div>
+      <div class="mj-guia"><h3>Cadastros e permissões</h3><p class="sub">Base para todos os sistemas.</p><div class="mj-passo"><div class="mj-passo-num">1</div><div class="mj-passo-txt">Cadastre produtos em <b>Estoque → Produtos</b> (aba <b>QTD Segurança</b> e aba <b>Medidas</b>).</div></div><div class="mj-passo"><div class="mj-passo-num">2</div><div class="mj-passo-txt">Ligue produtos aos fornecedores em <b>Comercial → Prod. por fornecedor</b>.</div></div><div class="mj-passo"><div class="mj-passo-num">3</div><div class="mj-passo-txt">Libere o acesso em <b>Configurações → Controle de Acesso</b>, marcando os módulos de cada usuário.</div></div><div class="mj-passo"><div class="mj-passo-num">4</div><div class="mj-passo-txt">Sem permissão no módulo, as telas aparecem bloqueadas.</div></div></div>
       </div>
     </section>
 
